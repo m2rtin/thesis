@@ -1,0 +1,61 @@
+\chapter{Implementation - Switching to English - Converting}
+
+\section{Database}
+
+class label database
+věci se držej v paměti, různý tvary tam i zpět
+
+category labels - kategorie různejch věcí
+ontologie
+
+Database has to consist of terminal symbols that we can parse from the input. 
+
+musí obsahovat všechny možný travry. Tady je v nevýhodě čeština, neboť ta musí obsloužit všechny pády a rody, naproti tomu anličtina, ta pády nemá, ukázalo se však, že terminály jsou sestaveny z mnoha částí, které odpovídají křižovatkám nebo 
+
+\subsection{Terminals}
+
+\todo{How is PTICS different from PTIEN}
+
+\section{Spoken Language Understanding}
+
+Spoken Language Understanding (SLU) extracts semantic meaning from speech utterances (ASR hypothesis) and translates them to an interpretable representation.
+Being able to handle such semantic representation makes it possible to change state of the dialogue system.
+There are different approaches for SLU development.
+There are SLU techniques based on statistical models learned from data, however we have implemented handcrafted SLU based on simple keyword rules. \todo{which gives us direct control over the translation process.} % clear overview of the process
+
+In the ADSF we are able to use both \todo{polish and cite boostraping slu?}, however we have used the handcrafted SLU only.
+\todo{expand on the dialogue act items, dialogue confusion network etc? ve spojitosti s database}
+
+We take into account only the first (best) hypothesis from ASR.
+After an utterance is passed into our SLU, it is matched against class labeled database keywords and an abstract utterance with class labels are produced.
+Each class defines a special parsing procedure that yields Dialogue Acts into the Confusion Network.
+We recognize the following class labels:
+
+pro následující klásy máme speciální rutiny
+
+\begin{itemize}
+	\item \texttt{NUMBER} - context determines further meaning
+	\item \texttt{PLACE} - stop, street, beginorough, city, state slots
+	\item \texttt{TIME} - absolute, relative, am, pm time slots
+	\item \texttt{TASK} - weather, find connection slots
+	\item \texttt{VEHICLE} - type of vehicle slot
+\end{itemize}
+
+
+\todo{kde mám zmínit kategorie - informy, iconfirmy, requesty a jestli vůbec?}
+
+čísla - speciální handlování pro minuty, hodiny, části hodin, například půl pátý a pět minut 
+place - speciální handlování spočívá v kontextu, jestli se tam vyskytujou další place - sloty, tak první je od, pak do
+time - podle kontextu se určí, jestli chce odjíždět, nebo přijíždět, absolutní/relativní čas, negace
+task - pouze negace - nechci počasí
+na začátku se taky parsujou non-speach eventy - ticho, noise, other - nerozpoznáno
+
+nakonec se projde utterance znova a vyzobou se kywordy pro ostatní akty, jednoduchá pravidla pro počet transferů atd.. for example a může bejt pravidlo v jako figure?
+
+podle category labelů se provádí parsování různých druhů věcí, potom se taky hledají obecné keywordy pro naparsování aktů jako je:distance,...
+
+Also from keywords keyword parsing 
+
+meta keyword parsing - distance, duration, transfer count, courtesy keyword lookup
+
+\section{Policy}
