@@ -8,12 +8,10 @@ docker is a platform for rapid deployment of systems and it is an universal beca
 
 \subsection{metacentrum}
 
-In order to provide service for more than one caller, we need to have multiple instances of our machine. We've used free cloud solution from cesnet metacloud, that provides services for students for free. This was extremely helpfuul, because the computation nároky jsou veliké.
+In order to provide service for more than one caller, we need to have multiple instances of our machine. We've used free cloud solution from cesnet metacloud, that provides services for students for free. This was extremely helpful, because the computation nároky jsou veliké.
 
 pro každou instanci jsme použili nastavení se 4mi procesoty, 16ti GB paměti (stačilo by 8, ale stejný template jsme použili i pro trénování modelů, což vyžadovalo hodně paměti). Protože síť cesnet je spojená s matfyzáckou sítí, byla správa VMs velmi usnadněna.
 
-\zeptat{měl bych používat už kaldi model? protože sbíráme furt data na přepisy, ale já chci nasbírat i data na porovnání modelů - je to v ofiko zadání}
-\zeptat{what hwave you changed - it is now really quick, and how do you handled ROUTE being there twice?}
 
 \section{Creating CrowdFlower Job}
 

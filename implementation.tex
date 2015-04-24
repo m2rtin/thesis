@@ -1,10 +1,15 @@
 \chapter{Implementation - Public Transport Information for New York}
 
-In this chapter we will go through each component we needed to adapt with its relevant context.
+In this chapter we will go through each component of our dialogue system.
+The princip will be described along with relevant prostředky.
 First we will cover keyword database and matching words against the input, than we will describe changing states in our dialogue system.
-Last we will explain how the state is translated to the output which will present a summary of what the processing of our dialogue system looks like.
+Last we will explain how the state is translated to the output which will render a summary of what the processing of any utterance looks like.
 
-\section{Keyword database} 
+\section{Spoken Language Understanding}
+
+odstavec s general věcma, pak keyword database a zbytek - jak se používá atd do subsekce hdcslu
+
+\subsection{Keyword database} 
 \todo{is this knowledge-base?}
 
 To be able to process, evaluate and respond to user requests, we need to extract semantic representation.
@@ -68,7 +73,7 @@ There are SLU techniques based on statistical models learned from data, however 
 
 
 In the ADSF we are able to use both approaches\todo{polish and cite boostraping slu?}, however we have used the handcrafted SLU only.
-\todo{expand on the dialogue act items, dialogue confusion network etc? ve spojitosti s database}
+%\todo{expand on the dialogue act items, dialogue confusion network etc? ve spojitosti s database}
 
 
 
@@ -136,7 +141,7 @@ Also from non-speech events like silence or noise DAIs are extracted. %moreover
 \section{Dialogue Manager}
 
 A Dialogue Manager (DM) is a component responsible for processing and changing dialogue states in order to take appropriate actions in response to the user's query.
-The history of the dialogue and inner states are being stored for better comprehension of current query.
+The history of the dialogue and inner states are recorded(zaznamenat) for better comprehension of current query.
 
 \subsection{Ontology}
 
@@ -160,55 +165,6 @@ Those include actions for greetings, repetition of the last system utterance, a 
 In case the user's turn yields no change since the last time, or the input from ASR was invalid, the DM executes a back-off action, which is randomly selected from providing help, repeating the last utterance, silence and an act for saying it did not understand.
 The reset action, for example, can be used when user asks about two unrelated topics, the DM mistakenly combines facts from both and 
 produces unexpected responses.
-
-\subsection{Providing current time} \label{subsec:time}
-
-The user can make better route selection decisions based on what time it is.
-This is why it is important for the system to be able to provide current time.
-As opposed to the Czech Republic, there are places at different time zones in the United States.
-Therefore we decided to support queries specifying a city or a state for providing more accurate, localized time.
-The state is enough information to receive a location specific time, however specifying a city is more accurate as some states occupy two timezones.
-If only a city is specified, the DM will respond with a dialogue act requesting the state name, unless the city is not ambiguous.
-In that case it will infer the state from the ontology.
-
-The time zone data are received from the Google Time Zone API\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}. With inaccessible API it returns apology act and default computer time for New York, which is Eastern Time Zone.
-Time zone names could be included in the ontology as additional data, however this way, there is no need to keep track of the daylight saving offsets used in some sates.
-
-\subsection{Weather forecast}
-
-Following the example of utilizing weather forecast in the Czech PTI, we have implemented an English version.
-It is comforting for the users to be able to obtain weather information at once.
-OpenWeatherMap API\footnote{\url{http://openweathermap.org/api}} is used for collecting weather data.
-The DM takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
-In addition to city and state, the weather forecast can be specified by time.
-The output dialogue act contains a range of temperatures as well as weather condition for given restrictions.
-
-\subsection{Finding connection}
-\zeptat{nemám nikde vypsaný, jak je to se zadáváním časů, že podporujem am/pm, zítra, pozítří, za dvacet minut, odpoledne - různý druhy, ale ne pátek, středa atd...}
-
-%finding trip, transit, route, schedule
-The prime asset of our dialogue system is the ability to effectively respond to transport connection requests.
-\todo{nějakej žvást o vyhledávání spojů}
-The key restrictions are the location from and where to travel, which is either a city, stop or an intersection of two streets.
-The ambiguities of waypoints are resolved in similar manner as in time zone or weather forecast case.
-The DM tries to infer city or borough and returns a request for waypoint specification only if an ambiguity is found.
-If according to ontology, the specified street or stop is not located in a given borough or city, an apology dialogue act is produced.
-User can further specify the departure or arrival time both in absolute and relative forms, a preferred vehicle and the maximum number of transfers.
-The nature of the DM allows to specify these restrictions at once or one by one which makes for better utilization of the dialogue system.
-If any of the key restrictions are missing, the DM issues a dialogue act demanding appropriate additional information.
-After the DM responded with a route proposition, the user can either further specify his query or ask about the connection attributes.
-This includes the origin, destination, arrival and departure times, number of transfers and the duration of the trip.
-The trips in New York can be very long, hence the sequence of instructions is exhaustive.
-This is why we have added the option to ask about the length of the trip, which tells not only the mileage, but also the number of stops to pass through before each transfer.
-The user can also browse through offered connections back and forth by requesting next, previous or explicit number of the connection in case the current route does not satisfy user's needs.
-For a given time, there are four alternative connections on offer by default.
-
-We use the Google Directions API\footnote{\url{https://developers.google.com/maps/documentation/directions/}} to acquire connection data.
-For simple from-to queries we use free API accessible through HTTP and we only use API key for more restrictive queries with preferred vehicle and transfer count limitations.
-This maximizes the utilization of the key before it reaches a monthly fee threshold.
-The transfer count is not directly mapped to an API request, it is rather computed from the API response.
-When no connection suites the restrictions, an apology dialogue act is produced.
-%advanced capabilities, when transfer count or preferred vehicle type is specified
 
 \section{Natural Language Generation}
 
@@ -239,6 +195,7 @@ The most accurate NLG template is searched from exact to general and from long t
 
 \section{Text To Speech}
 
-The ASDF supports multiple Text To Speech (TTS) systems. They convert
+The ASDF supports multiple Text To Speech (TTS) systems.
+TTS converts text into speech. They convert
 We have utilized VoiceRSS\footnote{\url{http://www.voicerss.org/}}
 
