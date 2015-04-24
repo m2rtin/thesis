@@ -1,53 +1,70 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-Providing information is a common necessity for every domain. Majority of většina řešení spočívá v napsání webových stránek nebo mobilní aplikace. Spoken dialogue systems můžou úspěšně zastát takovýhle task while obsloužej mnohem jednodušeji even larger spectrum of people. 
-Dialogy jsou zajímavý a začínaj se objevovat na různých místech. 
+Providing information is a common necessity for every domain.
+Majority of solutions provide information on web pages or applications for mobile devices.
+Spoken dialogue systems are able to fulfill such task while simplifying the access to the information.
+In fact, it addresses larger spectrum of people, it is very `usnadňující' way to obtain information for the visually impaired.
+No need to understand elaborate interfaces for the elderly, no need for getting a device out of a pocket, just say the words.
 
-v dialogových systémech je velký potenciál na poli closed domains na hromadě míst. Dnes se používají k taskům pro zřizování půjček, půjčování aut, nastavení tarifů. Vytvoření takového dialogu je náročný úkol a stejně tak náročný úkol je existující systém překlopit do jiné domény. Naším úkolem je překlopení do jiného jazyka v rámci stejné domény. To skýtá challenge neboť různé jazyky souvisí z různými národy a řečovými zvyky a kulturními odlišnostmi.
+Speech is the most natural interface for communication
+
+ from the nature of spoken dialogue system
+ it is accessible to visually impaired people.
+Moreover
+
+
+Dialogy jsou zajímavý a začínaj se objevovat na různých místech. 
+Oproti stránkám a mobile devicům, It allows visually impaired people to obtain information very easily, furthermore výhoda spočívá v jednoduchosti, easy as saying the words. 
+
+kecy o tom jak je to easy jak je to nejpřirozenější interface
+
+
+
+The development of automatic speech recognition
+has made possible more natural human-computer
+interaction. Speech recognition and speech understanding,
+however, are not yet at the point
+where a computer can reliably extract the intended
+meaning from every human utterance
+
+The dialogue systems mají vyhlídky bejt používanější pro poskytování informací, v robotice
 
 Spoken dialogue systems are being used more frequently for their potential in numerous applications at many different fields.
+They are being used for loan establishment, car rental, call rate adjustment etc.
+To create such system is challenging task.
+Fortunately there is a Alex dialogue system framework incorporating all of the key components.
 
-jak je to nejpřirozenější interface
-
-konvenční přístup sdělování informací. Pro sdělování informací a jednoduchých tasků se běžně používají www stránky nebo mobilní aplikace. V dnešním světě kompjůtrů ale emerges další zdroj informací. dialogové systémy. Spoken dialogue systems can provide 
-
-proč je to důležitý: protože to 
-
-It allows visually impaired people to obtain information very easily, furthermore výhoda spočívá v jednoduchosti, easy as saying the words. 
-
-
+Our task is to develop a dialogue system providing information about public transport in English.
+ New York City has, by far, the highest rate of public transportation use of any American city
 \todo{že jsme si vybrali new york, protože má největší pti v americe a je tak dostatečně vhodný a challenge kandidát}
 
-words 	
+
 % Intro to problematics, sugar, why it is interesting.
-Spoken dialogue systems become increasingly relevant in our everyday lives.
-They are being used for accessing information at many different domains.
-They may serve for the purposes of renting a car \cite{CarRental}, establishing loans \cite{Loan} or changing telephone rates \cite{Tarrif}, rezervace hotelu.
-However, switching existing system form one domain to another is as difficult task as building brand new system from the beginning.
-% Our task
-Our task is to switch dialogue system from Czech to English language.
-This brings challenge as different languages relate to different speech habits as much as different nationalities and cultures.
+Spoken dialogue systems become increasingly relevant in our everyday lives as an online information source.
+%They are being used for accessing information at many different domains.
+They may serve for the purposes of renting a car, establishing loans, or changing telephone rates, rezervace hotelu.
+
 % Why is it important
 English is important, there are much more data and potential customers in english.
+
 It is relevant...Besides, there is a reason why in every other sci-fi movie, characters communicate with computers solely via voice. It is easy (simple?).
 
-
 There are new dialogue systems for specific domains
-Spoken dialogue system allow natural human interaction with a machine using voice. 
+Spoken dialogue system allow natural human interaction with a computer using voice. 
 
-Spoken dialogue systems allow a human user to interact with a machine using voice as the primary communication medium.
+Spoken dialogue systems allow a human user to interact with a computer using voice as the primary communication medium.
 A typical dialogue system consists of a speech understanding component, a dialogue manager, and a speech generation component.
 
 Spoken dialogue systems are emerging as an intuitive interface for providing conversational access to online information sources
 
-In this paper we present a dialogue system developed in python for a public transport information in new york. The system integrates spoken and written language processyng employing two components...Handwriten application forms filled out by propective customers for the issing of n insurance ocntract are processed blabla...The dialogue component, in turn, undertakes the collection of the missing information of the paplicatoin forms by the calls to the customers. 
+In this paper we present a dialogue system developed in python for a public transport information in new york. The system integrates spoken and written language processing employing two components...Handwritten application forms filled out by propective customers for the missing of n insurance contract are processed blabla...The dialogue component, in turn, undertakes the collection of the missing information of the applicatoin forms by the calls to the customers. 
 
 -----------
 intro
 what's it about
 how to do the experiments
-dokumentace?
+dokumentace
 
 showcase systému, english - bigger potential -> better system
 dialog - všichni to dělaj na webovkách, telefonech, některý lidi to ani 
@@ -59,15 +76,14 @@ kapitola-proces, kdybych to dělal pro další doménu, tak co bych udělal
 
 1.2.3....
 tu finální, a potom v diskuzi - zkoušeli jsme to i takhle, ale 
-
 nefungovalo to pro to a tak.,
 
 process třeba jenom co obnáší natrénování modelu
 
 dialog-výhody, omezení
 obecně ds, alex,1:41 PM 4/10/2015 co všechno se musí adaptovat, jak se to musí udělat, co 
-
 jsem musel změnit u jednotlivých
+
 evaluace (cf), transkripce
 soutěž
 ----------
@@ -77,39 +93,44 @@ soutěž
 Human conversation is generally a natural, intuitive, robust and efficient means for interaction.
 Spoken dialogue systems offers simple, direct, hands-free access to information.
 
-\todo{tady je todo}
+
+%Scientific paper consists of:
+
+%	Introduction
+%	Materials and Methods
+%	Results
+%	Discussion
+%(co je známo, cíl práce, je to důležité, volba metody)
+%at the end - a paragraph with a structure of the document
+%THE INTRODUCTION HAS TO REFLECT THE PROCESS OF THE PAPER. WHAT EXACTLY WILL HE GET LATER SERVED AT THE TEXT.
+
+%INTRODUCTION:
+
+% What is a dialogue system
+% Introduction to the problematics
+% It is important
+% method selection
+% what has been done
+% what has not been done
+% what do we want to display in our work
+% apt definition of the goals of this work
+
+Providing information is a common necessity for every domain.
+Traditional solutions are embodied in a form of a web page or application for mobile devices.
+Spoken dialogue systems are (emerging) as an intuitive human-computer interface for providing information.
+Spoken dialogue system on the other hand are intuitive hands-free
 
 
-Scientific paper consists of:
 
-\begin{itemize}
-	\item Introduction
-	\item Materials and Methods
-	\item Results
-	\item Discussion
-\end{itemize}
+dialogy jsou super přirozená komunikace s počítačem a obecně ale ještě nefungujou úplně dobře,
+když se ale omezí doména, je to přirozenej zdroj informací
+běžný informační prostředky jsou webovky a appky, naproti tomu dialogy jsou hands-free, in fact vhodný pro více lidí, as it is super convenient zdroj informací pro slepý
+Dialogovej systém je větišnou těžký napsat, ale naštěstí je tu ASDF, který v sobě má všechny klíčový komponenty.
+Rozhodli jsme se napsat showcase systém for ptiny, protože new york má nejhustší a nejpoužívanější PT síť v americe.
+ASR je super, například to od googlu, ale obecně nefunguje obecně příliš dobře, na omezený doméně se dá ale docílit super výsledků,
+proto bysme chtěli použít crowdsourcing pro vytěžení dat pro natrénování lepšího modelu.
+To nám dovolí natrénovat model, kterej srovnáme s googlem.
 
-INTRODUCTION:
-
-\begin{itemize}
-	\item What is a dialogue system
-	\item Introduction to the problematics
-	\item It is important
-	\item method selection
-	\item what has been done
-	\item what has not been done
-	\item what do we want to display in our work
-	\item apt definition of the goals of this work
-\end{itemize}
-
-
-1 sentence general shieet, then right to it.
-from general to concrete
-(co je známo, cíl práce, je to důležité, volba metody)
-at the end - a paragraph with a structure of the document
-
-
-THE INTRODUCTION HAS TO REFLECT THE PROCESS OF THE PAPER. WHAT EXACTLY WILL HE GET LATER SERVED AT THE TEXT.
 It is important, however there are these problem, thank god there is this...
 This work is concerned with this and that, the assumptions are these, we would also want to use crowd sourcing for leaning something which enables this and that, then we evaluate
 
@@ -130,8 +151,8 @@ If someone should continue my work - what parts should have he used and what sho
  - He should use the whole solution, bus he would have to rewrite a SLU and HDC a bit for better handling of the streets and stuff
 What have I learned during the process, who could be interested:
  - For sure the companies that make similar applications for different domains could be interested.
+ - The ones that want to use ADSF for development of their own dialogue system
  - I have learned a great deal about dialogue systems, working with crowd sourcing etc.
-
 
 % subsection elevators_pitch (end)
 
@@ -142,7 +163,6 @@ of simple, direct, hands-free access to information
 
 \subsection{The official task description} % (fold)
 \label{sub:the_official_task_description}
-
 % subsection the_official_task_description (end)
 
 The goal of this thesis is to develop a dialogue system providing information about public transport in English. The system will be based on the Alex dialogue systems framework developed within the department. It will provide real-time transport information and will be evaluated with real users. For the purpose of evaluation, a crowd sourcing methods will be used, e.g. CrowdFlower.com. The evaluation measures will be based on subjective user satisfaction. 
@@ -150,6 +170,3 @@ The goal of this thesis is to develop a dialogue system providing information ab
 
 Psutka, J. and Müller, L. and Matoušek, J. and Radová, V. : Mluvíme s počítačem česky. p. 752, Academia, Prague, 2006.
 C.M. Bishop, Pattern Recognition and Machine Learning, vol. 4, no. 4. Springer, 2006, p. 738.
-
-alt+f3 select all occurrences
-ct

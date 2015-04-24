@@ -4,31 +4,39 @@
 
 The Alex Dialogue System Framework (ADSF) is used for utilizing research in the development of spoken dialogue systems.
 ADSF is maintained by the dialogue systems group at UFAL \cite{ufal}, the Institute of Formal and Applied Linguistics, Faculty of Mathematics and Physics, Charles University in Prague.
-This framework is in Python.
+It is written in Python.
 
 The ADSF consists of baseline components for assembling spoken dialogue systems.
 There are tools for processing logs and evaluating spoken dialogue systems.
 These tools can be used for audio transcriptions for example.
 A small set of example implementations for different domains is also present.
 
-%We will introduce individual components in detail later in this section.
-\todo{There may be another paragraph about PTICS ?}
+There is a working Public Transport Information (PTI) \cite{ptics} in Czech language.
+Our solution is based on the Czech version.
+However the switching to English renders a challenge emerging from nationality, culture and habit differences.
+It also brings the advantage of com advantages 
+
+angličtina je dobrá v tom, že se můžem měřit s ostatníma, můžem sbírat anglická data pro vytváření lepších anglických modelů za pomoci široké nabídky crowdsousingu. 
+
 
 \subsection{Automatic Speech Recognition}
 
 Automatic Speech Recognition (ASR) transforms spoken words into text.
-Many applications already use ASR technology as an interface between computer and person, although it is not yet capable of understanding all speech in any environment.
-Many factors influence perception of voice. Acoustic conditions, voice differences, distance from recording device, heavy accents even voice emphasis, these are few of the issues versatile ASR has to cope with.
-Achieving better quality requires great many hours of transcribed text, which is hard to come by.
+Many applications already use ASR technology as an interface between computer and a person, although it is not yet capable of understanding all speech in any environment.
+Many factors influence perception of voice.
+Acoustic conditions, voice differences, distance from the recording device, heavy accent even voice emphasis, these are few of the issues versatile ASR has to cope with.
+Achieving better quality requires large number of hours of transcribed text.
 However, when we restrict ourselves to a specific domain, the scope of words becomes quite limited.
 There is only so many expressions that can be used in a common conversation about particular subject.
 Therefore better results can be achieved.
+
+Google -> Kaldi
 
 \todo{HMM(AM)->ASR<-N-grams(LM)}
 
 \subsubsection{Kaldi}
 
-Kaldi is an open-source \footnote{Apache License 2.0} toolkit for speech recognition based on finite state transducers commonly used among researchers.
+Kaldi is an open-source \footnote{Apache License 2.0} toolkit for speech recognition based on finite state transducers.
 We use python wrapper Pykaldi within the ADSF.
 
 \todo{Process of training and testing Kaldi models will be explained in chapter [whoKnows].}
@@ -66,6 +74,14 @@ There are also variety of TTS providers. ADSF supports Flite, VoiceRSS and Googl
 \todo{SIP}
 
 
+All of these components are connected together via hub in a star-like shape shown in figure \ref{fig:hub}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{../img/todo.eps}
+	\caption{A typical star-like shape configuration of dialogue system components}
+	\label{fig:hub}
+\end{figure}
 
 \todo{odstavec a obrázek o tom, jak se typicky daj použít dohromady - na příkladu ptics - nebo něco lehčího?}
 
@@ -89,3 +105,21 @@ Crowdflower has mechanisms such as monitoring answer distributions and computing
 They claim great amount of contributor force which promises prompt job resolution. % wide range 
 The platform contains comprehensible templates for common tasks.
 It features interface for building a custom job from scratch with a sensible support and demonstrative examples, too % in form of examples, too.
+
+
+
+% In short, the placement options means allowing placement at certain locations:
+
+% h means here: Place the figure in the text where the figure environment is written, if there is enough room left on the page
+% t means top: Place it at the top of a page.
+% b means bottom: Place it at the bottom of a page.
+% p means page: Place it on a page containing only floats, such as figures and tables.
+% ! allows to ignore certain parameters of LaTeX for float placement, for example:
+
+% \topfraction: maximal portion of a page (or column resp., here and below), which is allowed to be used by floats at its top, default 0.7
+% \bottomfraction: maximal portion of a page, which is allowed to be used by floats at its bottom, default value 0.3
+% \textfraction: minimal portion of a page, which would be used by body text, default value 0.2
+% \floatpagefraction: minimal portion of a float page, which has to be filled by floats, default value 0.2. This avoids too much white space on float pages.
+% topnumber: maximal number of floats allowed at the top of a page, default 2
+% bottomnumber: maximal number of floats allowed at the bottom of a page, default 1
+% totalnumber: maximal number of floats allowed at whole page, default 3
