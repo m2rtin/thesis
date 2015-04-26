@@ -1,58 +1,55 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-Providing information is a common necessity for every domain.
-Majority of solutions provide information on web pages or applications for mobile devices.
-Spoken dialogue systems are able to fulfill such task while simplifying the access to the information.
-In fact, it addresses larger spectrum of people, it is very easy way to obtain information for the visually impaired.
-There is no need to understand elaborate interfaces for the elderly, no need for getting a device out of a pocket, just say the words.
+Providing information to consumers is a common task usually solved by implementing a web page or a mobile application.
+Spoken dialogue systems on the other, are suitable for fulfilling such task while simplifying the access to the information.
+%The interface is intuitive, direct and hands-free, which renders an opportunity for deployment in many fields.
+Spoken dialogue systems allow people to interact with a computer the most natural way, by voice.
+There is no need to find a mobile device and enter queries into some puzzling interface, it is enough to simply say the words.
+Despite this, it may serve as a valuable asset for obtaining information for the elderly and especially for blind people and people with visual impairment.%it addresses larger spectrum of people, convenient source of information
 
-Speech is the most natural interface for communication
+However, it is very difficult to implement a dialogue system from ground up.
+Fortunately The Alex dialogue system platform (ASDF) incorporates all of the key components needed for performing the task.
+We decided to take the advantage of ASDF and implement a spoken dialogue system in English for providing public transport information (PTI) in New York .
+New York, the city with the highest ridership in the United States and with one of the most extensive subway systems in the world, presents a formidable challenge.
+The English language renders the benefit of wider range of use and larger competition to be compared with.
+This enables us to build better systems with greater potential.
 
-Moreover from the nature of spoken dialogue system it is accessible to visually impaired people.
+Automatic speech recognition (ASR) is not yet at the point where the meaning of every utterance could be reliably identified by a computer.
+Although with a restricted domain, it is possible to achieve substantially better results utilizing a trained speech recognizer.
+A crowdsourcing platform Crowdflower will be used to evaluate our PTI solution and for collecting speech data.
+The collected speech data will be facilitated to train a Kaldi speech recognizer and it will be compared with the Google ASR.
+The comparison measures will be based on the Crowdflower contributor's testimony. % deliberation testimony
+
+Our PTI solution will be a useful showcase of the ASDF and will further contribute to collect speech data for improving the quality of speech recognizers.
+
+The outcomes of this thesis include the public transport information telephone-based dialogue system for New York, \todo{and the other stuff}.
+
+The paper is organized as follows.
+In the first chapter we will look over the used technologies.
+In the second chapter we will discuss the implementation in its principles by each component. %at a time
+The third chapter will cover the features of the implemented solution and render its capabilities.
+The fourth chapter will describe the workflows associated with creating a dialogue system.
+Training Language model and building Kaldi decoder will also be covered by this chapter.
+In the fifth chapter we will draw conclusions and summarize the \todo{word} encountered in the process.
 
 
-Oproti stránkám a mobile devicům, It allows visually impaired people to obtain information very easily, furthermore výhoda spočívá v jednoduchosti, easy as saying the words (the most ). 
 
 
-% The development of automatic speech recognition
-% has made possible more natural human-computer
-% interaction. Speech recognition and speech understanding,
-% however, are not yet at the point
-% where a computer can reliably extract the intended
-% meaning from every human utterance
+% telephone-based spoken dialog system
 
-The dialogue systems have prospects to be increasingly utilized at robotics and for providing information.
+% The development of dialogue systems makes possible more natural human-computer interaction.
+% The dialogue systems have prospects to be increasingly utilized at robotics and for providing information.
+% Spoken dialogue systems are being used more frequently for their potential in numerous applications at many different fields.
+% Spoken dialogue systems allow a user to interact with a computer using voice as the primary communication medium.
 
-Spoken dialogue systems are being used more frequently for their potential in numerous applications at many different fields.
-They are being used for loan establishment, car rental, call rate adjustment etc.
-To create such system is a challenging task.
-Fortunately there is a Alex dialogue system framework incorporating all of the key components.
-
-Our task is to develop a dialogue system providing information about public transport in English.
- New York City has, by far, the highest rate of public transportation use of any American city
-\todo{že jsme si vybrali new york, protože má největší pti v americe a je tak dostatečně vhodný a challenge kandidát}
+% They are being used for loan establishment, car rental, call rate adjustment etc.
+% They may serve for the purposes of renting a car, establishing loans, or changing telephone rates, rezervace hotelu.
 
 
-% Intro to problematics, sugar, why it is interesting.
-Spoken dialogue systems become increasingly relevant in our everyday lives as an online information source.
-%They are being used for accessing information at many different domains.
-They may serve for the purposes of renting a car, establishing loans, or changing telephone rates, rezervace hotelu.
+% Besides, there is a reason why in every other sci-fi movie, characters communicate with computers solely via voice. It is easy (simple?).
 
-% Why is it important
-English is important, there are much more data and potential customers in english.
 
-It is relevant...Besides, there is a reason why in every other sci-fi movie, characters communicate with computers solely via voice. It is easy (simple?).
-
-There are new dialogue systems for specific domains
-Spoken dialogue system allow natural human interaction with a computer using voice. 
-
-%Spoken dialogue systems allow a human user to interact with a computer using voice as the primary communication medium.
-A typical dialogue system consists of a speech understanding component, a dialogue manager, and a speech generation component.
-
-Spoken dialogue systems are emerging as an intuitive interface for providing conversational access to online information sources
-
-% In this paper we present a dialogue system developed in python for a public transport information in new york. The system integrates spoken and written language processing employing two components...Handwritten application forms filled out by propective customers for the missing of n insurance contract are processed blabla...The dialogue component, in turn, undertakes the collection of the missing information of the applicatoin forms by the calls to the customers. 
 
 % -----------
 % intro
@@ -84,11 +81,6 @@ Spoken dialogue systems are emerging as an intuitive interface for providing con
 
 
 
-Human conversation is generally a natural, intuitive, robust and efficient means for interaction.
-Spoken dialogue systems offer simple, direct, hands-free access to information.
-
- telephone-based spoken dialog system
-
 
 %Scientific paper consists of:
 
@@ -111,26 +103,8 @@ Spoken dialogue systems offer simple, direct, hands-free access to information.
 % what do we want to display in our work
 % apt definition of the goals of this work
 
-Providing information is a common necessity for every domain.
-Traditional solutions are embodied in a form of a web page or application for mobile devices.
-Spoken dialogue systems are (emerging) as an intuitive human-computer interface for providing information.
-Spoken dialogue system on the other hand are intuitive hands-free
+%This work is concerned with this and that, the assumptions are these, we would also want to use crowd sourcing for leaning something which enables this and that, then we evaluate
 
-
-
-dialogy jsou super přirozená komunikace s počítačem a obecně ale ještě nefungujou úplně dobře,
-když se ale omezí doména, je to přirozenej zdroj informací
-běžný informační prostředky jsou webovky a appky, naproti tomu dialogy jsou hands-free, in fact vhodný pro více lidí, as it is super convenient zdroj informací pro slepý
-Dialogovej systém je větišnou těžký napsat, ale naštěstí je tu ASDF, který v sobě má všechny klíčový komponenty.
-Rozhodli jsme se napsat showcase systém for ptiny, protože new york má nejhustší a nejpoužívanější PT síť v americe.
-ASR je super, například to od googlu, ale obecně nefunguje příliš dobře, na omezený doméně se dá ale docílit super výsledků,
-proto bysme chtěli použít crowdsourcing pro vytěžení dat pro natrénování lepšího modelu.
-To nám dovolí natrénovat model, kterej srovnáme s googlem.
-
-
-This work is concerned with this and that, the assumptions are these, we would also want to use crowd sourcing for leaning something which enables this and that, then we evaluate
-
-the output of this thesis is a dialogue system for new york.
 
 % What is interesting on this thesis: 
 %  - It utilizes voice interface for obtaining information.
@@ -146,16 +120,3 @@ the output of this thesis is a dialogue system for new york.
 %  - For sure the companies that make similar applications for different domains could be interested.
 %  - The ones that want to use ADSF for development of their own dialogue system
 %  - I have learned a great deal about dialogue systems, working with crowd sourcing etc.
-
-% subsection elevators_pitch (end)
-
-
-\subsection{The official task description} % (fold)
-\label{sub:the_official_task_description}
-% subsection the_official_task_description (end)
-
-The goal of this thesis is to develop a dialogue system providing information about public transport in English. The system will be based on the Alex dialogue systems framework developed within the department. It will provide real-time transport information and will be evaluated with real users. For the purpose of evaluation, a crowd sourcing methods will be used, e.g. CrowdFlower.com. The evaluation measures will be based on subjective user satisfaction. 
-
-
-Psutka, J. and Müller, L. and Matoušek, J. and Radová, V. : Mluvíme s počítačem česky. p. 752, Academia, Prague, 2006.
-C.M. Bishop, Pattern Recognition and Machine Learning, vol. 4, no. 4. Springer, 2006, p. 738.

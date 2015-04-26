@@ -34,6 +34,8 @@
 \usepackage[english]{babel}
 \usepackage{blindtext}
 \usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
 
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
 %% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
@@ -112,7 +114,7 @@ Faculty of Mathematics and Physics
 \vfill
 \vspace{5mm}
 
-{\LARGE First and last name of the author}
+{\LARGE Martin Vejman}
 
 \vspace{15mm}
 
@@ -123,17 +125,17 @@ Faculty of Mathematics and Physics
 
 % Název katedry nebo ústavu, kde byla práce oficiálně zadána
 % (dle Organizační struktury MFF UK)
-ÚFAL (Name of the department or institute)
+Institute of Formal and Applied Linguistics
 
 \vfill
 
 \begin{tabular}{rl}
 
-Supervisor of the master thesis: & First and last name \\
+Supervisor of the master thesis: & Mgr. Ing. Filip Jurčíček Ph.D. \\
 \noalign{\vspace{2mm}}
-Study programme: & programme \\
+Study programme: & Informatics \\
 \noalign{\vspace{2mm}}
-Specialization: & specialization \\
+Specialization: & Theoretical Computer Science \\
 \end{tabular}
 
 \vfill
@@ -202,7 +204,7 @@ Katedra:  % Případně Ústav:
 % dle Organizační struktury MFF UK
 
 Vedoucí diplomové práce:
-Mgr. Ing. Filip Jurčíček, Ph.D.,
+Mgr. Ing. Filip Jurčíček, Ph.D.
 % dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF UK
 
 Abstrakt:
@@ -223,21 +225,27 @@ Author:
 Martin Vejman %Jméno a příjmení autora
 
 Department:
-Název katedry či ústavu, kde byla práce oficiálně zadána
+Institute of Formal and Applied Linguistics
 % dle Organizační struktury MFF UK v angličtině
 
 Supervisor:
-Jméno a příjmení s tituly, pracoviště
+Mgr. Ing. Filip Jurčíček, Ph.D.
 % dle Organizační struktury MFF UK, případně plný název pracoviště
 % mimo MFF UK v angličtině
 
 Abstract:
-This thesis deals with the implementation of SDS PTIEN and describes our experience with CF.
+In this paper we present a telephone-based spoken dialogue system developed within Alex dialogue system framework in python.
+The dialogue system provides public transport information in New York.
+Crowdsourcing platform Crowdflower is used for collecting speech data and audio transcriptions.
+Collected data are furnished for training language model and building a Kaldi decoder.
+Crowdflower is further used for comparison of both Google and Kaldi speech recognizers.
+It is shown that Kaldi recognizer achieves better results in restricted public transit domain.
+
 % abstrakt v rozsahu 80-200 slov v angličtině; nejedná se však o překlad
 % zadání diplomové práce
 
 Keywords:
-% 3 až 5 klíčových slov v angličtině
+spoken dialogue system, crowdsourcing% 3 až 5 klíčových slov v angličtině
 
 \vss}
 

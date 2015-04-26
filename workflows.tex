@@ -1,4 +1,4 @@
-\chapter{Workflows - Development processes}
+\chapter{Workflows - Development processes} \label{ch:workflow}
 
 \section{Deployment}
 
@@ -34,28 +34,30 @@ CrowdFlower offers the option of screening users via quiz that takes place befor
 
 \section{Training Kaldi ASR}
 
-pro natrénování kaldi je potřeba nainstalovat všechny devel prerequisities (SRILM) a pokud chceme ve finále použít ASDF toolkit pro evaluaci modelu, potřebujem i ALEX prerequisities. potom je potřeba vydumpovat databázi - z ní se vemou class labeled terminály, potom přidáme výstup z gramatiky a natrénujeme LM Potom potřebujeme Akustický model, v našem případě si ASDF stáhne aktuální ze serveru a natrénuje se kaldi model. potom se zvolí training/testing sety a otestuje se to v ASDF nebo něčím jiným.
+pro natrénování kaldi je potřeba nainstalovat všechny devel prerequisities (SRILM) a pokud chceme ve finále použít ASDF toolkit pro evaluaci modelu, potřebujem i ALEX prerequisities. potom je potřeba vydumpovat databázi - z ní se vemou class labeled terminály, potom přidáme výstup z gramatiky a natrénujeme LM Potom potřebujeme Akustický model, v našem případě si ASDF stáhne aktuální ze serveru a natrénuje se kaldi dekodér. potom se zvolí training/testing sety a otestuje se to v ASDF nebo něčím jiným. Třeba CloudASR.
 
 \subsection{grammar}
 
-pro dobrej rozpoznávací model je potřeba mít dobře rozložený slova, kterýma trénujeme LM, To se dá udělat tím, že se do toho nacpe spousta transkripcí a ono se to tam přirozeně přesype. My ale nemáme spoustu transkripcí. Proto jsme se rozhodli udělat bootsraping LM pomocí gramatiky.
+Pro dobrý rozpoznávací model je potřeba mít dobře rozložená slova, kterýma trénujeme LM, To se dá udělat tím, že se do toho nacpe spousta transkripcí a ono se to tam přirozeně přesype. My ale nemáme spoustu transkripcí. Proto jsme se rozhodli udělat bootsraping LM pomocí gramatiky.
 
 Idea je taková, že vytvoříme gramatiku simulující věty, které by uživatel mohl běžně říct, věty, které očekáváme na vstupu. Tím pokryjeme ty nejčastější případy.
 
 naše gramatika obsahuje jednoduchá pravidla O - option - speciální případ alternativy, A - alternativa - ,S (itemize), plus terminál.
 Terminály jsou stringy, typicky hodiny, zastávky, města, období, 
 
-takhle může vypadat například pravidlo A(S(Where, O(from), bla, bla)). 
+takhle může vypadat například pravidlo A(S(Where, O(from), sth, sth)). 
 Toto pravidlo se přepíše na .... 
 
 Při přílišné snaze pokrýt všechny možností se snadno stane, že se vygenerují i věty, které nedávají smysl. Například: Chci jet v deset do prahy za půl hodiny s pěti přestupy. což je na škodu. Proto jsme se snažili generovat pouze validní vstupy, které dávají smysl.
 
-Jako terminálý jsme použili databáze zastávek, které alex používá nativně.
+Jako terminály jsme použili databáze zastávek, které alex používá nativně.
 
 
 \section{Process of changing domains} 
   -what would one change if he wanted to use this framework and use utilize it in different domain
   If I was to switch to a different domain, the following should have to take place.
-  potřeboval bych si rozvrhnout co budu potřebovat v databázi, co budu používat v slučku a jak se mi bude moct měnit dialog, to znamená ideálně si nakreslit celej process dialogu na papír pomocí diagramů, z toho se dá vykoukat, co bude potřeba pro zodpovězení té které otázky. jaké api budu využívat pro přístup na internet, jaké keywords si budu potřebovat v paměti. potom vytvořit walking skeleton a nasadit. vyevalvovat....
-  todo{má cenu tohle psát?} možná do lesson learned?
+  potřeboval bych si rozvrhnout co budu potřebovat v databázi, co budu používat v slučku a jak se mi bude moct měnit dialog, to znamená ideálně si nakreslit the whole process dialogu na papír pomocí diagramů, z toho se dá vykoukat, co bude potřeba pro zodpovězení té které otázky. jaké api budu využívat pro přístup na internet, jaké keywords si budu potřebovat držet v paměti. potom vytvořit walking skeleton a nasadit. vyevalvovat....
+  should we mention this? maybe to lessons learned?
+
+  \todo{we used Cloud ASR for testing}
   
