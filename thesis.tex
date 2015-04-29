@@ -36,6 +36,9 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{array}
+% \newcolumntype{L}{>{\centering\arraybackslash}m{3cm}}
+
 
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
 %% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
@@ -56,8 +59,8 @@
 \newcommand{\todo}[1]{}
 \renewcommand{\todo}[1]{{\color{red} TODO: {#1}}}
 
-\newcommand{\zeptat}[1]{}
-\renewcommand{\zeptat}[1]{{\color{blue} ZEPTAT: {#1}}}
+\newcommand{\ask}[1]{}
+\renewcommand{\ask}[1]{{\color{blue} ASK: {#1}}}
 
 %%% Drobné úpravy stylu
 
@@ -235,11 +238,11 @@ Mgr. Ing. Filip Jurčíček, Ph.D.
 
 Abstract:
 In this paper we present a telephone-based spoken dialogue system developed within Alex dialogue system framework in python.
-The dialogue system provides public transport information in New York.
+The dialogue system provides public transport information in New York and it gets involved in the MTA App Quest challenge.
 Crowdsourcing platform Crowdflower is used for collecting speech data and audio transcriptions.
-Collected data are furnished for training language model and building a Kaldi decoder.
-Crowdflower is further used for comparison of both Google and Kaldi speech recognizers.
-It is shown that Kaldi recognizer achieves better results in restricted public transit domain.
+Collected data are furnished for training a language model and building a Kaldi decoder.
+Crowdflower is further used for comparison of Google Speech API and Kaldi ASR.
+It is shown that Kaldi recognizer achieves better results in restricted public transport domain.
 
 % abstrakt v rozsahu 80-200 slov v angličtině; nejedná se však o překlad
 % zadání diplomové práce

@@ -47,9 +47,10 @@ The process of training LM and testing Kaldi will be expanded upon in chapter \r
 
 \subsubsection{Voice Activity Detection}
 
-In order to send a voice track to ASR processing, we need to be able to cut speech into logical units (sentences).
+We need to be able to determine the end of the utterance for the computer to take turn and respond.
 This role is performed by the Voice Activity Detection (VAD).
-VAD separates the noise and silence from the speech.
+VAD cuts speech into sentences and sends it to ASR for processing.
+It separates noise and silence from the speech.
 
 \subsubsection{Text To Speech}
 
@@ -91,6 +92,41 @@ Crowdflower has mechanisms such as monitoring answer distributions and computing
 They claim great amount of contributor force which promises prompt job resolution. % wide range 
 The platform contains comprehensible templates for common tasks.
 It features interface for building a custom job from scratch with a sensible support and demonstrative examples, too. % in form of examples, too.
+
+%It is best suited for the tasks that can not be automated and further split into smaller subtasks.
+
+\section{Deployment}
+
+Running real-time dialogue system can claim considerable amount of system resources.
+All of the components of the dialogue system are separate processes and the static knowledge-base may outgrow ordinary computer memory.
+Hence, it is only right to employ multi-processor machine with sufficient amount of memory.
+%velký dostatek paměti je potřeba i pro trénování
+
+\subsection{Docker}
+
+Docker\footnote{\url{https://www.docker.com/}} is a platform for rapid deployment of applications.
+It contains a packaging tool and a lightweight runtime.
+An application wrapped in docker is easily portable to any laptop or virtual machine (VM).
+The chain of events leading from discovering a flaw, changing source code, to deploying compiled dialogue system can be excessively accelerated with docker.
+
+Dockerfile is a specification file used for automating docker image builds.
+It allows to specify a sequence of instructions executed on a base image in order to create a new one.
+Built docker image with the dialogue system can be executed in an isolated container.
+
+The Alex dialogue system framework (ADSF) is now using docker which is really helpful for resolving dependencies.
+Our Dockerfile is based on the base ASDF Dockerfile with instructions for downloading newest models and knowledge-base.
+There is a \texttt{-i} flag for mounting any directory to docker container.
+
+\subsection{MetaCentrum}
+
+In order to provide service for more than one caller at a time, we need to have multiple instances of our machine.
+Computing and storage resources of MetaCentrum\footnote{\url{http://www.metacentrum.cz/cs/}} can be used freely by all students of academic institutions in the Czech Republic.
+%The possibility to use extensible resources was really helpful.
+% It runs on OpenNebula platform
+
+For each instance of MetaCentrum VM, configuration with 4 processors and 16GB was used.
+Half of the memory would be sufficient, however, the same VMs were employed for training models which involves excessive memory usage.
+\todo{říct kolik VMs jsme použili na MTA, na CF a na ostatní věci}
 
 
 % In short, the placement options means allowing placement at certain locations:

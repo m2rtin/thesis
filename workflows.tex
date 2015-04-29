@@ -1,36 +1,135 @@
 \chapter{Workflows - Development processes} \label{ch:workflow}
 
-\section{Deployment}
-
-\subsection{docker}
-
-docker is a platform for rapid deployment of systems and it is an universal because it uses ubuntu inside. This allowed us to configure the image only once and than run it elsewhere. Development is also really usnadněný díky optionu -v, kterým jsme schopni propašovat libovolný adresář. So the workflow bypadal asi tak, že jsme měli i třeba starou verzi ptien zabejkovanou se všema dependencema a včkem jsme tam propašovali adresář s celým ADSF. na virtuálku jsme to dostali pomocí rsyncu, kterej updatoval pouze změněný adresáře. This allowed us really quick development loop, quick fixes of deployed sytem etc.
-
-\subsection{metacentrum}
-
-In order to provide service for more than one caller, we need to have multiple instances of our machine. We've used free cloud solution from cesnet metacloud, that provides services for students for free. This was extremely helpful, because the computation nároky jsou veliké.
-
-pro každou instanci jsme použili nastavení se 4mi procesoty, 16ti GB paměti (stačilo by 8, ale stejný template jsme použili i pro trénování modelů, což vyžadovalo hodně paměti). Protože síť cesnet je spojená s matfyzáckou sítí, byla správa VMs velmi usnadněna.
+This chapter is concerned with the process of several procedures repeatedly used while developing spoken dialogue system providing public transport information in New York.
+Very similar approaches might be taken for the development of dialogue systems in different domains.
 
 
 \section{Creating CrowdFlower Job}
 
-Assembling a Crowdflower job can be accomplished through one of many templates for ordinary tasks such as various data analysis,categorization, comparison, revision, review, transcription etc. %carried out realized, executed, leveraged
+Assembling a Crowdflower job can be realized through one of many templates for ordinary tasks such as various data analysis, entity annotation, categorization, comparison, revision and many more.%, review, transcription %etc. %executed, accomplished
 Custom and more sophisticated tasks can be carried out from scratch.
-Crowdflower provides an interface for users to edit CrowdFlower Markup Language (CML), CSS and custom JavaScript that runs once on page load.
-There is a possibility to inject custom HTML code as well.
-The platform automatically inserts test question and evaluates contributors based on them.
-CML and JavaScript are essential for utilizing Crowdflower's quality control
-
-CML handles basic input controls that are necessary to utilize Crowdflower's quality control. % and crowdsourcing interfaces for named entity annotations 
-
-It is best suited for the tasks that can not be automated and further split into smaller subtasks.
 It is desirable that the tasks are as simple as possible to eliminate errors resulting from the lack of knowledge or misinterpretation.
 
-However, repeated labeling is costly and may tend to be comparable in costs to the in-house solution.
-CrowdFlower offers the option of screening users via quiz that takes place beforehand to determine quality of the worker.
-%CrowdFlower and SamaSource  vs Crowdflower an Samasource
+%The platform automatically inserts test question and evaluates contributors based on them.
+Crowdflower provides a web interface for work requesters to edit the task by CrowdFlower Markup Language (CML), CSS and custom JavaScript that runs once on page load.
+There is a possibility to inject custom HTML code as well.
+CML and JavaScript are essential for leveraging Crowdflower's quality control.
+Both mandatory and optional input controls have to be specified with the CML.
 
+\subsection{Call job}
+
+We created a call job for testing operational dialogue system.
+Its purpose is to encourage solvers to call on a toll-free number and ask questions about the public transport in New York and to evaluate and rate the system.
+
+To ensure the call is carried out thoroughly by the contributor, we employed a simple generator of four digit codes.
+This code is handed out by the dialogue system after finishing a call.
+It is spelled number after number three times over.
+In the same time, the code is registered at a validation server running on a dedicated MetaCentrum VM.
+Without this code it is not possible to submit the feedback form and finish the job.
+
+This behavior of the CrowdFlower job is enforced by a CML control with a custom JavaScript validator.
+When a code is presented to the CML control, the validator sends a request with the code to the validation server.
+Server compares the code with a set of registered codes from the dialogue system.
+Only after positive server response is acquired the validator passes.
+It is unnecessary to match callers identity, this is sufficient measure for enforcing the call.
+%The request needs to be sent over HTTPS, otherwise CrowdFlower will terminate it.
+\ask{should we introduce a figure of the validation process to destroy the block of text? or later figure of the feedback form?}
+
+To further maximize the efficiency, the dialogue system only hands out the validation code after minimum number of turns is passed. %we imposed a rule for a code giveaway.
+This prevents the callers from saying \textit{``Hello, Good bye!''} and collecting the validation code and therefore the reward without fulfilling the task.
+
+The job web page was built as a survey job from scratch.
+In the premise of the job, we declares four paragraphs concerning the job.
+
+\begin{itemize}
+	\item \textbf{Intro} - Introduction to the whole process, mentioning restrictions and remarks. %requirements.
+	\item \textbf{Instructions} - Exact procedure description,  how to behave, how to end the call, how to fill the feedback form.
+	%exact description of the call procedure and system capabilities
+	\item \textbf{Example call} - Demonstrative dialogue between caller and our dialogue system.
+	\item \textbf{Consent} - Legal statement concerning the data management and recording the call.
+\end{itemize}
+
+%From the example call solvers could pick up how to ask if they were helpless
+A brief specification of the stops between which caller wants to find a connection follows after this premise.
+Additional question about the link are urged for exploiting the dialogue system features.
+
+A feedback form of subjective user satisfaction concludes the job page.
+In addition to the following question an optional field for general comments and mandatory field for validation code are within the form.
+
+% \begin{itemize}
+% 	\item \textit{Have you found what you were looking for?} - Yes/No question
+% 	\item \textit{The system understood me:} - range of 1 to 4 from Very poorly to Very well
+% 	\item \textit{The phrasing of the system's response was:} - range of 1 to 4 from Very poor to Very good
+% 	\item \textit{The quality of the system's voice was:} - range of 1 to 4 from Very poor to Very good
+% \end{itemize}
+
+\begin{table}[h]
+\centering
+\hspace*{-3pt}\makebox[\linewidth][c]{
+	\begin{tabular}{ r | p{0.6\linewidth} }
+	\textit{Have you found what you were looking for?} & Yes/No question \\
+	\textit{The system understood me:} & range of 1 to 4 from Very poorly to Very well \\
+	\textit{The phrasing of the system's response was:} & range of 1 to 4 from Very poor to Very good \\
+	\textit{The quality of the system's voice was:} & range of 1 to 4 from Very poor to Very good \\
+\end{tabular}
+}
+\end{table}
+
+
+A toll-free number was used for this job.
+Crowdflower allows to geographically limit work force only to United States.
+\ask{which was important for collecting local Acoustic data?}
+\todo{nastavení jobu - jeden call per job to ensure diversity of callers}
+Four VMs on MetaCentrum were dedicated to this job to serve multiple callers. %collecting data evenly.
+
+
+\subsection{Transcription job}
+
+After collecting enough calls a transcription job was built from a template for audio transcriptions.
+For each audio track there is a radio button for marking comprehensible tracks and a field for writing transcribed text.
+Only instructions and data are needed for launching a transcription job.
+
+This kind of job is very common and popular and therefore it is solved by contributors very quickly.
+However, the contributors differ on spelling of some words and it is absolutely crucial for the job instructions to make it perfectly clear what should solver write. - rephrase!
+
+ukázalo se, že je dobrý jim dát hint v podobě věcí co tam mohou uslyšet. V našem případě to byly fráze jako num of transfers, výchozí body zastávek atd s jasným neměnným spellingem.
+The contributors were míň si stěžovali na fairnes of the test questions and the job was carried out lépe.
+
+Data are uploaded to CrowdFlower via CSV file that contains a list of URLs with audio tracks.
+The default setup suggests to let each track transcribe three times for accuracy.
+Even more transcriptions yield from setting up dynamic judgments.
+However, repeated labeling is costly and may tend to move towards the in-house solution in that regard. %aspect
+We decided to keep multiple transcriptions, while reducing cost per transcription.
+The ultimate transcription was decided upon later from the job results by a custom semi-automatic script.
+
+CrowdFlower uses test questions for separating the good transcribers from the bad.
+Test questions in this job are essentially manual transcriptions.
+We utilized a quiz mode that estimates the quality of a contributor beforehand.
+It is assembled from test questions and lets only trusted contributors to participate in the job.
+%CrowdFlower offers the option of screening users via quiz that takes place beforehand to determine quality of the worker.
+
+
+\section{Iterative improvement}
+
+It was not clear how they will ask.
+(Development loop)
+
+dulezite je tam rict, ze jsi zacal s bootstrapem a pak jsi iterativne pokracoval tak, ze jsi spustil, testoval, vylepsil
+dulezite bylo snirat feedback od realnych uzivatelu
+takze buzzwords, ktere tam musis mit: bootstrap, iterative improvement, a feedback from the users
+
+
+
+\begin{itemize}
+	\item Obtain logs from VMs
+	\item Fix flaws in SLU, DM or NLG
+	\item Upload source files to VMs
+	\item Relaunch the dialogue systems.
+\end{itemize}
+For a running docker container on MetaCentrum VM
+
+flag -v is used for mounting directories propojení the isolated container with native system
+It can be It can be easily distributed to any virtual machine  and it is an universal because it uses ubuntu inside. This allowed us to configure the image only once and than run it elsewhere. Development is also really usnadněný díky optionu -v, kterým jsme schopni propašovat libovolný adresář. So the workflow vypadal asi tak, že jsme měli i třeba starou verzi ptien zabejkovanou se všema dependencema a včkem jsme tam propašovali adresář s celým ADSF. na virtuálku jsme to dostali pomocí rsyncu, kterej updatoval pouze změněný adresáře. This allowed us really quick development loop, quick fixes of deployed sytem etc.
 
 \section{Training Kaldi ASR}
 
@@ -61,3 +160,22 @@ Jako terminály jsme použili databáze zastávek, které alex používá nativn
 
   \todo{we used Cloud ASR for testing}
   
+
+
+
+
+
+% \begin{table}[h]
+% \centering
+% %\small
+% \hspace*{-3pt}\makebox[\linewidth][c]{
+% 	\begin{tabular}{ r | p{0.8\linewidth} }
+% 	\textbf{Intro} & conditions native speaker, průvodce celým jobem \\
+% 	\textbf{Instructions} & what should they do, how should they behave, how to take the evaluation, features of the system \\
+% 	\textbf{Example call} & demonstrative dialogue between caller and our system \\
+% 	\textbf{Consent} & legal statement for recording the call
+% \end{tabular}
+% }
+% %\caption{Translation example of dialogue act to sentence by Natural Language Generation component}
+% %\label{table:nlg}
+% \end{table}
