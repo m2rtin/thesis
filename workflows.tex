@@ -25,10 +25,10 @@ To ensure the call is carried out thoroughly by the contributor, we employed a s
 This code is handed out by the dialogue system after finishing a call.
 It is spelled number after number three times over.
 In the same time, the code is registered at a validation server running on a dedicated MetaCentrum VM.
-Without this code it is not possible to submit the feedback form and finish the job.
+Without this code it is not possible to submit a feedback form and finish the job.
 
 This behavior of the CrowdFlower job is enforced by a CML control with a custom JavaScript validator.
-When a code is presented to the CML control, the validator sends a request with the code to the validation server.
+When contributor inserts a code to the CML control, the validator sends a request with the code to the validation server.
 Server compares the code with a set of registered codes from the dialogue system.
 Only after positive server response is acquired the validator passes.
 It is unnecessary to match callers identity, this is sufficient measure for enforcing the call.
@@ -39,22 +39,24 @@ To further maximize the efficiency, the dialogue system only hands out the valid
 This prevents the callers from saying \textit{``Hello, Good bye!''} and collecting the validation code and therefore the reward without fulfilling the task.
 
 The job web page was built as a survey job from scratch.
-In the premise of the job, we declares four paragraphs concerning the job.
+In the premise of the job, we declare four paragraphs concerning the job.
 
 \begin{itemize}
-	\item \textbf{Intro} - Introduction to the whole process, mentioning restrictions and remarks. %requirements.
+	\item \textbf{Intro} - Introduction to the whole process, mentioning restrictions and remarks. %requirements. environment, native speaker
 	\item \textbf{Instructions} - Exact procedure description,  how to behave, how to end the call, how to fill the feedback form.
 	%exact description of the call procedure and system capabilities
 	\item \textbf{Example call} - Demonstrative dialogue between caller and our dialogue system.
 	\item \textbf{Consent} - Legal statement concerning the data management and recording the call.
 \end{itemize}
+\ask{should we expand on that?}
 
 %From the example call solvers could pick up how to ask if they were helpless
-A brief specification of the stops between which caller wants to find a connection follows after this premise.
+%A brief specification of the stops between which caller wants to find a connection follows after the premise.
+Stops between which caller wants to find a connection are quoted after the premise.
 Additional question about the link are urged for exploiting the dialogue system features.
 
 A feedback form of subjective user satisfaction concludes the job page.
-In addition to the following question an optional field for general comments and mandatory field for validation code are within the form.
+In addition to the following question an optional field for general comments and mandatory field for the validation code are within the form.
 
 % \begin{itemize}
 % 	\item \textit{Have you found what you were looking for?} - Yes/No question
@@ -74,12 +76,12 @@ In addition to the following question an optional field for general comments and
 \end{tabular}
 }
 \end{table}
-
+\ask{should this be mentioned in the results rather?}
 
 A toll-free number was used for this job.
 Crowdflower allows to geographically limit work force only to United States.
 \ask{which was important for collecting local Acoustic data?}
-\todo{nastavení jobu - jeden call per job to ensure diversity of callers}
+\todo{mention one call per job to ensure diversity of callers?}
 Four VMs on MetaCentrum were dedicated to this job to serve multiple callers. %collecting data evenly.
 
 
@@ -90,17 +92,16 @@ For each audio track there is a radio button for marking comprehensible tracks a
 Only instructions and data are needed for launching a transcription job.
 
 This kind of job is very common and popular and therefore it is solved by contributors very quickly.
-However, the contributors differ on spelling of some words and it is absolutely crucial for the job instructions to make it perfectly clear what should solver write. - rephrase!
-
-ukázalo se, že je dobrý jim dát hint v podobě věcí co tam mohou uslyšet. V našem případě to byly fráze jako num of transfers, výchozí body zastávek atd s jasným neměnným spellingem.
-The contributors were míň si stěžovali na fairnes of the test questions and the job was carried out lépe.
+However, the contributors differ on spelling of some words and it is absolutely crucial for the job instructions to make it perfectly clear how should the contributor write.
+%The phone quality of the audio is not helping.
+%in the sense of colloquial speech
 
 Data are uploaded to CrowdFlower via CSV file that contains a list of URLs with audio tracks.
 The default setup suggests to let each track transcribe three times for accuracy.
 Even more transcriptions yield from setting up dynamic judgments.
 However, repeated labeling is costly and may tend to move towards the in-house solution in that regard. %aspect
 We decided to keep multiple transcriptions, while reducing cost per transcription.
-The ultimate transcription was decided upon later from the job results by a custom semi-automatic script.
+The ultimate transcription is decided upon later from the job results by a custom semi-automatic script.
 
 CrowdFlower uses test questions for separating the good transcribers from the bad.
 Test questions in this job are essentially manual transcriptions.
@@ -108,48 +109,106 @@ We utilized a quiz mode that estimates the quality of a contributor beforehand.
 It is assembled from test questions and lets only trusted contributors to participate in the job.
 %CrowdFlower offers the option of screening users via quiz that takes place beforehand to determine quality of the worker.
 
+In the instructions we defined examples of how common words should be handled and a table with symbols for incomprehensible tracks was specified.
+It is a good practice to let the users know the context.
+The contributors were more content when a list of phrases they might hear was included.% even though the test questions were strict.
+In our case the list included phrases like \textit{number of transfers}, \textit{duration of the trip}, \textit{weather forecast}, origin and destination stops etc.
+Even though some of those phrases did not appear in the exact form in the audio tracks, the evidence of improvement was observable in contributor satisfaction stats of the job within CrowdFlower.
+%fairness of the test question increased in their opinion
 
 \section{Iterative improvement}
 
-It was not clear how they will ask.
-(Development loop)
+At the beginning we had just a vague idea about how the system should behave.
+We had a general insight of the features from the Czech dialogue system, however we did not know what is the native way of asking for information. %It was not clear how they will ask.
+Therefore we made a bootstrap list of sentences with their semantic complements, all of which our dialogue system must work on.
 
-dulezite je tam rict, ze jsi zacal s bootstrapem a pak jsi iterativne pokracoval tak, ze jsi spustil, testoval, vylepsil
-dulezite bylo snirat feedback od realnych uzivatelu
-takze buzzwords, ktere tam musis mit: bootstrap, iterative improvement, a feedback from the users
+When an operational dialogue system was achieved, we employed CrowdFlower workforce for obtaining feedback from real users.
+Analyzing logs was very important for discovering ways of inquiring information which we initially did not think of.
+The log analysis and feedback form from CrowdFlower jobs also provided an input on what features are missing or need improvement.
+This was an iterative process of improvement captured in an essence in the following steps. %nutshell, rundown, synopsis, digest
+
+%dulezite je tam rict, ze jsi zacal s bootstrapem a pak jsi iterativne pokracoval tak, ze jsi spustil, testoval, vylepsil
+%dulezite bylo snirat feedback od realnych uzivatelu
+%takze buzzwords, ktere tam musis mit: bootstrap, iterative improvement, a feedback from the users
 
 
 
-\begin{itemize}
+\begin{enumerate}
+	\item Launch a CrowdFlower call job
 	\item Obtain logs from VMs
-	\item Fix flaws in SLU, DM or NLG
-	\item Upload source files to VMs
-	\item Relaunch the dialogue systems.
+	\item Fix flaws in:
+	\begin{itemize}
+		\item \textbf{SLU} - enrich bootstrap from user turns and maintain 100\% precision
+		\item \textbf{DM} - amend features of the dialogue system
+		\item \textbf{NLG} - add templates from system turns to polish rough expressions
+	\end{itemize}
+	\item Upload source code to VMs
+	\item Restart the dialogue systems.
+\end{enumerate}
+\ask{would be a picture better here or both itemize?}
+
+%This rundown may be executed multiple times per job
+%logs render a room for improvement.
+
+The dialogue system on each VM is running in a docker container.
+Any folder can be mounted to the docker container via \texttt{-v} flag.
+Uploading source code to update dialogue system on VM is therefore effortless and makes the development loop very quick.
+
+
+%flag -v is used for mounting directories propojení the isolated container with native system
+%It can be easily distributed to any virtual machine  and it is an universal because it uses ubuntu inside. This allowed us to configure the image only once and than run it elsewhere. Development is also really usnadněný díky optionu -v, kterým jsme schopni propašovat libovolný adresář. So the workflow vypadal asi tak, že jsme měli i třeba starou verzi ptien zabejkovanou se všema dependencema a včkem jsme tam propašovali adresář s celým ADSF. na virtuálku jsme to dostali pomocí rsyncu, kterej updatoval pouze změněný adresáře. This allowed us really quick development loop, quick fixes of deployed sytem etc.
+
+\section{Building Kaldi ASR}
+
+For building Kaldi decoder we used Pykaldi\footnote{github-link} docker image containing the essential tools.
+It is necessary to add dependencies for ASDF if building and evaluation is intended within the platform.
+SRILM\footnote{srilm link} must be installed for training LM model.
+\ask{should we even say this?}
+
+%\subsubsection{Language model}
+
+Prior to training LM, it is necessary to dump database for creating a labeled list of keyword surface forms.
+Then we need to put domain specific utterances to LM training folder.
+Our training data consist of utterances from CrowdFlower call logs, bootstrap utterances and utterances generated by grammar.
+
+\subsection{Grammar}
+
+Creating a good LM entails a well distributed words in corpus.
+This can be achieved naturally by getting a lot of transcriptions.
+However, we do not have a lot of transcriptions.
+Therefore we decided to bootstrap LM by grammar.
+
+The grammar should produce utterances that are likely to be used.
+This way we cover the most frequent cases.
+
+Our grammar consists of simple rewriting rules.
+%JE TO BEZKONTEXTOVÁ GRAMATIKA?
+\todo{nejsou to terminály, ale proměnný!}
+\begin{itemize}
+	\item \texttt{A(T)} - \textbf{alternative} - one of many terminals %právě jeden
+	\item \texttt{O(t)} - \textbf{option} - terminal is either present or not, it is a special case of alternative
+	\item \texttt{S(T)} - \textbf{sequence} - chain of terminals %pro každý
+	\item \texttt{t} - \textbf{terminal} - a word
 \end{itemize}
-For a running docker container on MetaCentrum VM
+\ask{should we formalize?}
 
-flag -v is used for mounting directories propojení the isolated container with native system
-It can be It can be easily distributed to any virtual machine  and it is an universal because it uses ubuntu inside. This allowed us to configure the image only once and than run it elsewhere. Development is also really usnadněný díky optionu -v, kterým jsme schopni propašovat libovolný adresář. So the workflow vypadal asi tak, že jsme měli i třeba starou verzi ptien zabejkovanou se všema dependencema a včkem jsme tam propašovali adresář s celým ADSF. na virtuálku jsme to dostali pomocí rsyncu, kterej updatoval pouze změněný adresáře. This allowed us really quick development loop, quick fixes of deployed sytem etc.
+Terminals are words
+Jako terminály jsme použili databáze zastávek, které alex používá nativně.
 
-\section{Training Kaldi ASR}
-
-pro natrénování kaldi je potřeba nainstalovat všechny devel prerequisities (SRILM) a pokud chceme ve finále použít ASDF toolkit pro evaluaci modelu, potřebujem i ALEX prerequisities. potom je potřeba vydumpovat databázi - z ní se vemou class labeled terminály, potom přidáme výstup z gramatiky a natrénujeme LM Potom potřebujeme Akustický model, v našem případě si ASDF stáhne aktuální ze serveru a natrénuje se kaldi dekodér. potom se zvolí training/testing sety a otestuje se to v ASDF nebo něčím jiným. Třeba CloudASR.
-
-\subsection{grammar}
-
-Pro dobrý rozpoznávací model je potřeba mít dobře rozložená slova, kterýma trénujeme LM, To se dá udělat tím, že se do toho nacpe spousta transkripcí a ono se to tam přirozeně přesype. My ale nemáme spoustu transkripcí. Proto jsme se rozhodli udělat bootsraping LM pomocí gramatiky.
-
-Idea je taková, že vytvoříme gramatiku simulující věty, které by uživatel mohl běžně říct, věty, které očekáváme na vstupu. Tím pokryjeme ty nejčastější případy.
-
-naše gramatika obsahuje jednoduchá pravidla O - option - speciální případ alternativy, A - alternativa - ,S (itemize), plus terminál.
-Terminály jsou stringy, typicky hodiny, zastávky, města, období, 
+loaded terminal symbols from file: stops, streets, cities, time and time periods for the most part.
 
 takhle může vypadat například pravidlo A(S(Where, O(from), sth, sth)). 
 Toto pravidlo se přepíše na .... 
 
 Při přílišné snaze pokrýt všechny možností se snadno stane, že se vygenerují i věty, které nedávají smysl. Například: Chci jet v deset do prahy za půl hodiny s pěti přestupy. což je na škodu. Proto jsme se snažili generovat pouze validní vstupy, které dávají smysl.
 
-Jako terminály jsme použili databáze zastávek, které alex používá nativně.
+
+\subsection{building decoder}
+
+AM is downloaded from server and Kaldi decoder can be assembled.
+The decoder is tested within ASDF and can be compared with Google ASR.
+
+We seldom used CloudASR for manual testing. It is very easy to deploy Kaldi ASR and access it through web interface for anyone who wants to try the decoder out.
 
 
 \section{Process of changing domains} 
