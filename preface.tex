@@ -2,36 +2,36 @@
 \addcontentsline{toc}{chapter}{Introduction}
 
 Providing information to consumers is a common task usually solved by implementing a web page or a mobile application.
-Spoken dialogue systems on the other, are suitable for fulfilling such task while simplifying the access to the information.
-%The interface is intuitive, direct and hands-free, which renders an opportunity for deployment in many fields.
+Spoken dialogue systems on the other hand, are suitable for fulfilling such task while simplifying the access to the information.
 Spoken dialogue systems allow people to interact with a computer the most natural way, by voice.
+They are intuitive, direct and hands-free, which renders an opportunity for deployment in many fields.
 There is no need to find a mobile device and enter queries into some puzzling interface, it is enough to simply say the words.
 Despite this, it may serve as a valuable asset for obtaining information for the elderly and especially for blind people and people with visual impairment.%it addresses larger spectrum of people, convenient source of information
 
 However, it is very difficult to implement a dialogue system from ground up.
-Fortunately The Alex dialogue system platform (ASDF) incorporates all of the key components needed for performing the task.
-We decided to take the advantage of ASDF and implement a spoken dialogue system in English for providing public transport information (PTI) in New York .
+Fortunately The Alex dialogue system platform\cite{asdf} (ASDF) incorporates all of the key components needed for performing the task.
+We decided to take the advantage of ASDF and implement a spoken dialogue system in English for providing public transport information (PTI) in New York.
 New York, the city with the highest ridership in the United States and with one of the most extensive subway systems in the world, presents a formidable challenge.
-The English language renders the benefit of wider range of use and larger competition to be compared with.
+The English language benefits from wider range of use and larger competition to be compared with.
 This enables us to build better systems with greater potential.
 
-Automatic speech recognition (ASR) is not yet at the point where the meaning of every utterance could be reliably identified by a computer.
+Automatic speech recognition (ASR) is not yet at the point where the meaning of every utterance could be reliably identified by a computer.\cite{asr}
 Although with a restricted domain, it is possible to achieve substantially better results utilizing a trained speech recognizer.
-A crowdsourcing platform Crowdflower will be used to evaluate our PTI solution and for collecting speech data.
+A crowdsourcing platform CrowdFlower will be used to evaluate our PTI solution and to collect speech data.
 The collected speech data will be facilitated to train a Kaldi speech recognizer and it will be compared with the Google ASR.
-The comparison measures will be based on the Crowdflower contributor's testimony. % deliberation testimony
+The comparison measures will be based on the Crowdflower contributor's report. % deliberation testimony
 
-Our PTI solution will be a useful showcase of the ASDF and will further contribute to collect speech data for improving the quality of speech recognizers.
+Our PTI solution will be a useful showcase of the ASDF and will further contribute to collect speech data for improving the quality of speech recognizers. \ask{should we mention MTA here?} %It will be competing in a MTA app quest competition.
 
 The outcomes of this thesis include the public transport information telephone-based dialogue system for New York, \todo{and the other stuff}.
 
 The paper is organized as follows.
 In the first chapter we will look over the used technologies.
 In the second chapter we will discuss the implementation in its principles by each component. %at a time
-The third chapter will cover the features of the implemented solution and render its capabilities.
-The fourth chapter will describe the workflows associated with creating a dialogue system.
+The third chapter will cover the features of implemented solution and display its capabilities.
+The fourth chapter will describe the workflows associated with creating such dialogue system.
 Training Language model and building Kaldi decoder will also be covered by this chapter.
-In the fifth chapter we will draw conclusions and summarize the \todo{word} encountered in the process.
+In the fifth chapter we will draw conclusions and summarize the findings encountered in the process.
 
 
 
