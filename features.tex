@@ -1,52 +1,40 @@
 \chapter{Features - Public Transport Information for New York}
 
-In this chapter we will describe what the PTIEN is capable of. The features are derived from the DM capabilities, which is a brain of the dialogue system, but each component has to oblige. When we describe how the DS is capable of responding to a concrete request, the SLU has to extract semantics from the text input, DM has to what to do and NLG has to generate text from the dialogue acts.
-
-
-\section{Features of PTIEN}
-
-In this section we will describe the functionality of PTIEN as a whole.
-
-\subsection{Accompanying sentences}
-
-tabulka:
-pozdravy, -  \\
-ticho -  \\
-rozloučení -  \\
-nerozuměli jsme -  \\
-help requested - context help provision \\
-poděkování - reakce a zeptání se na další úkoly \\
-restart - restart dialogu \\
-
-to že jsme nerozuměli může být buť tím a nebo tím,
-context help vychází z toho, o čem naposledy člověk hovořil, vybere se náhodně nějaká z vět o tématu, třeba že se můžou zepat na počasí v jejich rodném městě, nebo pokdud se bavili o PTI, tak : můžeš se třeba zeptat kolik to má přestupů...
-
-
-
-
-\subsection{tasks}
+In this chapter we will describe the functionality of \todo{PTINY} as a whole.
+%In this chapter we will describe what the \todo{PTINY} is able to process.
+The features are derived from the DM capabilities, which is the brain of the dialogue system, but each component has to oblige.
+When describing how the DS responds to a particular request, the SLU has to extract semantics from the text input, DM has to decide what to do and NLG has to generate text from the dialogue acts.
 
 \subsection{Providing current time} \label{subsec:time}
 
-The user can make better route selection decisions based on what time it is.
-This is why it is important for the system to be able to provide current time.
+The user can make better route selection decisions based on the knowledge of current time.
+This is why it is important for the system to be able to provide it.
 As opposed to the Czech Republic, there are places at different time zones in the United States.
-Therefore we decided to support queries specifying a city or a state for providing more accurate, localized time.
+Therefore we decided to support current time queries specifying a city or a state for providing more accurate, localized time.
 The state is enough information to receive a location specific time, however specifying a city is more accurate as some states occupy two timezones.
 If only a city is specified, the DM will respond with a dialogue act requesting the state name, unless the city is not ambiguous.
 In that case it will infer the state from the ontology.
 
-The time zone data are received from the Google Time Zone API\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}. With inaccessible API it returns apology act and default computer time for New York, which is Eastern Time Zone.
+The time zone data are received from the Google Time Zone API\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}.
+If the API is inaccessible for some reason it returns apology act and default computer time set for New York, which is Eastern Time Zone.
 Time zone names could be included in the ontology as additional data, however this way, there is no need to keep track of the daylight saving offsets used in some sates.
 
 \subsubsection{Weather forecast}
 
 Following the example of utilizing weather forecast in the Czech PTI, we have implemented an English version.
 It is comforting for the users to be able to obtain weather information at once.
-OpenWeatherMap API\footnote{\url{http://openweathermap.org/api}} is used for collecting weather data.
-The DM takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
-In addition to city and state, the weather forecast can be specified by time.
-The output dialogue act contains a range of temperatures as well as weather condition for given restrictions.
+OpenWeatherMap API\footnote{\url{http://openweathermap.org/api}} is used for receiving weather data.
+Geo location is used for obtaining weather information rather than city and state name.
+%The DM takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
+The city is enough information to receive a weather information with the state being inferred from the ontology much like at providing current time \ref{subsec:time}.
+Unless it is ambiguous in which case it is necessary to specify the state.
+In addition to city and state, the weather forecast can be specified by time either relative or absolute.
+An example of weather dialogue can be seen below.
+
+\begin{flushleft}
+\textit{What is the weather forecast for Denver tomorrow afternoon?}
+\textit{}
+\end{flushleft}
 
 \subsubsection{Finding connection}
 
@@ -78,9 +66,70 @@ When no connection suites the restrictions, an apology dialogue act is produced.
 %nasbíráme vstupy do confusion network a podle pravděpodobnostního rozdělení se rozhodne o faktech, z nich se pak začne 
 
 
-\todo{context resolution, compatibility conflict example}
 
-% \todo{after submitting let FJ lay critique on ya!}
+\subsubsection{Context resolution}
+
+context resolution je to a to, umožňuje snadno cosi a například v dialogu \ref{table:cr} je vidět, že se systém zeptal na výchozí bod, ale uživatel odpověděl jednoduše pouze město, tam zafungovalo context resolution, protože věděl na co se ptal a vyinferoval, že uživatel myslí z nbebo from nebo in. rather than just city
+
+
+\subsubsection{Keeping track of previous states}
+
+je důležité vědět o čem jsme se bavili minule, abychom mohli obsloužit věty, které navazují na dané téma. třeba na příkladu \ref{table:historty} je vidět, že bez toho, abychom věděli, že uživatel mluivl o fining connection a že se uživatel ptal na následující spoj, bychom nevěděli, jak reagovat na větu duration of the trip. - what trip? např
+
+\subsubsection{orthogonal queries}
+
+protože si držíme historii, může to zavést do dialogu někdy nedorozumění, jako například v \ref{table:conflict}. Je vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v DM slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou. Tato situace se dá řečit dvěma způsoby. Negací \ref{subsec:negation} nebo resetem \ref{subsec:reset}
+
+\subsubsection{negation}
+
+pokud systém špatně pochopil co chceme, třeba město, nebo čas, nebo jsme se sami rozmysleli, že nechceme co jsme původně chtěli, můžeme výslovně znegovat tuto volbu, jak je vidět na \ref{table:negation}. Tím se vymaže slot s danou hodnotou a pokud je přítomen stejný slot s jinou, tak se systém zeptá, zda chceme tento a nebo se nás implicitně zeptá jaký že to vlastně chceme.
+
+\subsubsection{reset of the dialogue}
+
+vymažou se všechny sloty a začne se znovu, to může být výhodné v situacích, kdy má systém v sobě spoustu slotů s rovnoměrnou probability distribution a neví jak se rozhonout a prá se uživatele, který už se dávno na vyplněné sloty nechce dotazovat.
+
+\subsection{selection}
+
+když systém neví, kterou zastávku máme namysli, zeptá se.
+
+
+
+
+\subsection{Supplementary intents} %auxiliary, additional, accompanying
+
+The dialogue system has to be able to process speech habits commonly occurring in every dialogue.
+In the table following there are enlisted all of the supplementary intents of the caller PTINY is able to process.
+
+\begin{table}[h]
+\centering
+%\small
+\hspace*{-1pt}\makebox[\linewidth][c]{
+\begin{tabular}{ r | p{0.78\linewidth} }
+	\textit{Event} & \textit{Cause and action taken by PTINY} \\
+	\hline
+	\texttt{greeting} & Courtesy act and prompt for inquiries.\\
+	\texttt{farewell} & Indicates parting and an intent to hang up.\\
+	\texttt{courtesy} & Usually after satisfactory response it concludes a task. The system will encourage user to ask further questions. \\
+	\texttt{help requested} & Provides context sensitive help by randomly selecting a subtopic and saying how to specify a appropriate query. \\
+	\texttt{not understood} & Indistinct ASR input results in an apology and a suggestion to repeat the last utterance.\\ %offer propose, urge, rocommend
+	\texttt{silence} & Nothing has been said for a while. The system will ask if caller is still in the presence. \\ % on the other side.
+	\texttt{} & 
+\end{tabular}
+}
+%\caption{Translation example of dialogue act to sentence by Natural Language Generation component}
+%\label{table:sup}
+\end{table}
+
+The help context is based on what the user was talking about in previous turns.
+If for example the conversation was about the PTI, it may suggest the following.
+\begin{flushleft}
+	\textit{``You can narrow your search by limiting the number of transfers. \\
+	Just say, I want a direct connection, for example.''}
+\end{flushleft}
+
+máme dvě verze rozloučení, jednu pro sbírání dat z CF, která je vidět na \ref{table:tg1} a potom ordinary rozloučení, které místo vydání kodu se ptá na závěrečnou otázku, zda uživatel našel co potřeboval, tím můžeme potom z logů dostat user satisfaction based on Yes/no values.
+
+
 
 
 % accessory
