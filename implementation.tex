@@ -102,10 +102,10 @@ Exemplary DA is shown at \ref{table:utterance}. We can see that the \textit{When
 \begin{table}[h]
 \centering
 \begin{tabular}{ r | l }
-	\textbf{Utterance} & \textit{When does the bus leave?} \\
+	\textbf{Utterance} & \textit{``When does the bus leave?''} \\
 	\textbf{Dialogue Act} & \texttt{request(departure\_time)\&inform(vehicle="bus")}
 \end{tabular}
-\caption{Example of semantic notation of an utterance}
+\caption[Semantic notation of an utterance]{Example of semantic notation of an utterance}
 \label{table:utterance}
 \end{table}
 
@@ -192,10 +192,10 @@ It is evident how the slot value \textit{Broadway} is injected into the template
 	\textbf{Dialogue Act} & \texttt{inform(to\_stop={"Broadway"})\&inform(arrival\_time={"04:26:PM"})} \\
 	\textbf{NLG template} & \texttt{inform(to\_stop=\{to\_stop\})\&inform(arrival\_time=\{arrival\_time\}):} \\
 	 & \hspace{0.5cm} \texttt{"It arrives at \{to\_stop\} at \{arrival\_time\}."} \\
-	\textbf{NLG output} & \textit{It arrives at Broadway at four twenty six P M.}	
+	\textbf{NLG output} & \textit{``It arrives at Broadway at four twenty six P M.''}	
 \end{tabular}
 }
-\caption{Translation example of dialogue act to sentence by Natural Language Generation component}
+\caption[NLG conversion of DA to sentence]{Translation example of dialogue act to sentence by Natural Language Generation component}
 \label{table:nlg}
 \end{table}
 

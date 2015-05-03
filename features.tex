@@ -5,7 +5,7 @@ In this chapter we will describe the functionality of \todo{PTINY} as a whole.
 The features are derived from the DM capabilities, which is the brain of the dialogue system, but each component has to oblige.
 When describing how the DS responds to a particular request, the SLU has to extract semantics from the text input, DM has to decide what to do and NLG has to generate text from the dialogue acts.
 
-\subsection{Providing current time} \label{subsec:time}
+\section{Providing current time} \label{sec:time}
 
 The user can make better route selection decisions based on the knowledge of current time.
 This is why it is important for the system to be able to provide it.
@@ -14,79 +14,294 @@ Therefore we decided to support current time queries specifying a city or a stat
 The state is enough information to receive a location specific time, however specifying a city is more accurate as some states occupy two timezones.
 If only a city is specified, the DM will respond with a dialogue act requesting the state name, unless the city is not ambiguous.
 In that case it will infer the state from the ontology.
+An example of current time inquiry is shown in table \ref{table:time}.
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
+	\texttt{User} & \textit{``What is the time now in California?''} \\ \hline
+	\texttt{System} & \textit{``In California, it is 6:01 AM, Pacific Daylight Time.''} \\ \hline
+\end{tabular}
+\caption[Current time in California]{Example dialogue for obtaining current time in California.}
+\label{table:time}
+\end{table}
 
 The time zone data are received from the Google Time Zone API\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}.
 If the API is inaccessible for some reason it returns apology act and default computer time set for New York, which is Eastern Time Zone.
 Time zone names could be included in the ontology as additional data, however this way, there is no need to keep track of the daylight saving offsets used in some sates.
 
-\subsubsection{Weather forecast}
+\section{Weather forecast}
 
-Following the example of utilizing weather forecast in the Czech PTI, we have implemented an English version.
 It is comforting for the users to be able to obtain weather information at once.
+Following the example of utilizing weather forecast in the Czech PTI, we have implemented an English version.
 OpenWeatherMap API\footnote{\url{http://openweathermap.org/api}} is used for receiving weather data.
-Geo location is used for obtaining weather information rather than city and state name.
 %The DM takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
-The city is enough information to receive a weather information with the state being inferred from the ontology much like at providing current time \ref{subsec:time}.
-Unless it is ambiguous in which case it is necessary to specify the state.
-In addition to city and state, the weather forecast can be specified by time either relative or absolute.
-An example of weather dialogue can be seen below.
 
-\begin{flushleft}
-\textit{What is the weather forecast for Denver tomorrow afternoon?}
-\textit{}
-\end{flushleft}
+Specifying the city is enough to receive a weather information with the state being inferred from the ontology much like when providing current time, described at section \ref{sec:time}.
+Except if the city is ambiguous, then it is necessary to specify the state as demonstrated in table \ref{table:forecast}.
+In addition to city and state, the weather inquiry can be defined by time either relative or absolute.
 
-\subsubsection{Finding connection}
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
+	\texttt{User} & \textit{``What will be the weather like in five hours?''} \\ \hline
+	\texttt{System} & \textit{``In five hours It will be forty six degrees and clear sky.''} \\ \hline
+\end{tabular}
+\caption[Weather inquiry by relative time]{Example dialogue for obtaining weather information by relative time specification.}
+\label{table:weather}
+\end{table}
+
+The API allows to ask for the weather at a specific time as well as for the weather forecast for the whole day.
+In the first example \ref{table:weather}, there is a weather inquiry specified only by time.
+Default city of New York is used as a reference point.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
+	\texttt{User} & \textit{``Tell me the tomorrow weather forecast for Denver.''} \\ \hline
+	\texttt{System} & \textit{``Alright, in Denver tomorrow, please specify the state.''} \\ \hline
+	\texttt{User} & \textit{``Colorado.''} \\ \hline
+	\texttt{System} & \textit{``In Colorado, tomorrow it will be light rain, temperatures forty five to sixty one degrees.''} \\ \hline
+\end{tabular}
+\caption[Weather forecast for the next day in Denver, Colorado]{Example dialogue for obtaining weather forecast for the next day in Denver, Colorado.}
+\label{table:forecast}
+\end{table}
+
+The second example \ref{table:forecast} shows inquiry of the weather forecast for the next day in Denver, Colorado.
+The temperature units are in degrees Fahrenheit.
+
+\section{Finding a connection}
 
 %finding trip, transit, route, schedule
-The prime asset of our dialogue system is the ability to effectively respond to transport connection requests.
-%\todo{nějakej žvást o vyhledávání spojů}
-The key restrictions are the location from and where to travel, which is either a city, stop or an intersection of two streets.
-The ambiguities of waypoints are resolved in similar manner as in time zone or weather forecast case.
-The DM tries to infer city or borough and returns a request for waypoint specification only if an ambiguity is found.
-If according to ontology, the specified street or stop is not located in a given borough or city, an apology dialogue act is produced.
-User can further specify the departure or arrival time both in absolute and relative forms, a preferred vehicle and the maximum number of transfers.
-The nature of the DM allows to specify these restrictions at once or one by one which makes for better utilization of the dialogue system.
-If any of the key restrictions are missing, the DM issues a dialogue act demanding appropriate additional information.
-After the DM responded with a route proposition, the user can either further specify his query or ask about the connection attributes.
-This includes the origin, destination, arrival and departure times, number of transfers and the duration of the trip.
+The prime asset of PTINY is the ability to effectively respond to transport connection requests.
+
+\subsubsection{Connection restrictions}
+
+The key restrictions are the location from and where to travel, which is either a city, borough, stop or an intersection of two streets.
+The ambiguity of a waypoint is resolved in similar manner as in the case of time zone or weather queries.
+%The dialogue system will ask to specify the waypoint by more general or specific area.
+The DM tries to infer the waypoint and returns a request for either more general or more limited area specification only if an ambiguity is found.
+
+User can further specify the following criteria.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ r | p{0.7\linewidth} }
+	Criteria & Restrictive utterance example \\ \hline
+	departure time & \textit{``I want to depart in ten minutes.''} \\
+	arrival time & \textit{``I want to be there at five o'clock.''} \\
+	preferred vehicle & \textit{``I want to go by bus.''} \\
+	transfer count & \textit{``I want to transfer two times at most.''}
+\end{tabular}
+\caption[Restrictive criteria specification]{Connection search criteria paired with example utterances.}
+\label{table:attributes}
+\end{table}
+
+Both departure and arrival times can be specified in absolute or relative form.
+The nature of the DM allows to say these restrictions at once or one by one which makes for better utilization of the dialogue system.
+If any of the key restrictions are missing, the system demands appropriate additional information.
+
+After the system responds with a route proposition, the user can either further specify his query or ask about the following connection attributes.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ r | p{0.7\linewidth} }
+	Attribute & Inquiry example \\ \hline
+	\textbf{origin} & \textit{``Where does it leave from?''} \\
+	\textbf{destination} & \textit{``What is the destination?''} \\
+	\textbf{arrival time} & \textit{``How long till i be there?''} \\
+	\textbf{departure time} & \textit{``When does it leave?''} \\
+	\textbf{transfer count} & \textit{``How many transfers are there?''} \\
+	\textbf{transfer duration} & \textit{``How long do the transfers take?''} \\
+	\textbf{trip duration} & \textit{``How long will i travel?''} \\
+	\textbf{trip distance} & \textit{``What is the distance of the trip?''}
+\end{tabular}
+\caption[Details about provided connection]{Inquiry examples regarding different attributes of given connection.}
+\label{table:attributes}
+\end{table}
+
 The trips in New York can be very long, hence the sequence of instructions is exhaustive.
-This is why we have added the option to ask about the length of the trip, which tells not only the mileage, but also the number of stops to pass through before each transfer.
-The user can also browse through offered connections back and forth by requesting next, previous or explicit number of the connection in case the current route does not satisfy user's needs.
-For a given time, there are four alternative connections on offer by default.
+Thus the length of the trip informs not only about the mileage, but also about the number of stops to pass through before each transfer.
+Whereas for the duration, system responses only with the time value as demonstrated in table \ref{table:distance}.
+%Thus we have included the option to ask about the length of the trip, which tells not only the mileage, but also the number of stops to pass through before each transfer.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
+	\texttt{User} & \textit{``I want to go from Central Park to Broadway, Queens.''} \\ \hline
+	\texttt{System} & \textit{``From central park to Broadway in Queens, as a first possibility
+	I have found the following connection.
+	Walk to 5th Av and East 84th St. 
+	Take the bus M4 at 1:55 PM from 5th Av and East 84th St towards Midtown Penn Station via Broadway via Fifth avenue.
+	Get off at Fifth Av and West 60 - 59th St. Walk to 5th Av and 59th St.
+	Take the subway N at 2:11 PM from 5th Ave and 59th St towards Astoria, Ditmars Blvd. 
+	Get off at Broadway.''} \\ \hline
+	\texttt{User} & \textit{``Tell me the distance of the trip.''} \\ \hline
+	\texttt{System} & \textit{``The trip is 5.2 miles long, You will travel 10 stops from 5th Ave and East 84th St by bus M4, then it is 5 stops by subway N from 5th Av and 59th St.''} \\ \hline
+	\texttt{User} & \textit{``Now, tell me the duration of the trip.''} \\ \hline
+	\texttt{System} & \textit{``It takes about 26 minutes.''} \\ \hline
+\end{tabular}
+\caption[Particular connection with distance and duration inquiries]{Providing a connection from Central Park to Broadway, Queens is portrayed. Responses to distance and duration inquiries are demonstrated.}
+\label{table:distance}
+\end{table}
+
+\subsubsection{The Google Directions API}
 
 We use the Google Directions API\footnote{\url{https://developers.google.com/maps/documentation/directions/}} to acquire connection data.
 For simple from-to queries we use free API accessible through HTTP and we only use API key for more restrictive queries with preferred vehicle and transfer count limitations.
-This maximizes the utilization of the key before it reaches a monthly fee threshold.
-The transfer count is not directly mapped to an API request, it is rather computed from the API response.
-When no connection suites the restrictions, an apology dialogue act is produced.
-%advanced capabilities, when transfer count or preferred vehicle type is specified
+This maximizes the utilization of the key before reaching a monthly fee threshold. \ask{delete this?}
+The transfer count is not directly mapped to an API request, the offered links are rather filtered by the criteria from the API response.
+When no connection suites the restrictions, an apology utterance is issued.
+
+\subsubsection{Choosing the alternative}
+
+Users can browse through offered connections back and forth by requesting next, previous or by saying the explicit number of the connection if the current route does not satisfy their needs.
+By default, there are four alternative connections at disposal, sorted by departure time.
 
 
-%nasbíráme vstupy do confusion network a podle pravděpodobnostního rozdělení se rozhodne o faktech, z nich se pak začne 
+\subsubsection{Alternatives in combination with criteria inquiries}
+
+As some route descriptions may be quite long, it is handy to take a peek at other connection attributes without the need to browse through them. An example of peeking is demonstrated in table \ref{table:peek}
+This can be used prior to selecting particular alternative connection.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	Speaker & Utterance \\ \hline
+	\texttt{User} & \textit{How long does the next link take?} \\ \hline
+	\texttt{System} & \textit{The second connection takes about 51 minutes.} \\ \hline
+	\texttt{User} & \textit{How long till the third connection arrives?} \\ \hline
+	\texttt{System} & \textit{The third subway reaches Broadway in 1 hour and 17 minutes.} \\ \hline
+\end{tabular}
+\caption[Alternative attribute peek]{Example of obtaining attributes from alternative connections.}
+\label{table:peek}
+\end{table}
 
 
+\section{General cases \todo{better name}}
+
+The following examples apply to general dialogue.
+Supporting features are presented.
+
+\subsubsection{Conflict apology}
+
+If, according to the ontology, a specified city is not located at a given state, an apology utterance is produced.
+Similarly a street or stop to borough or city conflicts are checked.
+An example is shown at table \ref{table:conflict}
+This type of behavior occurs in all other tasks, too.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	Speaker & Utterance \\ \hline
+	\texttt{User} & \textit{Tell me the weather forecast for Las Vegas in Iowa} \\ \hline
+	\texttt{System} & \textit{I'm sorry, but the city Las Vegas is not located in a state of Iowa.} \\ \hline
+\end{tabular}
+\caption[Conflict example of incompatible waypoints]{Example dialogue producing an apology act resulting from incompatibility based on static knowledge from the ontology.}
+\label{table:conflict}
+\end{table}
+
+This situation can be settled by two different ways.
+The conflict can be resolved by negation of the wrong value as shown in \ref{table:negation}.
+Or the dialogue can be restarted as portrayed at table \ref{table:reset}.
+\ask{Ask about refing the subsubsections}
+
+\subsubsection{Negation}
+
+If the system miscomprehended user's intent or the user decided to change his mind there needs to be a way to reverse the input.
+User can explicitly negate the wrong value which causes a relevant slot value to be erased.
+An example of negating a value is in table \ref{table:negation}.
+The system either issues an implicit confirmation of identical slot with a value from history, or if there is not any, it asks implicitly about the desired value.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	Speaker & Utterance \\ \hline
+	\texttt{User} & \textit{} \\ \hline
+	\texttt{System} & \textit{} \\ \hline
+\end{tabular}
+\caption[]{}
+\label{table:negation}
+\end{table}
 
 \subsubsection{Context resolution}
 
-context resolution je to a to, umožňuje snadno cosi a například v dialogu \ref{table:cr} je vidět, že se systém zeptal na výchozí bod, ale uživatel odpověděl jednoduše pouze město, tam zafungovalo context resolution, protože věděl na co se ptal a vyinferoval, že uživatel myslí z nbebo from nebo in. rather than just city
+The dialogue system needs to be able to interpret user's utterance in the context of previously spoken topic.
+Partially this is achieved by keeping track of previous states, however, there are situations like the one portrayed in table \ref{table:cr}, where more sophisticated strategy needs to be engaged.
+\ask{is this true?}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	Speaker & Utterance \\ \hline
+	\texttt{System} & \textit{Which stop do You want to depart?} \\ \hline
+	\texttt{User} & \textit{Florida.} \\ \hline
+	\texttt{System} & \textit{Alright, from Florida, where do You want to go to?} \\ \hline
+\end{tabular}
+\caption[Context resolution]{Example of city context resolution.}
+\label{table:cr}
+\end{table}
+
+In the example, the system asks about the initial stop.
+The user replies with a city without a preposition.
+Even though the system was asking about a stop, the DM needs to deduce that the user does not want to go from particular stop, but rather from the city of Florida.
+These automatic relations are defined in the ontology.
+%protože věděl na co se ptal a vyinferoval, že uživatel myslí z nbebo from nebo in. rather than just city
 
 
-\subsubsection{Keeping track of previous states}
+% \subsubsection{Keeping track of previous states}
 
-je důležité vědět o čem jsme se bavili minule, abychom mohli obsloužit věty, které navazují na dané téma. třeba na příkladu \ref{table:historty} je vidět, že bez toho, abychom věděli, že uživatel mluivl o fining connection a že se uživatel ptal na následující spoj, bychom nevěděli, jak reagovat na větu duration of the trip. - what trip? např
+% It is important to know what was the topic in the previous utterances to correctly answer inquiries.
+% This is fundamental not only for responding to details about particular connection, but also for other tasks, too as shown in table \ref{table:history}.
+% \ask{is this a good example, shouldn't this be deleted and mentioned somewhere w/o the example - the ``orthogonal queries'' is maybe the second side of the same coin}
 
-\subsubsection{orthogonal queries}
+% \begin{table}[h]
+% \centering
+% \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+% 	Speaker & Utterance \\ \hline
+% 	\texttt{User} & \textit{What is the weather like in Saint Louis, Missouri?} \\ \hline
+% 	\texttt{System} & \textit{In Saint Louis, It is eighty degrees and clear sky.} \\ \hline
+% 	\texttt{User} & \textit{What is the time there?} \\ \hline
+% 	\texttt{System} & \textit{In Missouri, it is 2:32 PM, Central Daylight Time.} \\ \hline
+% \end{tabular}
+% \caption[Keeping track of previous utterances]{Example of utilizing previous utterances for the purpose of providing a sensible response between two tasks.}
+% \label{table:history}
+% \end{table}
 
-protože si držíme historii, může to zavést do dialogu někdy nedorozumění, jako například v \ref{table:conflict}. Je vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v DM slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou. Tato situace se dá řečit dvěma způsoby. Negací \ref{subsec:negation} nebo resetem \ref{subsec:reset}
+\subsubsection{Orthogonal queries}
 
-\subsubsection{negation}
+It is essential for the system to be aware of the previous utterances to produce correct responses.
+However, as the history is being kept, it may lead to misunderstandings.
+An obvious confusion may occur when asking about orthogonal queries as showed in table \ref{table:confusion}
 
-pokud systém špatně pochopil co chceme, třeba město, nebo čas, nebo jsme se sami rozmysleli, že nechceme co jsme původně chtěli, můžeme výslovně znegovat tuto volbu, jak je vidět na \ref{table:negation}. Tím se vymaže slot s danou hodnotou a pokud je přítomen stejný slot s jinou, tak se systém zeptá, zda chceme tento a nebo se nás implicitně zeptá jaký že to vlastně chceme.
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	Speaker & Utterance \\ \hline
+	\texttt{User} & \textit{``What is the weather like in Saint Louis, Missouri?''} \\ \hline
+	\texttt{System} & \textit{``In , It is eighty degrees and clear sky.''} \\ \hline
+	\texttt{User} & \textit{``What is the weather like in Alaska?''} \\ \hline
+	\texttt{System} & \textit{``I am sorry, I don't understand, the city Saint Louis is not located in Alaska.''} \\ \hline
+\end{tabular}
+\caption[Orthogonal time queries]{Example of location confusion from the previous utterance.}
+\label{table:confusion}
+\end{table}
 
-\subsubsection{reset of the dialogue}
+From the example it is evident, that the system did not forget that the user mentioned the city of Saint Louis, which was considered relevant in the next turn, where it did not pass the compatibility test based on knowledge from the ontology.
+Which of course leads to an apology utterance as mentioned earlier.
+
+%e vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v DM slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou.
+
+
+\subsubsection{Reset of the dialogue}
 
 vymažou se všechny sloty a začne se znovu, to může být výhodné v situacích, kdy má systém v sobě spoustu slotů s rovnoměrnou probability distribution a neví jak se rozhonout a prá se uživatele, který už se dávno na vyplněné sloty nechce dotazovat.
+\ref{table:reset}
 
 \subsection{selection}
 
@@ -105,8 +320,7 @@ In the table following there are enlisted all of the supplementary intents of th
 %\small
 \hspace*{-1pt}\makebox[\linewidth][c]{
 \begin{tabular}{ r | p{0.78\linewidth} }
-	\textit{Event} & \textit{Cause and action taken by PTINY} \\
-	\hline
+	\textit{Event} & \textit{Cause and action taken by PTINY} \\ \hline
 	\texttt{greeting} & Courtesy act and prompt for inquiries.\\
 	\texttt{farewell} & Indicates parting and an intent to hang up.\\
 	\texttt{courtesy} & Usually after satisfactory response it concludes a task. The system will encourage user to ask further questions. \\
