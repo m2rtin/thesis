@@ -173,10 +173,10 @@ This can be used prior to selecting particular alternative connection.
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	Speaker & Utterance \\ \hline
-	\texttt{User} & \textit{How long does the next link take?} \\ \hline
-	\texttt{System} & \textit{The second connection takes about 51 minutes.} \\ \hline
-	\texttt{User} & \textit{How long till the third connection arrives?} \\ \hline
-	\texttt{System} & \textit{The third subway reaches Broadway in 1 hour and 17 minutes.} \\ \hline
+	\texttt{User} & \textit{``How long does the next link take?''} \\ \hline
+	\texttt{System} & \textit{``The second connection takes about 51 minutes.''} \\ \hline
+	\texttt{User} & \textit{``How long till the third connection arrives?''} \\ \hline
+	\texttt{System} & \textit{``The third subway reaches Broadway in 1 hour and 17 minutes.''} \\ \hline
 \end{tabular}
 \caption[Alternative attribute peek]{Example of obtaining attributes from alternative connections.}
 \label{table:peek}
@@ -199,8 +199,8 @@ This type of behavior occurs in all other tasks, too.
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	Speaker & Utterance \\ \hline
-	\texttt{User} & \textit{Tell me the weather forecast for Las Vegas in Iowa} \\ \hline
-	\texttt{System} & \textit{I'm sorry, but the city Las Vegas is not located in a state of Iowa.} \\ \hline
+	\texttt{User} & \textit{``Tell me the weather forecast for Las Vegas in Iowa''} \\ \hline
+	\texttt{System} & \textit{``I'm sorry, but the city Las Vegas is not located in a state of Iowa.''} \\ \hline
 \end{tabular}
 \caption[Conflict example of incompatible waypoints]{Example dialogue producing an apology act resulting from incompatibility based on static knowledge from the ontology.}
 \label{table:conflict}
@@ -213,19 +213,22 @@ Or the dialogue can be restarted as portrayed at table \ref{table:reset}.
 
 \subsubsection{Negation}
 
-If the system miscomprehended user's intent or the user decided to change his mind there needs to be a way to reverse the input.
-User can explicitly negate the wrong value which causes a relevant slot value to be erased.
-An example of negating a value is in table \ref{table:negation}.
-The system either issues an implicit confirmation of identical slot with a value from history, or if there is not any, it asks implicitly about the desired value.
+If the system miscomprehended user's intent or the user decided to change his mind, there needs to be a way to reverse the input.
+User can explicitly negate the wrong value which causes a relevant slot in the system to be erased.
+The system either issues an implicit confirmation of identical slot with a different value from history, or if there is not any, it asks about the desired value of the slot as shown in table \ref{table:negation}.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	Speaker & Utterance \\ \hline
-	\texttt{User} & \textit{} \\ \hline
-	\texttt{System} & \textit{} \\ \hline
+	\texttt{User} & \textit{``I want to go from Forty Sixth Street.''} \\ \hline
+	\texttt{System} & \textit{``Alright, from Forty Sixth Street, Where are You heading?''} \\ \hline	
+	\texttt{User} & \textit{``You know what, no, not from Forty Sixth Street.''} \\ \hline
+	\texttt{System} & \textit{``Where are You going from?''} \\ \hline
+	\texttt{User} & \textit{``Thirty Sixth Street.''} \\ \hline
+	\texttt{System} & \textit{``You want to go from Thirty Sixth Street, where do You want to go to?''} \\ \hline
 \end{tabular}
-\caption[]{}
+\caption[Changing input by negation]{An example of changing mind and subsequent correction by negation.}
 \label{table:negation}
 \end{table}
 
@@ -239,9 +242,9 @@ Partially this is achieved by keeping track of previous states, however, there a
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	Speaker & Utterance \\ \hline
-	\texttt{System} & \textit{Which stop do You want to depart?} \\ \hline
-	\texttt{User} & \textit{Florida.} \\ \hline
-	\texttt{System} & \textit{Alright, from Florida, where do You want to go to?} \\ \hline
+	\texttt{System} & \textit{``Which stop do You want to depart?''} \\ \hline
+	\texttt{User} & \textit{``Miami.}'' \\ \hline
+	\texttt{System} & \textit{``Alright, from Miami, where do You want to go to?''} \\ \hline
 \end{tabular}
 \caption[Context resolution]{Example of city context resolution.}
 \label{table:cr}
@@ -249,7 +252,7 @@ Partially this is achieved by keeping track of previous states, however, there a
 
 In the example, the system asks about the initial stop.
 The user replies with a city without a preposition.
-Even though the system was asking about a stop, the DM needs to deduce that the user does not want to go from particular stop, but rather from the city of Florida.
+Even though the system was asking about a stop, the DM needs to deduce that the user does not want to go from particular stop, but rather from the city of Miami.
 These automatic relations are defined in the ontology.
 %protože věděl na co se ptal a vyinferoval, že uživatel myslí z nbebo from nebo in. rather than just city
 
@@ -297,51 +300,63 @@ Which of course leads to an apology utterance as mentioned earlier.
 
 %e vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v DM slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou.
 
+\subsubsection{Selection and confirmation of slot values}
+
+When the DM confusion network contains more values of the same slot that have non-zero probabilities, it has to decide what value is intended by the user.
+The system will either produce a selection or confirmation utterance based on the probability distribution of the values at particular slot.
+The selection utterance is challenging the user to decide between two values with same probability.
+Whereas the confirmation is a yes-no question about slot with concrete value.
+\ask{should we mention this. It virtually does not occur.}
+
 
 \subsubsection{Reset of the dialogue}
 
-vymažou se všechny sloty a začne se znovu, to může být výhodné v situacích, kdy má systém v sobě spoustu slotů s rovnoměrnou probability distribution a neví jak se rozhonout a prá se uživatele, který už se dávno na vyplněné sloty nechce dotazovat.
-\ref{table:reset}
+The dialogue system may get to a point, where its confusion network contains many uniformly distributed values within the same slot and it asks the user for resolving the correct value, whereas the user considers the matter closed.
+This may for example arise when user, after receiving a connection link, wants a different one.
+The system may no longer be able to appropriately respond to user's requests and altering values by negation is not effective.
+When such situation occurs, the system can be restarted by saying a phrase \textit{``new entry''} or \textit{``restart''} or similar keyword indicating new entry.
+Reseting erases all the slots in the dialogue system and it prompts the user to start asking from the beginning.
 
-\subsection{selection}
-
-když systém neví, kterou zastávku máme namysli, zeptá se.
-
-
-
-
-\subsection{Supplementary intents} %auxiliary, additional, accompanying
+\subsubsection{Supplementary intents} %auxiliary, additional, accompanying
 
 The dialogue system has to be able to process speech habits commonly occurring in every dialogue.
-In the table following there are enlisted all of the supplementary intents of the caller PTINY is able to process.
+In the table \ref{table:sup} there are enlisted all of the supplementary intents of the caller that PTINY is able to process.
 
 \begin{table}[h]
 \centering
 %\small
-\hspace*{-1pt}\makebox[\linewidth][c]{
-\begin{tabular}{ r | p{0.78\linewidth} }
-	\textit{Event} & \textit{Cause and action taken by PTINY} \\ \hline
+%\hspace*{-1pt}\makebox[\linewidth][c]{
+\begin{tabular}{ r | p{0.73\linewidth} }
+	\textit{Intent} & \textit{Cause and action taken by PTINY} \\ \hline
 	\texttt{greeting} & Courtesy act and prompt for inquiries.\\
 	\texttt{farewell} & Indicates parting and an intent to hang up.\\
 	\texttt{courtesy} & Usually after satisfactory response it concludes a task. The system will encourage user to ask further questions. \\
 	\texttt{help requested} & Provides context sensitive help by randomly selecting a subtopic and saying how to specify a appropriate query. \\
 	\texttt{not understood} & Indistinct ASR input results in an apology and a suggestion to repeat the last utterance.\\ %offer propose, urge, rocommend
-	\texttt{silence} & Nothing has been said for a while. The system will ask if caller is still in the presence. \\ % on the other side.
-	\texttt{} & 
+	\texttt{silence} & Nothing has been said for a while. The system will ask if caller is still in the presence. % on the other side.
 \end{tabular}
-}
-%\caption{Translation example of dialogue act to sentence by Natural Language Generation component}
-%\label{table:sup}
+%}
+\caption[Response actions for supplementary intents]{Response actions for supplementary intents}
+\label{table:sup}
 \end{table}
 
 The help context is based on what the user was talking about in previous turns.
-If for example the conversation was about the PTI, it may suggest the following.
-\begin{flushleft}
-	\textit{``You can narrow your search by limiting the number of transfers. \\
-	Just say, I want a direct connection, for example.''}
-\end{flushleft}
+If for example the conversation was about the finding connection, it may suggest the following.
 
-máme dvě verze rozloučení, jednu pro sbírání dat z CF, která je vidět na \ref{table:tg1} a potom ordinary rozloučení, které místo vydání kodu se ptá na závěrečnou otázku, zda uživatel našel co potřeboval, tím můžeme potom z logů dostat user satisfaction based on Yes/no values.
+\begin{table}[h]
+\centering
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+	Speaker & Utterance \\ \hline
+	\texttt{User} & \textit{``Help.''} \\ \hline
+	\texttt{System} & \textit{``You can narrow your search by limiting the number of transfers.
+	Just say, I want a direct connection, for example.''} \\ \hline
+\end{tabular}
+\caption[Context sensitive help]{Example of context sensitive help utterance.}
+\label{table:confusion}
+\end{table}
+
+
+%máme dvě verze rozloučení, jednu pro sbírání dat z CF, která je vidět na \ref{table:tg1} a potom ordinary rozloučení, které místo vydání kodu se ptá na závěrečnou otázku, zda uživatel našel co potřeboval, tím můžeme potom z logů dostat user satisfaction based on Yes/no values.
 
 
 
