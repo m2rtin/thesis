@@ -1,17 +1,16 @@
 \chapter{Workflows - Development processes} \label{ch:workflow}
 
-This chapter is concerned with the process of several procedures repeatedly used while developing spoken dialogue system providing public transport information in New York.
+This chapter is concerned with the process of several procedures repeatedly used while developing spoken dialogue system providing public transport information in New York (PTINY).
 Very similar approaches might be taken for the development of dialogue systems in different domains.
-
 
 \section{Creating CrowdFlower Job}
 
-Assembling a Crowdflower job can be realized through one of many templates for ordinary tasks such as various data analysis, entity annotation, categorization, comparison, revision and many more.%, review, transcription %etc. %executed, accomplished
+Assembling a CrowdFlower job can be realized through one of many templates for ordinary tasks such as various data analysis, entity annotation, categorization, comparison, revision and many more.%, review, transcription %etc. %executed, accomplished
 Custom and more sophisticated tasks can be carried out from scratch.
 It is desirable that the tasks are as simple as possible to eliminate errors resulting from the lack of knowledge or misinterpretation.
 
 %The platform automatically inserts test question and evaluates contributors based on them.
-Crowdflower provides a web interface for work requesters to edit the task by CrowdFlower Markup Language (CML), CSS and custom JavaScript that runs once on page load.
+CrowdFlower provides a web interface for work requesters to edit the task by CrowdFlower Markup Language (CML), CSS and custom JavaScript that runs once on page load.
 There is a possibility to inject custom HTML code as well.
 CML and JavaScript are essential for leveraging Crowdflower's quality control.
 Both mandatory and optional input controls have to be specified with the CML.
@@ -22,7 +21,7 @@ We created a call job for testing operational dialogue system.
 Its purpose is to encourage solvers to call on a toll-free number and ask questions about the public transport in New York and to evaluate and rate the system.
 
 To ensure the call is carried out thoroughly by the contributor, we employed a simple generator of four digit codes.
-This code is handed out by the dialogue system after finishing a call.
+A code is handed out by the dialogue system after finishing a call.
 It is spelled number after number three times over.
 In the same time, the code is registered at a validation server running on a dedicated MetaCentrum VM.
 Without this code it is not possible to submit a feedback form and finish the job.
@@ -30,12 +29,13 @@ Without this code it is not possible to submit a feedback form and finish the jo
 This behavior of the CrowdFlower job is enforced by a CML control with a custom JavaScript validator.
 When contributor inserts a code to the CML control, the validator sends a request with the code to the validation server.
 Server compares the code with a set of registered codes from the dialogue system.
-Only after positive server response is acquired the validator passes.
+Only after receiving positive server response the validator passes.
 It is unnecessary to match callers identity, this is sufficient measure for enforcing the call.
 %The request needs to be sent over HTTPS, otherwise CrowdFlower will terminate it.
-\ask{should we introduce a figure of the validation process to destroy the block of text? or later figure of the feedback form?}
+\ask{should we introduce a figure of the validation process to destroy the block of text? or a figure of the feedback form or CF pages?}
 
-To further maximize the efficiency, the dialogue system only hands out the validation code after minimum number of turns is passed. %we imposed a rule for a code giveaway.
+To further maximize the efficiency, we imposed a rule for the code giveaway.
+The dialogue system only hands out the validation code after minimum number of turns has passed.
 This prevents the callers from saying \textit{``Hello, Good bye!''} and collecting the validation code and therefore the reward without fulfilling the task.
 
 The job web page was built as a survey job from scratch.
@@ -48,42 +48,19 @@ In the premise of the job, we declare four paragraphs concerning the job.
 	\item \textbf{Example call} - Demonstrative dialogue between caller and our dialogue system.
 	\item \textbf{Consent} - Legal statement concerning the data management and recording the call.
 \end{itemize}
-\ask{should we expand on that?}
 
 %From the example call solvers could pick up how to ask if they were helpless
-%A brief specification of the stops between which caller wants to find a connection follows after the premise.
+
 Stops between which caller wants to find a connection are quoted after the premise.
 Additional question about the link are urged for exploiting the dialogue system features.
 
 A feedback form of subjective user satisfaction concludes the job page.
-In addition to the following question an optional field for general comments and mandatory field for the validation code are within the form.
+In addition to the mandatory questions an optional field for general comments and field for the validation code are within the form.
 
-% \begin{itemize}
-% 	\item \textit{Have you found what you were looking for?} - Yes/No question
-% 	\item \textit{The system understood me:} - range of 1 to 4 from Very poorly to Very well
-% 	\item \textit{The phrasing of the system's response was:} - range of 1 to 4 from Very poor to Very good
-% 	\item \textit{The quality of the system's voice was:} - range of 1 to 4 from Very poor to Very good
-% \end{itemize}
-
-\begin{table}[h]
-\centering
-\hspace*{-3pt}\makebox[\linewidth][c]{
-	\begin{tabular}{ r | p{0.6\linewidth} }
-	\textit{Have you found what you were looking for?} & Yes/No question \\
-	\textit{The system understood me:} & range of 1 to 4 from Very poorly to Very well \\
-	\textit{The phrasing of the system's response was:} & range of 1 to 4 from Very poor to Very good \\
-	\textit{The quality of the system's voice was:} & range of 1 to 4 from Very poor to Very good \\
-\end{tabular}
-}
-\end{table}
-\ask{should this be mentioned in the results rather?}
-
-A toll-free number was used for this job.
-Crowdflower allows to geographically limit work force only to United States.
-\ask{which was important for collecting local Acoustic data?}
-\todo{mention one call per job to ensure diversity of callers?}
-Four VMs on MetaCentrum were dedicated to this job to serve multiple callers. %collecting data evenly.
-
+A toll-free number provided by the department was used for this job.
+CrowdFlower allows to geographically limit work force only to United States.
+The number of calls per job was temporarily set to one to ensure the diversity of callers.
+Four VMs on MetaCentrum were dedicated to this job to serve multiple callers.
 
 \subsection{Transcription job}
 
@@ -100,8 +77,8 @@ Data are uploaded to CrowdFlower via CSV file that contains a list of URLs with 
 The default setup suggests to let each track transcribe three times for accuracy.
 Even more transcriptions yield from setting up dynamic judgments.
 However, repeated labeling is costly and may tend to move towards the in-house solution in that regard. %aspect
-We decided to keep multiple transcriptions, while reducing cost per transcription.
-The ultimate transcription is decided upon later from the job results by a custom semi-automatic script.
+We decided to keep multiple transcriptions while reducing costs per transcription.
+The ultimate transcription is decided upon later from the job results by a custom semi-automatic Python script.
 
 CrowdFlower uses test questions for separating the good transcribers from the bad.
 Test questions in this job are essentially manual transcriptions.
@@ -109,7 +86,8 @@ We utilized a quiz mode that estimates the quality of a contributor beforehand.
 It is assembled from test questions and lets only trusted contributors to participate in the job.
 %CrowdFlower offers the option of screening users via quiz that takes place beforehand to determine quality of the worker.
 
-In the instructions we defined examples of how common words should be handled and a table with symbols for incomprehensible tracks was specified.
+In the instructions we defined examples of how common words should be handled.
+Also a table with symbols for incomprehensible tracks was specified.
 It is a good practice to let the users know the context.
 The contributors were more content when a list of phrases they might hear was included.% even though the test questions were strict.
 In our case the list included phrases like \textit{number of transfers}, \textit{duration of the trip}, \textit{weather forecast}, origin and destination stops etc.
@@ -125,13 +103,7 @@ Therefore we made a bootstrap list of sentences with their semantic complements,
 When an operational dialogue system was achieved, we employed CrowdFlower workforce for obtaining feedback from real users.
 Analyzing logs was very important for discovering ways of inquiring information which we initially did not think of.
 The log analysis and feedback form from CrowdFlower jobs also provided an input on what features are missing or need improvement.
-This was an iterative process of improvement captured in an essence in the following steps. %nutshell, rundown, synopsis, digest
-
-%dulezite je tam rict, ze jsi zacal s bootstrapem a pak jsi iterativne pokracoval tak, ze jsi spustil, testoval, vylepsil
-%dulezite bylo snirat feedback od realnych uzivatelu
-%takze buzzwords, ktere tam musis mit: bootstrap, iterative improvement, a feedback from the users
-
-
+The iterative process of improvement is captured in essence by the following steps. %nutshell, rundown, synopsis, digest
 
 \begin{enumerate}
 	\item Launch a CrowdFlower call job
@@ -145,7 +117,6 @@ This was an iterative process of improvement captured in an essence in the follo
 	\item Upload source code to VMs
 	\item Restart the dialogue systems.
 \end{enumerate}
-\ask{would be a picture better here or both itemize?}
 
 %This rundown may be executed multiple times per job
 %logs render a room for improvement.
@@ -155,15 +126,11 @@ Any folder can be mounted to the docker container via \texttt{-v} flag.
 Uploading source code to update dialogue system on VM is therefore effortless and makes the development loop very quick.
 
 
-%flag -v is used for mounting directories propojení the isolated container with native system
-%It can be easily distributed to any virtual machine  and it is an universal because it uses ubuntu inside. This allowed us to configure the image only once and than run it elsewhere. Development is also really usnadněný díky optionu -v, kterým jsme schopni propašovat libovolný adresář. So the workflow vypadal asi tak, že jsme měli i třeba starou verzi ptien zabejkovanou se všema dependencema a včkem jsme tam propašovali adresář s celým ADSF. na virtuálku jsme to dostali pomocí rsyncu, kterej updatoval pouze změněný adresáře. This allowed us really quick development loop, quick fixes of deployed sytem etc.
-
 \section{Building Kaldi ASR}
 
 For building Kaldi decoder we used Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} docker image containing the essential tools.
 It is necessary to add dependencies for ASDF if building and evaluation is intended within the platform.
 SRILM\footnote{\url{http://www.speech.sri.com/projects/srilm/}} must be installed for training language model (LM).
-\ask{should we even say this?}
 
 %\subsubsection{Language model}
 
@@ -172,17 +139,17 @@ It is used for balancing probabilities of every database entry within its class 
 Finally, we need to define domain specific corpus for training the LM .
 Our training data consist of utterances from CrowdFlower call logs, bootstrap utterances and utterances generated by grammar.
 
-\subsubsection{Grammar} \todo{subsection or subsubsection?}
+\subsubsection{Context-free grammar}
 
 Creating a good LM entails a good probability distribution of words in the corpus.
 This can be achieved naturally by collecting a lot of transcriptions.
-As we do not posses large number of transcriptions, we decided to bootstrap LM by generated utterances by grammar.
+As we do not posses large number of transcriptions, we decided to bootstrap LM with generating utterances by grammar.
 It should produce utterances that are most likely to be used and therefore it should cover the most frequent cases. %situations
 
-Our grammar is written in Python and consists of the following prescriptions for simple rewriting rules.
+Our context-free grammar is written in Python and it can be assembled from the following prescriptions for simple rewriting rules.
 
 \begin{itemize}
-	\item \textbf{Alternative} - exactly one of many
+	\item \textbf{Alternative} -- exactly one of many
 		%\begin{fleqn}[15pt]
 		\begin{flalign*}
 			A^{i}(x_{1}, x_{2},...,x_{n}) \text{ adds } & A^{i}\rightarrow x_{1} & \\
@@ -192,7 +159,7 @@ Our grammar is written in Python and consists of the following prescriptions for
 			%n \in \mathbb{N}, x_{1}, x_{2},\hdots x_{n} \in V_{T}, A \in V_{N}
 		\end{flalign*}
 		%\end{fleqn}
-	\item \textbf{Option} - either present or not
+	\item \textbf{Option} -- either present or not
 		%\begin{fleqn}[15pt]
 		\begin{flalign*}
 			O^{i}(x) \text{ adds } & O^{i}\rightarrow x & \\
@@ -200,7 +167,7 @@ Our grammar is written in Python and consists of the following prescriptions for
 			%x, \lambda \in V_{T}, O \in V_{N}
 		\end{flalign*}
 		%\end{fleqn}
-	\item \textbf{Sequence} - chain of rules
+	\item \textbf{Sequence} -- chain of rules
 		%\begin{fleqn}[15pt]
 		\begin{flalign*}
 			& S^{i}(x_{1}, x_{2},\hdots,x_{n}) \text{ adds } S^{i}\rightarrow x_{1}\,x_{2}\,\hdots\,x_{n} & 
@@ -217,14 +184,10 @@ Our grammar is written in Python and consists of the following prescriptions for
 	& n \in \mathbb{N}
 \end{flalign*}
 
-\todo{\ask{we have created more complicated grammar than this - with the probabilities that can be explicitly defined, but it is just a feature, should we go on about it?}}
-
 Explicit grammar can be assembled using these prescriptions which can than simply generate random utterances in desired number.
 An example of plain grammar can be built as follows.
  
-\lstset{language=Python,basicstyle=\footnotesize,showstringspaces=false,morekeywords={period,pref_p, pref_q, subj, weather}}
- 
-%\begin{alltt}
+\lstset{language=Python,basicstyle=\footnotesize,showstringspaces=false,morekeywords={period, pref_p, pref_q, subj, weather}}
 \begin{lstlisting}[frame=single]
 pref_p = A('can you tell me', 'i would like to know')
 pref_q = A('what is', 'what will be')
@@ -232,7 +195,6 @@ subj = A('weather', 'forecast', 'weather forecast')
 period = A('for tomorrow', 'in the afternoon')
 weather = S(O(pref_p), O(pref_q), 'the', subj, O(period))
 \end{lstlisting}
-%\end{alltt}
 
 The nonterminal \texttt{weather} yields utterances asking about the weather.
 Terminals can be also loaded from file, which is useful for defining alternatives for waypoints for example.
@@ -242,8 +204,17 @@ However, it is easy to include utterances that are not used in conversation or d
 From the example above a sentence \textit{can you tell me the weather tomorrow} is not exactly what we wanted to include.
 Even though it is syntactically correct, it is not something to be used in PTI domain.
 This is undesirable to have in our corpus.
+
 \todo{not so bulletproof example, i want to generate some nonsense, but not too much for illustrating my point about over-generalizing}
 
+In addition to these rules, we have added a possibility to add explicit probability with which the rule should be selected in the alternative rule.
+
+\begin{flushleft}
+\texttt{subj = A('weather', ('forecast', 0.2), ('weather forecast', 0.2))}
+\end{flushleft}
+
+\noindent In this example the \textit{``forecast''} and \textit{``weather forecast''} will be selected with the probability of $0.2$ and the probability of \textit{``weather''} will be the complement probability -- $0.6$.
+This allows us to sample from more complicated subtrees with higher probability.
 
 \subsection{Building a decoder}
 
@@ -255,31 +226,5 @@ Statistics are computed from a test set that was created earlier from call logs 
 The test set can be also tested with the Google ASR which renders a good comparison between the two recognizers.
 
 We occasionally used CloudASR\footnote{\url{https://github.com/UFAL-DSG/cloud-asr}} for manual testing.
-With CloudASR, it is very easy to deploy Kaldi ASR and access it through web interface by anyone who wants to try the decoder out by his own voice.
-
-
-% \section{Process of changing domains} 
-%   -what would one change if he wanted to use this framework and use utilize it in different domain
-%   If I was to switch to a different domain, the following should have to take place.
-%   potřeboval bych si rozvrhnout co budu potřebovat v databázi, co budu používat v slučku a jak se mi bude moct měnit dialog, to znamená ideálně si nakreslit the whole process dialogu na papír pomocí diagramů, z toho se dá vykoukat, co bude potřeba pro zodpovězení té které otázky. jaké api budu využívat pro přístup na internet, jaké keywords si budu potřebovat držet v paměti. potom vytvořit walking skeleton a nasadit. vyevalvovat....
-%   should we mention this? maybe to lessons learned?
-
-
-
-
-
-
-% \begin{table}[h]
-% \centering
-% %\small
-% \hspace*{-3pt}\makebox[\linewidth][c]{
-% 	\begin{tabular}{ r | p{0.8\linewidth} }
-% 	\textbf{Intro} & conditions native speaker, průvodce celým jobem \\
-% 	\textbf{Instructions} & what should they do, how should they behave, how to take the evaluation, features of the system \\
-% 	\textbf{Example call} & demonstrative dialogue between caller and our system \\
-% 	\textbf{Consent} & legal statement for recording the call
-% \end{tabular}
-% }
-% %\caption{Translation example of dialogue act to sentence by Natural Language Generation component}
-% %\label{table:nlg}
-% \end{table}
+With CloudASR, it is very easy to deploy Kaldi ASR.
+It is accessible through web interface by anyone who wants to try the decoder out by his own voice.

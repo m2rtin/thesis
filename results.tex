@@ -8,20 +8,20 @@ And finally we will compare the subjective user satisfaction between the Google 
 \section{App Quest 3.0}
 
 At the beginning of February 2014, we participated in the contest App Quest 3.0\footnote{\url{http://2014mtaappquest.challengepost.com/}} by Metropolitan Transportation Authority (MTA)\footnote{\url{http://www.mta.info/}}.
-The contest rules allowed teams and individuals around the globe and required to submit an application that utilizes at least one of the MTA data sets or APIs and includes the ability to update the data.
+The contest rules allowed registering teams and individuals around the globe and required to submit an application that utilizes at least one of the MTA data sets or APIs and includes the ability to update the data.
 
-We registered at the Accessibility Innovation category because the primary features and functionality of PTINY best addresses end user with visual impairment.
+We registered in the Accessibility Innovation category because the primary features and functionality of PTINY best addresses end user with visual impairment.
 Our keyword database can be actualized any time from the server and we utilize MTA data sets, therefore PTINY is eligible to participate.
 
 The application was, however, required to run on one of many mobile or desktop platforms.
-The PTINY is rather a phone service, therefore we decided to create a web page that enhance the accessibility even more.
+The PTINY is rather a phone service, therefore we decided to create a web page that enhances the accessibility even more.
 
-A US number was provided by the department for the competition for which we employed three VMs.
+A US number was provided by the department for the competition and three VMs were employed.
 We submitted PTINY\footnote{\url{http://challengepost.com/software/alex-information-about-public-transportation-in-new-york}} as an operational dialogue system, despite the fact that some features were not yet finished.
 
 \subsubsection{PTINY web page}
 
-The web page\footnote{\url{http://alex-ptien.com/}} created for the competition contains the overview of PTINY, examples of the features, terms of use and most importantly a ``try it now'' section shown in figure \ref{fig:mta}, in which a visitor can call PTINY directly through the web page.
+The web page\footnote{\url{http://alex-ptien.com/}} created for the competition contains the overview of PTINY, examples of the features, terms of use and most importantly a ``try it now'' section shown in figure \ref{fig:mta}, in which a visitor has the opportunity to call PTINY directly through the web page.
 
 \begin{figure}[ht]
 \centering
@@ -31,7 +31,7 @@ The web page\footnote{\url{http://alex-ptien.com/}} created for the competition 
 \end{figure}
 
 We utilized webrtc2sip gateway\footnote{\url{http://click2dial.org/u/index.html}} to create a \textit{Call us Now} button.
-It allows any web browser with the support of WebRTC protocol to try out PTINY without the need of calling a number.
+It allows any web browser supporting WebRTC protocol to call our SIP account and to try out PTINY without the need of calling a number.
 This includes mobile devices, too.
 
 One additional VM was used for handling the button calls.
@@ -48,19 +48,48 @@ We also elevated the fact, that it can be a great asset for the visually impaire
 Unfortunately we were not among the winners and there was no ranking either, so we do not know how close to winning we were.
 Even more disappointing was the fact that we collected virtually zero calls.
 As the rules state, judges are not required to test the application and may choose to judge based solely on the text description or demonstration video.
-Our hope was that PTINY would attract at least curiosity of some other competitors.
+Our hope was that PTINY would attract at least the curiosity of some other competitors.
 
-However, the thing we cherish the most about our solution is that, while others are competing among each other within the same class of mobile applications, PTINY brings a new point of view on providing information about public transportation, with which a human can simply chat.
+We know for certain that our solution scored poorly in one of the judging criteria which was utilizing MTA API.
+We only utilize MTA datasets.
+
+However, the thing we cherish the most about our solution is that, while others were competing among each other within the same class of mobile applications, PTINY brought a new point of view on providing information about public transportation, with which a human can simply chat.
+
+\section{CrowdFlower -- subjective user satisfaction}
+
+Every call job we launched on CrowdFlower had the same feedback form with questions listed in table \ref{table:cf}.
+These questions measure the quality of every component of the dialogue system.
+The first question about achieving objectives evaluates the whole dialogue system, especially DM.
+The second question about system phrasing measures the quality of NLG, while the third one about the voice quality is concerned with TTS.
+And the last question asking about how the system understood the caller evaluates the ASR and SLU components.
 
 
-\section{CrowdFlower - subjective user satisfaction}
+\begin{table}[h]
+\centering
+\hspace*{-3pt}\makebox[\linewidth][c]{
+	\begin{tabular}{ r | p{0.6\linewidth} }
+	\textit{Have you found what you were looking for?} & Yes-No question \\
+	\textit{The phrasing of the system's response was:} & range of 1 to 4 from Very poor to Very good \\
+	\textit{The quality of the system's voice was:} & range of 1 to 4 from Very poor to Very good \\
+	\textit{The system understood me:} & range of 1 to 4 from Very poorly to Very well \\
+\end{tabular}
+}
+\caption[CrowdFlower feedback form questions]{CrowdFlower feedback form questions with choice ranges.}
+\label{table:cf}
+\end{table}
 
-\todo{do výsledků říct kolik jobů jsme pustili a po jakých dávkách}
+The results from each CrowdFlower job provided in a CSV document were collected and joined for corresponding ASR.
+Even with the feedback form fields marked as mandatory, there were a few missing values in the results.
+Thus we collected less feedback forms than calls.
 
-
-
+In addition to the compulsory questions evaluating the job, there was an optional general comments field.
+Comments gave a good overall image of the contributor satisfaction as they could express themselves freely and in few cases, they helped enhance the system.
 
 \subsection{Google ASR}
+
+It is important to note that the results from CrowdFlower call jobs that contributed to the Google ASR evaluation were collected while some features of the system were not yet implemented.
+However, the call job always encouraged callers to address only the features and functionalities working well.
+Therefore the user satisfaction should not be influenced by the fact that the system changed over time.
 
 \begin{figure}[ht]
 \begin{tikzpicture}
@@ -90,11 +119,36 @@ However, the thing we cherish the most about our solution is that, while others 
 \legend{Very poor, Poor, Good, Very good}
 \end{axis}
 \end{tikzpicture}
-\caption{Google histograms}
+\caption{Google subjective user satisfaction histograms for questions 2-4 from table \ref{table:cf}}
 \label{fig:google}
 \end{figure}
 
+We launched seven jobs with increasing number of ordered calls each time.
+In the settings, we allowed contributors to participate only once per job to collect diverse data which caused the job to be rather unattractive, hence the collection quite slow.
+
+Totally, we collected 369 valid feedback forms.
+The figure \ref{fig:google} shows histograms of questions 2, 3 and 4.
+It is clear that more than a half of callers were satisfied with the service.
+The first yes-no overall question is shown in figure \ref{fig:us}.
+
+In the general comment section, 101 contributors shared a mixture of positive and negative comments.
+
+\begin{flushleft}
+\textit{``Awful system - not working at all.''} \\
+\textit{``Good service, no problems.''} \\
+\textit{``It made me do it twice before it heard me.''} \\
+\textit{``Excellent directions.''} \\
+\end{flushleft}
+
+\noindent This short list is a sample of repetitive comments in similar vein.
+
 \subsection{Kaldi ASR}
+
+The same setup of CrowdFlower call jobs was used when launching the same rate of tasks as in the case of Google ASR.
+We have collected five jobs with 270 valid feedback forms.
+All of those five jobs had unique configuration urging callers to ask about different particular features and waypoints.
+It was the same set of configuration as in the case of Google jobs, however two of those configurations were split into separate jobs due to development process.
+This is why Google has more jobs and it only means that contributors could participate in jobs with those two configurations twice.
 
 \begin{figure}[ht]
 \begin{tikzpicture}
@@ -124,10 +178,33 @@ However, the thing we cherish the most about our solution is that, while others 
 \legend{Very poor, Poor, Good, Very good}
 \end{axis}
 \end{tikzpicture}
-\caption{Kaldi histograms}
+\caption{Kaldi subjective user satisfaction histograms for questions 2-4 from table \ref{table:cf}}
 \label{fig:kaldi}
 \end{figure}
 
+
+The figure \ref{figure:kaldi} shows histograms for questions 2, 3 and 4.
+It is clear that very few contributors were unsatisfied with the service.
+It indicates an improvement in comparison to the Google ASR.
+The first yes-no overall question is shown in figure \ref{fig:us}.
+
+Only 60 contributors decided to write a general comment which were generally positive.
+
+\begin{flushleft}
+\textit{``Good, fast service.''} \\
+\textit{``I liked this.''} \\
+\textit{``It would be nice if the voice was more fluid. It sounds too robotic.''} \\
+\textit{``Wow! An automated system that understands my needs!''} \\
+\end{flushleft}
+
+\noindent This also indicates an improvement against the Google ASR.
+
+\section{Comparison -- summary}
+
+It is clear that the system was able to respond both with Google and Kaldi ASR.
+Although notably better results were achieved with Kaldi ASR as the subjective user satisfaction displayed in figure \ref{fig:us} is in favor of Kaldi ASR.
+Callers to communicating with PTINY utilizing Google ASR did obtain what they were looking for in $81.3\%$.
+Whereas Kaldi ASR callers were satisfied in $88.1\%$.
 
 \begin{figure}[ht]
 \begin{tikzpicture}
@@ -163,26 +240,23 @@ However, the thing we cherish the most about our solution is that, while others 
 \label{fig:us}
 \end{figure}
 
+\ask{should i add table with means and vars or confidence intervals?(vars are very low, so the intervals are tiny...)}
+
+\subsubsection{ASDF ASR comparison}
+
+We compared both ASR components individually, isolated them from the dialogue system.
+ASDF allows us to divide the transcriptions from call logs into training and testing sets along with respective audio tracks.
+After training LM and building Kaldi decoder, we were able to test it on unseen utterances and compare it with Google ASR.
+
+The measure we were concerned with was word rate error (WER).
+WER of Google ASR was $31.33\%$ while WER of Kaldi ASR was $16.93\%$.
+This indicates that Kaldi was much better on all of 149 test utterances.
+It is worth noting that these great Kaldi results were achieved with new AM provided by the department.
+\ask{should we even mention AM?}
 
 \section{Future work}
 
-\todo{to implement MTA API which would give us the ability to support more accurate information about current connections, locations of trains etc.}
-
-
-\todo{implement MTA live data support which could be much more complexly used, to be able to ask how many minutes is the next train due our initial station would be cool}
-
-% udělat, aby to rozumnělo na rohu páté a deváté -> vyinferovat street/avenue, nebo se i zeptat. Lidi ale nebyli v komunikaci tak familierní, aby používali takovýhle hantec, řikali to postupně a oficiálně, jakoby to zadávaly do vyhledávače. Což se zdá jen otázka času, kdy si lidi zvyknou a bude jim to přirozenější bavit se s počítačem jako se svým kámošem.
-
-
-PTICS is focused on providing information relevant to prague integration transport. but we have to be more flexible than this. We wanted to support intersections as výchozí body, that is from fifth street and twenty second street or vice versa. We ended up supporting not only intersections but plain streets as valid input. This way one can go from fifth avenue even though it is not really an apt location.
-
-
-
-\todo{Develop statistical SLU for robustness}
-
-
-\section{Acknowledgements}
-
-Access to computing and storage facilities owned by parties and projects contributing to the National Grid Infrastructure MetaCentrum, provided under the programme ``Projects of Large Infrastructure for Research, Development, and Innovations'' (LM2010005), is greatly appreciated.
-%\pgfplotsset{ compat=1.9}
-
+The provided PTINY solution would benefit from further SLU, NLG and static knowledge database improvements for covering another city.
+Utilizing MTA API would furnish real-time information about connections, current position of train for example.
+The route descriptions can be really extensive, therefore it would be a valuable feature to send the directions in SMS form on demand.
+Statistical SLU for robustness may be also profitable to develop.

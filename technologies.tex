@@ -38,9 +38,9 @@ With a recognizer trained on narrower domain, better results can be achieved.
 %\subsubsection{Kaldi}
 
 Kaldi is an open-source \footnote{Apache License 2.0} toolkit for speech recognition based on finite state transducers.
-We use python wrapper Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} within the ADSF for building a Kaldi decoder and effectively deploying trained ASR.
+We use python wrapper Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} within the ADSF for building a Kaldi decoder and effectively deploying trained ASR \cite{oplatek}.
 Kaldi decoder requires statistical models -- an acoustic model (AM) and a language model (LM).
-The AM is trained within the department \cite{oplatek}.
+The AM is trained within the department \cite{oplatek_thesis}.
 It defines probabilities of acoustic features for a given word.
 The LM is more domain specific as it refines probabilities of a word being recognized.
 We use ASDF scripts that utilize the SRI Language Modeling Toolkit\footnote{\url{http://www.speech.sri.com/projects/srilm/}} (SRILM) for training LMs.
@@ -88,9 +88,9 @@ and many more.
 Samasource is a non-profit organization with a noble cause of lifting people out of poverty through digital work.
 It does not, however, meet our need of employing native English speakers.
 While Amazon Mechanical Turk would match our requirements, it is no longer available for non-US requesters.
-With Crowdflower, we are able to implement a custom solution directly within the platform.
+With CrowdFlower, we are able to implement a custom solution directly within the platform.
 
-Crowdflower has mechanisms such as monitoring answer distributions and computing confidence score for maintaining quality of the output data. % that yield good quality assurance. the assurance of quality
+CrowdFlower has mechanisms such as monitoring answer distributions and computing confidence score for maintaining quality of the output data. % that yield good quality assurance. the assurance of quality
 They claim great amount of contributor force which promises prompt job resolution. % wide range 
 The platform contains comprehensible templates for common tasks.
 It features a web interface for building a custom job from scratch with a sensible support and demonstrative examples, too. % in form of examples, too.

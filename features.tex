@@ -1,9 +1,9 @@
-\chapter{Features - Public Transport Information for New York}
+\chapter{Features -- Public Transport Information for New York}
 
 In this chapter we will describe the functionality of \todo{PTINY} as a whole.
 %In this chapter we will describe what the \todo{PTINY} is able to process.
-The features are derived from the DM capabilities, which is the brain of the dialogue system, but each component has to oblige.
-When describing how the DS responds to a particular request, the SLU has to extract semantics from the text input, DM has to decide what to do and NLG has to generate text from the dialogue acts.
+The features are derived from the DM capabilities which is the brain of the dialogue system, but each component has to oblige.
+When describing how the dialogue system responds to a particular request, the SLU has to extract semantics from the text input, DM has to decide what to do and NLG has to generate text from the dialogue acts.
 
 \section{Providing current time} \label{sec:time}
 
@@ -13,29 +13,28 @@ As opposed to the Czech Republic, there are places at different time zones in th
 Therefore we decided to support current time queries specifying a city or a state for providing more accurate, localized time.
 The state is enough information to receive a location specific time, however specifying a city is more accurate as some states occupy two timezones.
 If only a city is specified, the DM will respond with a dialogue act requesting the state name, unless the city is not ambiguous.
-In that case it will infer the state from the ontology.
+In which case it will infer the state from the ontology.
 An example of current time inquiry is shown in table \ref{table:time}.
-
 
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``What is the time now in California?''} \\ \hline
-	\texttt{System} & \textit{``In California, it is 6:01 AM, Pacific Daylight Time.''} \\ \hline
+	\texttt{System} & \textit{``In California, it is 7:01 AM, Pacific Daylight Time.''} \\ \hline
 \end{tabular}
 \caption[Current time in California]{Example dialogue for obtaining current time in California.}
 \label{table:time}
 \end{table}
 
 The time zone data are received from the Google Time Zone API\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}.
-If the API is inaccessible for some reason it returns apology act and default computer time set for New York, which is Eastern Time Zone.
-Time zone names could be included in the ontology as additional data, however this way, there is no need to keep track of the daylight saving offsets used in some sates.
+If the API is inaccessible for some reason it returns apology act with default computer time set for New York, which is in Eastern Time Zone.
+Time zone names could be included in the ontology as additional data, however this way, there is no need to keep track of the daylight saving offsets instituted in some sates.
 
 \section{Weather forecast}
 
 It is comforting for the users to be able to obtain weather information at once.
-Following the example of utilizing weather forecast in the Czech PTI, we have implemented an English version.
+Following the example of utilizing weather forecast in the Czech public transport information, we have implemented an English version.
 OpenWeatherMap API\footnote{\url{http://openweathermap.org/api}} is used for receiving weather data.
 %The DM takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
 
@@ -84,7 +83,7 @@ The prime asset of PTINY is the ability to effectively respond to transport conn
 The key restrictions are the location from and where to travel, which is either a city, borough, stop or an intersection of two streets.
 The ambiguity of a waypoint is resolved in similar manner as in the case of time zone or weather queries.
 %The dialogue system will ask to specify the waypoint by more general or specific area.
-The DM tries to infer the waypoint and returns a request for either more general or more limited area specification only if an ambiguity is found.
+The DM tries to infer the waypoint and returns a request for either more general or more limited area specification if an ambiguity is found.
 
 User can further specify the following criteria.
 
@@ -120,7 +119,7 @@ After the system responds with a route proposition, the user can either further 
 	\textbf{trip duration} & \textit{``How long will i travel?''} \\
 	\textbf{trip distance} & \textit{``What is the distance of the trip?''}
 \end{tabular}
-\caption[Details about provided connection]{Inquiry examples regarding different attributes of given connection.}
+\caption[Details about provided connection]{Inquiry examples regarding different attributes of a given connection.}
 \label{table:attributes}
 \end{table}
 
@@ -154,7 +153,7 @@ Whereas for the duration, system responses only with the time value as demonstra
 
 We use the Google Directions API\footnote{\url{https://developers.google.com/maps/documentation/directions/}} to acquire connection data.
 For simple from-to queries we use free API accessible through HTTP and we only use API key for more restrictive queries with preferred vehicle and transfer count limitations.
-This maximizes the utilization of the key before reaching a monthly fee threshold. \ask{delete this?}
+This maximizes the utilization of the key before reaching a monthly fee threshold.
 The transfer count is not directly mapped to an API request, the offered links are rather filtered by the criteria from the API response.
 When no connection suites the restrictions, an apology utterance is issued.
 
@@ -166,8 +165,9 @@ By default, there are four alternative connections at disposal, sorted by depart
 
 \subsubsection{Alternatives in combination with criteria inquiries}
 
-As some route descriptions may be quite long, it is handy to take a peek at other connection attributes without the need to browse through them. An example of peeking is demonstrated in table \ref{table:peek}
-This can be used prior to selecting particular alternative connection.
+As some route descriptions may be quite long, it is handy to take just a peek at other connection attributes without the need to browse through them.
+An example of peeking is demonstrated in table \ref{table:peek}
+This can be used prior to selection of particular alternative connection.
 
 \begin{table}[h]
 \centering
@@ -183,16 +183,16 @@ This can be used prior to selecting particular alternative connection.
 \end{table}
 
 
-\section{General cases \todo{better name}}
+\section{General cases}
 
 The following examples apply to general dialogue.
 Supporting features are presented.
 
 \subsubsection{Conflict apology}
 
-If, according to the ontology, a specified city is not located at a given state, an apology utterance is produced.
+If, according to the ontology, a specified city is not located at given state, an apology utterance is produced.
 Similarly a street or stop to borough or city conflicts are checked.
-An example is shown at table \ref{table:conflict}
+An example is shown at table \ref{table:conflict}.
 This type of behavior occurs in all other tasks, too.
 
 \begin{table}[h]
@@ -200,22 +200,21 @@ This type of behavior occurs in all other tasks, too.
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	Speaker & Utterance \\ \hline
 	\texttt{User} & \textit{``Tell me the weather forecast for Las Vegas in Iowa''} \\ \hline
-	\texttt{System} & \textit{``I'm sorry, but the city Las Vegas is not located in a state of Iowa.''} \\ \hline
+	\texttt{System} & \textit{``I'm sorry, but the city Las Vegas is not located in the state of Iowa.''} \\ \hline
 \end{tabular}
-\caption[Conflict example of incompatible waypoints]{Example dialogue producing an apology act resulting from incompatibility based on static knowledge from the ontology.}
+\caption[Conflict example of incompatible waypoints]{Example dialogue that produces an apology utterance resulting from incompatibility based on static knowledge from the ontology.}
 \label{table:conflict}
 \end{table}
 
 This situation can be settled by two different ways.
 The conflict can be resolved by negation of the wrong value as shown in \ref{table:negation}.
-Or the dialogue can be restarted as portrayed at table \ref{table:reset}.
-\ask{Ask about refing the subsubsections}
+Or the whole dialogue can be restarted as portrayed at table \ref{table:reset}.
 
 \subsubsection{Negation}
 
 If the system miscomprehended user's intent or the user decided to change his mind, there needs to be a way to reverse the input.
 User can explicitly negate the wrong value which causes a relevant slot in the system to be erased.
-The system either issues an implicit confirmation of identical slot with a different value from history, or if there is not any, it asks about the desired value of the slot as shown in table \ref{table:negation}.
+The system either issues an implicit confirmation of the same slot with a different value from history, or if there is not any, it asks about the desired value of the slot as shown in table \ref{table:negation}.
 
 \begin{table}[h]
 \centering
@@ -224,11 +223,11 @@ The system either issues an implicit confirmation of identical slot with a diffe
 	\texttt{User} & \textit{``I want to go from Forty Sixth Street.''} \\ \hline
 	\texttt{System} & \textit{``Alright, from Forty Sixth Street, Where are You heading?''} \\ \hline	
 	\texttt{User} & \textit{``You know what, no, not from Forty Sixth Street.''} \\ \hline
-	\texttt{System} & \textit{``Where are You going from?''} \\ \hline
+	\texttt{System} & \textit{``Where are You leaving from?''} \\ \hline
 	\texttt{User} & \textit{``Thirty Sixth Street.''} \\ \hline
 	\texttt{System} & \textit{``You want to go from Thirty Sixth Street, where do You want to go to?''} \\ \hline
 \end{tabular}
-\caption[Changing input by negation]{An example of changing mind and subsequent correction by negation.}
+\caption[Changing input by negation]{An example of changing mind and subsequent correction of origin waypoint by negation.}
 \label{table:negation}
 \end{table}
 
@@ -236,7 +235,6 @@ The system either issues an implicit confirmation of identical slot with a diffe
 
 The dialogue system needs to be able to interpret user's utterance in the context of previously spoken topic.
 Partially this is achieved by keeping track of previous states, however, there are situations like the one portrayed in table \ref{table:cr}, where more sophisticated strategy needs to be engaged.
-\ask{is this true?}
 
 \begin{table}[h]
 \centering
@@ -246,7 +244,7 @@ Partially this is achieved by keeping track of previous states, however, there a
 	\texttt{User} & \textit{``Miami.}'' \\ \hline
 	\texttt{System} & \textit{``Alright, from Miami, where do You want to go to?''} \\ \hline
 \end{tabular}
-\caption[Context resolution]{Example of city context resolution.}
+\caption[Context resolution of origin waypoint]{Example of resolving city from the origin request.}
 \label{table:cr}
 \end{table}
 
@@ -295,27 +293,28 @@ An obvious confusion may occur when asking about orthogonal queries as showed in
 \label{table:confusion}
 \end{table}
 
-From the example it is evident, that the system did not forget that the user mentioned the city of Saint Louis, which was considered relevant in the next turn, where it did not pass the compatibility test based on knowledge from the ontology.
-Which of course leads to an apology utterance as mentioned earlier.
+From the example it is evident that the system did not forget the user mentioned the city of Saint Louis, which was considered relevant in the next turn, where it did not pass the compatibility test based on knowledge from the ontology.
+Which of course leads to an apology utterance as mentioned earlier and can be resolved either by negation or by reset of the dialogue.
 
 %e vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v DM slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou.
 
 \subsubsection{Selection and confirmation of slot values}
 
-When the DM confusion network contains more values of the same slot that have non-zero probabilities, it has to decide what value is intended by the user.
+When the confusion network in DM contains more values of the same slot that have non-zero probabilities, it has to decide what value is intended by the user.
 The system will either produce a selection or confirmation utterance based on the probability distribution of the values at particular slot.
 The selection utterance is challenging the user to decide between two values with same probability.
-Whereas the confirmation is a yes-no question about slot with concrete value.
-\ask{should we mention this. It virtually does not occur.}
-
+Whereas the confirmation is a yes-no question about slot with a concrete value.
 
 \subsubsection{Reset of the dialogue}
 
-The dialogue system may get to a point, where its confusion network contains many uniformly distributed values within the same slot and it asks the user for resolving the correct value, whereas the user considers the matter closed.
+The dialogue system may get to a point, where its confusion network contains many uniformly distributed values within the same slot and it asks the user for resolving the correct value.
+Whereas the user may consider the matter already closed.
 This may for example arise when user, after receiving a connection link, wants a different one.
 The system may no longer be able to appropriately respond to user's requests and altering values by negation is not effective.
-When such situation occurs, the system can be restarted by saying a phrase \textit{``new entry''} or \textit{``restart''} or similar keyword indicating new entry.
+When such situation occurs, the system can be restarted by saying a phrase \textit{``new entry''} or \textit{``restart''} or similar phrase indicating new entry.
 Reseting erases all the slots in the dialogue system and it prompts the user to start asking from the beginning.
+
+\newpage
 
 \subsubsection{Supplementary intents} %auxiliary, additional, accompanying
 
@@ -341,9 +340,9 @@ In the table \ref{table:sup} there are enlisted all of the supplementary intents
 \end{table}
 
 The help context is based on what the user was talking about in previous turns.
-If for example the conversation was about the finding connection, it may suggest the following.
+If for example the conversation was about finding a connection, it may suggest help in the form shown in table \ref{table:help}.
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	Speaker & Utterance \\ \hline
@@ -352,7 +351,7 @@ If for example the conversation was about the finding connection, it may suggest
 	Just say, I want a direct connection, for example.''} \\ \hline
 \end{tabular}
 \caption[Context sensitive help]{Example of context sensitive help utterance.}
-\label{table:confusion}
+\label{table:help}
 \end{table}
 
 
