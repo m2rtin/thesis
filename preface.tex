@@ -3,22 +3,22 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-Providing information to consumers is a common task usually solved by implementing a web page or a mobile application.
-Spoken dialogue systems on the other hand, are suitable for fulfilling such task while simplifying the access to the information.
-Spoken dialogue systems allow people to interact with a computer the most natural way, by voice.
-They are intuitive, direct and hands-free, which renders an opportunity for deployment in many fields.
+Providing information to consumers is a common task, usually solved by implementing a web page or a mobile application.
+An alternative to these approaches is a spoken dialogue system.
+It allows people to interact with a computer the most natural way, by voice.
+Spoken dialogue system is intuitive, direct and hands-free, which renders an opportunity for deployment in many fields.
 There is no need to find a mobile device and enter queries into some puzzling interface, it is enough to simply say the words.
-Despite this, it may serve as a valuable asset for obtaining information for the elderly and especially for blind people and people with visual impairment. %it addresses larger spectrum of people, convenient source of information
+It may serve as a valuable asset for obtaining information for the elderly and especially for blind people and people with visual impairment \cite{blind}. %it addresses larger spectrum of people, convenient source of information
 
 However, it is very difficult to implement a dialogue system from ground up.
-Fortunately the \acf{ASDF}\cite{asdf} incorporates all of the key components needed for performing the task.
+Fortunately the \acf{ASDF} \cite{asdf} incorporates all of the key components needed for performing the task.
 We decided to take the advantage of the \ac{ASDF} and implement a spoken dialogue system in English for providing \acf{PTINY}.
 New York, the city with the highest ridership in the United States and with one of the most extensive subway systems in the world, presents a formidable challenge.
 The English language benefits from wider range of use and larger competition to be compared with.
 This enables us to build better systems with greater potential.
 
-\acf{ASR} is not yet at the point where the meaning of every utterance could be reliably identified by a computer \cite{asr}.
-Although with a restricted domain, it is possible to achieve substantially better results utilizing a trained speech recognizer.
+\acf{ASR} is not yet at the point where every utterance could be reliably identified by a computer \cite{asr}.
+Although it is possible to achieve substantially better results utilizing a speech recognizer within a restricted domain.
 A crowdsourcing platform CrowdFlower will be used to evaluate our \ac{PTI} solution and to collect speech data.
 The collected speech data will be facilitated to train a Kaldi speech recognizer and it will be compared with the Google \ac{ASR}.
 The comparison measures will be based on the subjective user satisfaction of CrowdFlower contributors. % deliberation testimony
@@ -27,7 +27,7 @@ Our \ac{PTI} solution will be a useful showcase of the \ac{ASDF} and will furthe
 
 The outcomes of this thesis include the public transport information phone-based dialogue system for New York (\ac{PTINY}) and a Kaldi decoder for English speech recognition.
 
-The paper is organized as follows.
+This thesis is organized as follows.
 In the first chapter we will look at the used technologies.
 In the second chapter we will discuss the implementation in its principles by each component. %at a time
 The third chapter will cover the features of the implemented solution and it will display its capabilities.

@@ -1,4 +1,4 @@
-\chapter{Features -- Public Transport Information for New York}
+\chapter{Features -- Public Transport Information in New York}
 
 In this chapter we will describe the functionality of \ac{PTINY} as a whole.
 The features are derived from the \ac{DM} capabilities which is the brain of the dialogue system, but each component has to oblige.
@@ -58,7 +58,7 @@ Default city of New York is used as a reference point.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ | r | p{0.7\linewidth} | } \hline
+\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
 	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``Tell me the tomorrow weather forecast for Denver.''} \\ \hline
 	\texttt{System} & \textit{``Alright, in Denver tomorrow, please specify the state.''} \\ \hline
@@ -83,8 +83,7 @@ The key restrictions are the location from and where to travel, which is either 
 The ambiguity of a waypoint is resolved in similar manner as in the case of time zone or weather queries.
 %The dialogue system will ask to specify the waypoint by more general or specific area.
 The \ac{DM} tries to infer the waypoint and returns a request for either more general or more limited area specification if an ambiguity is found.
-
-User can further specify the following criteria.
+User can further specify the criteria listed in table \ref{table:criteria}.
 
 \begin{table}[h]
 \centering
@@ -96,14 +95,14 @@ User can further specify the following criteria.
 	transfer count & \textit{``I want to transfer two times at most.''}
 \end{tabular}
 \caption[Restrictive criteria specification]{Connection search criteria paired with example utterances.}
-\label{table:attributes}
+\label{table:criteria}
 \end{table}
 
 Both departure and arrival times can be specified in absolute or relative form.
 The nature of the \ac{DM} allows to say these restrictions at once or one by one which makes for better utilization of the dialogue system.
 If any of the key restrictions are missing, the system demands appropriate additional information.
 
-After the system responds with a route proposition, the user can either further specify his query or ask about the following connection attributes.
+After the system responds with a route proposition, the user can either further specify his query or ask about the connection attributes listed in table \ref{table:attributes}.
 
 \begin{table}[h]
 \centering
@@ -207,11 +206,11 @@ This type of behavior occurs in all other tasks, too.
 
 This situation can be settled by two different ways.
 The conflict can be resolved by negation of the wrong value as shown in \ref{table:negation}.
-Or the whole dialogue can be restarted as portrayed at table \ref{table:reset}.
+Or the whole dialogue can be restarted as mentioned later in this chapter.
 
 \subsubsection{Negation}
 
-If the system miscomprehended user's intent or the user decided to change his mind, there needs to be a way to reverse the input.
+If the system failed to perceive user's intent correctly or the user decided to change his mind, there needs to be a way to reverse the input.
 User can explicitly negate the wrong value which causes a relevant slot in the system to be erased.
 The system either issues an implicit confirmation of the same slot with a different value from history, or if there is not any, it asks about the desired value of the slot as shown in table \ref{table:negation}.
 

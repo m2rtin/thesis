@@ -126,7 +126,7 @@ Any folder can be mounted to the docker container via \texttt{-v} flag.
 Uploading source code to update dialogue system on \ac{VM} is therefore effortless and makes the development loop very quick.
 
 
-\section{Building Kaldi \acs{ASR}}
+\section{Building Kaldi ASR}
 
 For building Kaldi decoder we used Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} docker image containing the essential tools.
 It is necessary to add dependencies for \ac{ASDF} if building and evaluation is intended within the platform.
@@ -192,7 +192,7 @@ An example of plain grammar can be built as follows.
 pref_p = A('can you tell me', 'i would like to know')
 pref_q = A('what is', 'what will be')
 subj = A('weather', 'forecast', 'weather forecast')
-period = A('for tomorrow', 'in the afternoon')
+period = A('tomorrow', 'in the afternoon')
 weather = S(O(pref_p), O(pref_q), 'the', subj, O(period))
 \end{lstlisting}
 
@@ -201,11 +201,9 @@ Terminals can be also loaded from file, which is useful for defining alternative
 
 The final grammar should cover as many utterances as possible.
 However, it is easy to include utterances that are not used in conversation or does not make sense at all.
-From the example above a sentence \textit{can you tell me the weather tomorrow} is not exactly what we wanted to include.
+From the example above a sentence \textit{``can you tell me the forecast tomorrow''} is not exactly what we wanted to include.
 Even though it is syntactically correct, it is not something to be used in \ac{PTI} domain.
 This is undesirable to have in our corpus.
-
-\todo{not so bulletproof example, i want to generate some nonsense, but not too much for illustrating my point about over-generalizing}
 
 In addition to these rules, we have added a possibility to add explicit probability with which the rule should be selected in the alternative rule.
 

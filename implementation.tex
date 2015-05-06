@@ -1,4 +1,4 @@
-\chapter{Implementation -- Public Transport Information for New York}
+\chapter{Implementation -- Public Transport Information in New York}
 
 In this chapter we will go through each component that needed to be implemented or modified in \ac{PTINY}.
 This excludes automatic speech recognition, text to speech and VoIP interface.
@@ -49,7 +49,7 @@ Amtrak\footnote{The National Railroad Passenger Corporation - \url{http://www.am
 Most of the companies are providing their schedules for developers in a unified format.
 The \acf{GTFS} defines a common format for public transportation schedules and associated geographic information.\footnote{GTFS - \url{https://developers.google.com/transit/gtfs/}}
 
-We could adopt the \ac{GTFS} format which would be very convenient for updating.
+We could adopt the \ac{GTFS} format which would be very convenient for updating \cite{gtfs}.
 However, some of the datasets were not strictly following the \ac{GTFS} making it unfeasible to work with.
 Missing values, overflowing columns or disunited expressions occurred infrequently, nevertheless throughout notable portion of the data.
 The benefit of an easy update and access to additional information did not outweigh the shortcomings encountered.
@@ -193,7 +193,7 @@ It is evident how the slot value \textit{Broadway} is injected into the template
 	\textbf{\ac{NLG} output} & \textit{``It arrives at Broadway at four twenty six P M.''}	
 \end{tabular}
 }
-\caption[\ac{NLG} conversion of \ac{DA} to sentence]{Translation example of dialogue act to sentence by Natural Language Generation component}
+\caption[NLG conversion of DA to sentence]{Translation example of dialogue act to sentence by Natural Language Generation component}
 \label{table:nlg}
 \end{table}
 

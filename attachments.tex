@@ -5,6 +5,54 @@ The compact disk included with the thesis has following structure:
 
 \todo{structure}
 
+% \begin{tikzpicture}[auto]
+% \tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em]
+% \tikzstyle{line} = [draw, thick, -latex',shorten >=2pt];
+% \tikzstyle{cloud} = [ellipse, draw=red, thick, fill=red!20, text width=5em, text centered, minimum height=4em]
+% \tikzstyle{rblock} = [block, draw=red, thick, fill=red!20, text width=6em, text centered, minimum height=4em]
+% %\tikzstyle{cloud} = [draw=red, thick, text badly centered, inner sep=1pt, ellipse, fill=red!20, minimum height=2em];
+% \matrix [column sep=25mm,row sep=17mm]
+% {
+% % row 1
+% \node [block] (ptiny) {PTINY}; &
+% \node [block] (server) {Validation Server}; \\
+% % row 2
+% \node [cloud] (caller) {contributor}; &
+% \node [rblock] (job) {CrowdFlower code field}; & \\
+% };
+% \tikzstyle{every path}=[line]
+% \tikzstyle{every node}=[font=\small\itshape]
+% \draw (caller) to [bend left] node [midway] {call} (ptiny);
+% \draw (ptiny) to [bend left] node [midway] {obtain code} (caller);
+% \draw (job)[dashed] to [bend right] (server);
+% \draw (server)[dashed] to [bend right] node [midway] {verify} (job);
+% \draw (ptiny) -- node [midway] {register code} (server);
+% \draw (caller) [dashed] -- node [midway] {fill code} (job);
+% \end{tikzpicture}
+
+
+
+% \begin{tikzpicture}[>=stealth,->,shorten >=2pt,looseness=.5,auto]
+% \matrix [matrix of math nodes,
+% column sep={2cm,between origins},
+% row sep={3cm,between origins},
+% nodes={circle, draw, minimum size=7.5mm}]
+% {
+% & |(A)| A &
+% \\
+% |(B)| B & |(E)| E & |(C)| C \\
+% & |(D)| D
+% \\
+% };
+% \tikzstyle{every node}=[font=\small\itshape]
+% \draw (A) to [bend left] (B) node [midway] {g};
+% \draw (B) to [bend left] (A) node [midway] {f};
+% \draw (D) -- (B) node [midway]{c};
+% \draw (E) -- (B) node [midway] {b};
+% \draw (E) -- (C) node [near end] {a};
+% \draw [-,line width=8pt] (D) to [bend right, looseness=1] (A);
+% \draw (D) to [bend right, looseness=1] (A) node [near start] {b} node [near end]
+% \end{tikzpicture}
 
 
 % \begin{figure}[h]
