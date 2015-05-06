@@ -1,9 +1,8 @@
 \chapter{Features -- Public Transport Information for New York}
 
-In this chapter we will describe the functionality of \todo{PTINY} as a whole.
-%In this chapter we will describe what the \todo{PTINY} is able to process.
-The features are derived from the DM capabilities which is the brain of the dialogue system, but each component has to oblige.
-When describing how the dialogue system responds to a particular request, the SLU has to extract semantics from the text input, DM has to decide what to do and NLG has to generate text from the dialogue acts.
+In this chapter we will describe the functionality of \ac{PTINY} as a whole.
+The features are derived from the \ac{DM} capabilities which is the brain of the dialogue system, but each component has to oblige.
+When describing how the dialogue system responds to a particular request, the \ac{SLU} has to extract semantics from the text input, \ac{DM} has to decide what to do and \ac{NLG} has to generate text from the dialogue acts.
 
 \section{Providing current time} \label{sec:time}
 
@@ -12,7 +11,7 @@ This is why it is important for the system to be able to provide it.
 As opposed to the Czech Republic, there are places at different time zones in the United States.
 Therefore we decided to support current time queries specifying a city or a state for providing more accurate, localized time.
 The state is enough information to receive a location specific time, however specifying a city is more accurate as some states occupy two timezones.
-If only a city is specified, the DM will respond with a dialogue act requesting the state name, unless the city is not ambiguous.
+If only a city is specified, the \ac{DM} will respond with a dialogue act requesting the state name, unless the city is not ambiguous.
 In which case it will infer the state from the ontology.
 An example of current time inquiry is shown in table \ref{table:time}.
 
@@ -27,16 +26,16 @@ An example of current time inquiry is shown in table \ref{table:time}.
 \label{table:time}
 \end{table}
 
-The time zone data are received from the Google Time Zone API\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}.
-If the API is inaccessible for some reason it returns apology act with default computer time set for New York, which is in Eastern Time Zone.
+The time zone data are received from the Google Time Zone \ac{API}\footnote{\url{https://developers.google.com/maps/documentation/timezone/}}.
+If the \ac{API} is inaccessible for some reason it returns apology act with default computer time set for New York, which is in Eastern Time Zone.
 Time zone names could be included in the ontology as additional data, however this way, there is no need to keep track of the daylight saving offsets instituted in some sates.
 
 \section{Weather forecast}
 
 It is comforting for the users to be able to obtain weather information at once.
 Following the example of utilizing weather forecast in the Czech public transport information, we have implemented an English version.
-OpenWeatherMap API\footnote{\url{http://openweathermap.org/api}} is used for receiving weather data.
-%The DM takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
+OpenWeatherMap \ac{API}\footnote{\url{http://openweathermap.org/api}} is used for receiving weather data.
+%The \ac{DM} takes the action based on gathered location data much like at providing current time \ref{subsec:time}.
 
 Specifying the city is enough to receive a weather information with the state being inferred from the ontology much like when providing current time, described at section \ref{sec:time}.
 Except if the city is ambiguous, then it is necessary to specify the state as demonstrated in table \ref{table:forecast}.
@@ -53,13 +52,13 @@ In addition to city and state, the weather inquiry can be defined by time either
 \label{table:weather}
 \end{table}
 
-The API allows to ask for the weather at a specific time as well as for the weather forecast for the whole day.
+The \ac{API} allows to ask for the weather at a specific time as well as for the weather forecast for the whole day.
 In the first example \ref{table:weather}, there is a weather inquiry specified only by time.
 Default city of New York is used as a reference point.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ | r | p{0.85\linewidth} | } \hline
+\begin{tabular}{ | r | p{0.7\linewidth} | } \hline
 	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``Tell me the tomorrow weather forecast for Denver.''} \\ \hline
 	\texttt{System} & \textit{``Alright, in Denver tomorrow, please specify the state.''} \\ \hline
@@ -76,21 +75,21 @@ The temperature units are in degrees Fahrenheit.
 \section{Finding a connection}
 
 %finding trip, transit, route, schedule
-The prime asset of PTINY is the ability to effectively respond to transport connection requests.
+The prime asset of \ac{PTINY} is the ability to effectively respond to transport connection requests.
 
 \subsubsection{Connection restrictions}
 
 The key restrictions are the location from and where to travel, which is either a city, borough, stop or an intersection of two streets.
 The ambiguity of a waypoint is resolved in similar manner as in the case of time zone or weather queries.
 %The dialogue system will ask to specify the waypoint by more general or specific area.
-The DM tries to infer the waypoint and returns a request for either more general or more limited area specification if an ambiguity is found.
+The \ac{DM} tries to infer the waypoint and returns a request for either more general or more limited area specification if an ambiguity is found.
 
 User can further specify the following criteria.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{ r | p{0.7\linewidth} }
-	Criteria & Restrictive utterance example \\ \hline
+	\textbf{Criteria} & \textbf{Restrictive utterance example} \\ \hline
 	departure time & \textit{``I want to depart in ten minutes.''} \\
 	arrival time & \textit{``I want to be there at five o'clock.''} \\
 	preferred vehicle & \textit{``I want to go by bus.''} \\
@@ -101,7 +100,7 @@ User can further specify the following criteria.
 \end{table}
 
 Both departure and arrival times can be specified in absolute or relative form.
-The nature of the DM allows to say these restrictions at once or one by one which makes for better utilization of the dialogue system.
+The nature of the \ac{DM} allows to say these restrictions at once or one by one which makes for better utilization of the dialogue system.
 If any of the key restrictions are missing, the system demands appropriate additional information.
 
 After the system responds with a route proposition, the user can either further specify his query or ask about the following connection attributes.
@@ -109,15 +108,15 @@ After the system responds with a route proposition, the user can either further 
 \begin{table}[h]
 \centering
 \begin{tabular}{ r | p{0.7\linewidth} }
-	Attribute & Inquiry example \\ \hline
-	\textbf{origin} & \textit{``Where does it leave from?''} \\
-	\textbf{destination} & \textit{``What is the destination?''} \\
-	\textbf{arrival time} & \textit{``How long till i be there?''} \\
-	\textbf{departure time} & \textit{``When does it leave?''} \\
-	\textbf{transfer count} & \textit{``How many transfers are there?''} \\
-	\textbf{transfer duration} & \textit{``How long do the transfers take?''} \\
-	\textbf{trip duration} & \textit{``How long will i travel?''} \\
-	\textbf{trip distance} & \textit{``What is the distance of the trip?''}
+	\textbf{Attribute} & \textbf{Inquiry example} \\ \hline
+	origin & \textit{``Where does it leave from?''} \\
+	destination & \textit{``What is the destination?''} \\
+	arrival time & \textit{``How long till i be there?''} \\
+	departure time & \textit{``When does it leave?''} \\
+	transfer count & \textit{``How many transfers are there?''} \\
+	transfer duration & \textit{``How long do the transfers take?''} \\
+	trip duration & \textit{``How long will i travel?''} \\
+	trip distance & \textit{``What is the distance of the trip?''}
 \end{tabular}
 \caption[Details about provided connection]{Inquiry examples regarding different attributes of a given connection.}
 \label{table:attributes}
@@ -149,12 +148,12 @@ Whereas for the duration, system responses only with the time value as demonstra
 \label{table:distance}
 \end{table}
 
-\subsubsection{The Google Directions API}
+\subsubsection{The Google Directions \ac{API}}
 
-We use the Google Directions API\footnote{\url{https://developers.google.com/maps/documentation/directions/}} to acquire connection data.
-For simple from-to queries we use free API accessible through HTTP and we only use API key for more restrictive queries with preferred vehicle and transfer count limitations.
+We use the Google Directions \ac{API}\footnote{\url{https://developers.google.com/maps/documentation/directions/}} to acquire connection data.
+For simple from-to queries we use free \ac{API} accessible through HTTP and we only use \ac{API} key for more restrictive queries with preferred vehicle and transfer count limitations.
 This maximizes the utilization of the key before reaching a monthly fee threshold.
-The transfer count is not directly mapped to an API request, the offered links are rather filtered by the criteria from the API response.
+The transfer count is not directly mapped to an \ac{API} request, the offered links are rather filtered by the criteria from the \ac{API} response.
 When no connection suites the restrictions, an apology utterance is issued.
 
 \subsubsection{Choosing the alternative}
@@ -172,7 +171,7 @@ This can be used prior to selection of particular alternative connection.
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-	Speaker & Utterance \\ \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``How long does the next link take?''} \\ \hline
 	\texttt{System} & \textit{``The second connection takes about 51 minutes.''} \\ \hline
 	\texttt{User} & \textit{``How long till the third connection arrives?''} \\ \hline
@@ -198,7 +197,7 @@ This type of behavior occurs in all other tasks, too.
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-	Speaker & Utterance \\ \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``Tell me the weather forecast for Las Vegas in Iowa''} \\ \hline
 	\texttt{System} & \textit{``I'm sorry, but the city Las Vegas is not located in the state of Iowa.''} \\ \hline
 \end{tabular}
@@ -219,7 +218,7 @@ The system either issues an implicit confirmation of the same slot with a differ
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-	Speaker & Utterance \\ \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``I want to go from Forty Sixth Street.''} \\ \hline
 	\texttt{System} & \textit{``Alright, from Forty Sixth Street, Where are You heading?''} \\ \hline	
 	\texttt{User} & \textit{``You know what, no, not from Forty Sixth Street.''} \\ \hline
@@ -239,7 +238,7 @@ Partially this is achieved by keeping track of previous states, however, there a
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-	Speaker & Utterance \\ \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{System} & \textit{``Which stop do You want to depart?''} \\ \hline
 	\texttt{User} & \textit{``Miami.}'' \\ \hline
 	\texttt{System} & \textit{``Alright, from Miami, where do You want to go to?''} \\ \hline
@@ -250,7 +249,7 @@ Partially this is achieved by keeping track of previous states, however, there a
 
 In the example, the system asks about the initial stop.
 The user replies with a city without a preposition.
-Even though the system was asking about a stop, the DM needs to deduce that the user does not want to go from particular stop, but rather from the city of Miami.
+Even though the system was asking about a stop, the \ac{DM} needs to deduce that the user does not want to go from particular stop, but rather from the city of Miami.
 These automatic relations are defined in the ontology.
 %protože věděl na co se ptal a vyinferoval, že uživatel myslí z nbebo from nebo in. rather than just city
 
@@ -264,7 +263,7 @@ These automatic relations are defined in the ontology.
 % \begin{table}[h]
 % \centering
 % \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-% 	Speaker & Utterance \\ \hline
+% 	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 % 	\texttt{User} & \textit{What is the weather like in Saint Louis, Missouri?} \\ \hline
 % 	\texttt{System} & \textit{In Saint Louis, It is eighty degrees and clear sky.} \\ \hline
 % 	\texttt{User} & \textit{What is the time there?} \\ \hline
@@ -283,7 +282,7 @@ An obvious confusion may occur when asking about orthogonal queries as showed in
 \begin{table}[h]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-	Speaker & Utterance \\ \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``What is the weather like in Saint Louis, Missouri?''} \\ \hline
 	\texttt{System} & \textit{``In , It is eighty degrees and clear sky.''} \\ \hline
 	\texttt{User} & \textit{``What is the weather like in Alaska?''} \\ \hline
@@ -296,11 +295,11 @@ An obvious confusion may occur when asking about orthogonal queries as showed in
 From the example it is evident that the system did not forget the user mentioned the city of Saint Louis, which was considered relevant in the next turn, where it did not pass the compatibility test based on knowledge from the ontology.
 Which of course leads to an apology utterance as mentioned earlier and can be resolved either by negation or by reset of the dialogue.
 
-%e vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v DM slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou.
+%e vidět, že se uživatel ptá na počasí v městě X, o kterém se vyinferuje, že se nalézá ve státě Y, když se pak ale zeptá uživatel na město Z, přepíše se v \ac{DM} slot in\_city a systém se domnívá, že se jedná o město Z ve státě Y, načež zareaguje conflict omluvou.
 
 \subsubsection{Selection and confirmation of slot values}
 
-When the confusion network in DM contains more values of the same slot that have non-zero probabilities, it has to decide what value is intended by the user.
+When the confusion network in \ac{DM} contains more values of the same slot that have non-zero probabilities, it has to decide what value is intended by the user.
 The system will either produce a selection or confirmation utterance based on the probability distribution of the values at particular slot.
 The selection utterance is challenging the user to decide between two values with same probability.
 Whereas the confirmation is a yes-no question about slot with a concrete value.
@@ -319,19 +318,19 @@ Reseting erases all the slots in the dialogue system and it prompts the user to 
 \subsubsection{Supplementary intents} %auxiliary, additional, accompanying
 
 The dialogue system has to be able to process speech habits commonly occurring in every dialogue.
-In the table \ref{table:sup} there are enlisted all of the supplementary intents of the caller that PTINY is able to process.
+In the table \ref{table:sup} there are enlisted all of the supplementary intents of the caller that \ac{PTINY} is able to process.
 
 \begin{table}[h]
 \centering
 %\small
 %\hspace*{-1pt}\makebox[\linewidth][c]{
 \begin{tabular}{ r | p{0.73\linewidth} }
-	\textit{Intent} & \textit{Cause and action taken by PTINY} \\ \hline
+	\textit{Intent} & \textit{Cause and action taken by \ac{PTINY}} \\ \hline
 	\texttt{greeting} & Courtesy act and prompt for inquiries.\\
 	\texttt{farewell} & Indicates parting and an intent to hang up.\\
 	\texttt{courtesy} & Usually after satisfactory response it concludes a task. The system will encourage user to ask further questions. \\
 	\texttt{help requested} & Provides context sensitive help by randomly selecting a subtopic and saying how to specify a appropriate query. \\
-	\texttt{not understood} & Indistinct ASR input results in an apology and a suggestion to repeat the last utterance.\\ %offer propose, urge, rocommend
+	\texttt{not understood} & Indistinct \ac{ASR}  input results in an apology and a suggestion to repeat the last utterance.\\ %offer propose, urge, rocommend
 	\texttt{silence} & Nothing has been said for a while. The system will ask if caller is still in the presence. % on the other side.
 \end{tabular}
 %}
@@ -345,7 +344,7 @@ If for example the conversation was about finding a connection, it may suggest h
 \begin{table}[h!]
 \centering
 \begin{tabular}{ | r | p{0.85\linewidth} | } \hline
-	Speaker & Utterance \\ \hline
+	\textbf{Speaker} & \textbf{Utterance} \\ \hline
 	\texttt{User} & \textit{``Help.''} \\ \hline
 	\texttt{System} & \textit{``You can narrow your search by limiting the number of transfers.
 	Just say, I want a direct connection, for example.''} \\ \hline

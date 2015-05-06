@@ -1,23 +1,23 @@
 \chapter{Implementation -- Public Transport Information for New York}
 
-In this chapter we will go through each component that needed to be implemented or modified in PTINY.
+In this chapter we will go through each component that needed to be implemented or modified in \ac{PTINY}.
 This excludes automatic speech recognition, text to speech and VoIP interface.
 %These components are ready to use.
 The principle will be described along with relevant instruments. %apparatus. 
-All of these components are domain specific versions of domain independent components of the ASDF.
+All of these components are domain specific versions of domain independent components of the \ac{ASDF}.
 
 First we will cover keyword database and matching words against the input, than we will describe changing states in our dialogue system.
 Last we will explain how the state is translated to the output which will conclude in an outline of utterance processing. % summary of utterance processing.
 
 \section{Spoken Language Understanding}
 
-To be able to process, evaluate and respond to user's requests, semantic meaning needs to be extracted from utterances. %ASR hypothesis
-This is realized via Spoken Language Understanding (SLU), which uses a vast static keyword database for analyzing words and phrases of each utterance.
+To be able to process, evaluate and respond to user's requests, semantic meaning needs to be extracted from utterances. %\ac{ASR} hypothesis
+This is realized via \acf{SLU}, which uses a vast static keyword database for analyzing words and phrases of each utterance.
 Being able to handle such semantic representation makes it possible to change state of the dialogue system.
-There are different approaches for SLU development.
-There are SLU techniques based on statistical models learned from data.
-We, however, have implemented a handcrafted SLU based on simple keyword rules.
-Both approaches are supported by the ADSF as demonstrated in \cite{slu}.
+There are different approaches for \ac{SLU} development.
+There are \ac{SLU} techniques based on statistical models learned from data.
+We, however, have implemented a handcrafted \ac{SLU} based on simple keyword rules.
+Both approaches are supported by the \ac{ASDF} as demonstrated in \cite{slu}.
 
 % \todo{which gives us direct control over the translation process.} % clear overview of the process
 
@@ -47,15 +47,15 @@ NJ Transit\footnote{New Jersey Transit - \url{http://www.njtransit.com/}},
 NY Waterway\footnote{New York Waterway - \url{http://www.nywaterway.com/}} and
 Amtrak\footnote{The National Railroad Passenger Corporation - \url{http://www.amtrak.com/home}} for long-distance trips.
 Most of the companies are providing their schedules for developers in a unified format.
-The General Transit Feed Specification (GTFS) defines a common format for public transportation schedules and associated geographic information.\footnote{GTFS - \url{https://developers.google.com/transit/gtfs/}}
+The \acf{GTFS} defines a common format for public transportation schedules and associated geographic information.\footnote{GTFS - \url{https://developers.google.com/transit/gtfs/}}
 
-We could adopt the GTFS format which would be very convenient for updating.
-However, some of the datasets were not strictly following the GTFS making it unfeasible to work with.
+We could adopt the \ac{GTFS} format which would be very convenient for updating.
+However, some of the datasets were not strictly following the \ac{GTFS} making it unfeasible to work with.
 Missing values, overflowing columns or disunited expressions occurred infrequently, nevertheless throughout notable portion of the data.
 The benefit of an easy update and access to additional information did not outweigh the shortcomings encountered.
 
 We opted for a simple format that takes only the most important features into account.
-Selecting fewer columns makes it easier to add places that are not available in the GTFS.
+Selecting fewer columns makes it easier to add places that are not available in the \ac{GTFS}.
 This includes a few smaller transport companies commuting between tens of terminals that we also included into our database.
 
 In addition to official stops, we added over a hundred of the most popular sites in New York from various top \textit{n} lists.
@@ -65,7 +65,7 @@ Those can be used as good reference points in everyday commutes so that the foll
 \textit{``From Empire State Building to Central Park.''}.
 \end{flushleft}
 
-\noindent We used Google Geolocation API\footnote{\url{https://developers.google.com/maps/documentation/business/geolocation/}}, to obtain longitude, latitude and borough for each popular site. Geo coordinate information is used when looking for a connection.
+\noindent We used Google Geolocation \ac{API}\footnote{\url{https://developers.google.com/maps/documentation/business/geolocation/}}, to obtain longitude, latitude and borough for each popular site. Geo coordinate information is used when looking for a connection.
 
 The obtained data in raw form can not be used for keyword matching. As opposed to the Czech language, there is no necessity to take inflection into account, however, there is a number of ways to express stop or a street.
 Stops in particular, mostly called after an intersections, can be unfolded and expressed in different order and coupled with a different conjunction.
@@ -88,14 +88,14 @@ Thus for each category we have a separate file with possible forms generated by 
 
 \subsubsection{Dialogue Act Scheme}
 
-Intents of the user as well as actions of the spoken dialogue system are represented by dialog acts (DA).
-They consist of one or more dialogue act items (DAI) that are elementary semantic information units.
+Intents of the user as well as actions of the spoken dialogue system are represented by \acf{DA}.
+They consist of one or more \acf{DAI} that are elementary semantic information units.
 
-DAIs are defined by a type, slot name and slot value.
+\acp{DAI} are defined by a type, slot name and slot value.
 The slot name and value are domain specific and further define the meaning.
 In our case slot names may refer to a place or time for instance.
-Exemplary DA is shown in table \ref{table:utterance}.
-We can see that the \textit{When does} and \textit{leave} correspond with the request DAI and that the \texttt{inform} is gathered from the word \textit{bus} in the sentence.
+Exemplary \ac{DA} is shown in table \ref{table:utterance}.
+We can see that the \textit{When does} and \textit{leave} correspond with the request \ac{DAI} and that the \texttt{inform} is gathered from the word \textit{bus} in the sentence.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
@@ -109,19 +109,19 @@ We can see that the \textit{When does} and \textit{leave} correspond with the re
 \label{table:utterance}
 \end{table}
 
-Sometimes it is not clear how an utterance should be transformed into DA due to unknown context or ASR lapse.
-The ADSF contains a dialogue act confusion network that deals with this issue. %helps with dealing
-The confusion network stores a probability for each DAI and it presents the most likely DA based on the probability distribution of DAIs.
+Sometimes it is not clear how an utterance should be transformed into \ac{DA} due to unknown context or \ac{ASR} lapse.
+The \ac{ADSF} contains a dialogue act confusion network that deals with this issue. %helps with dealing
+The confusion network stores a probability for each \ac{DAI} and it presents the most likely \ac{DA} based on the probability distribution of \acp{DAI}.
 %The confusion network has a probability for each DAI and it predicts whether the DAI is present in the most likely DA or not.
 %A DAI will be present in the result DA if the probability is greater than \( \frac{1}{2} \).
 
-A confusion network is best utilized when processing ASR n-best hypothesis and using statistical SLU.
+A confusion network is best utilized when processing \ac{ASR} n-best hypothesis and using statistical \ac{SLU}.
 
-\subsubsection{Handcrafted SLU}
+\subsubsection{Handcrafted \ac{SLU}}
 
-Handcrafted SLU handles only the 1-best hypothesis from ASR.
-%We take into account only the first (best) hypothesis from ASR.
-After an utterance is passed into handcrafted SLU, it is matched against class labeled database keywords and an abstract utterance marked with labels is produced.
+Handcrafted \ac{SLU} handles only the 1-best hypothesis from \ac{ASR}.
+%We take into account only the first (best) hypothesis from \ac{ASR}.
+After an utterance is passed into handcrafted \ac{SLU}, it is matched against class labeled database keywords and an abstract utterance marked with labels is produced.
 Each label corresponds with a special parsing procedure that yields dialogue acts into the dialogue act confusion network.
 The following class labels have their designated routines.
 %We We treat individually the following class labels:
@@ -144,42 +144,42 @@ The ambiguity of streets and stops is not negligible, hence boroughs are also pa
 
 Further series of matching steps take place after those routines.
 Keywords and phrases are being searched for in the whole utterance regardless of the context.
-This yields more DAIs to the dialogue act confusion network by a simple if-else set of rules.
+This yields more \acp{DAI} to the dialogue act confusion network by a simple if-else set of rules.
 It handles particular utterances for courtesy, greeting, acknowledgement as well as requests and notifications about public transport restrictions.
-Also DAIs from non-speech events like silence or noise DAIs are extracted here.
+Also \acp{DAI} from non-speech events like silence or noise \acp{DAI} are extracted here.
 
 \section{Dialogue Manager}
 
-A Dialogue Manager (DM) is a component responsible for processing and changing dialogue states in order to take appropriate actions in response to the user's query.
+\acf{DM} is a component responsible for processing and changing dialogue states in order to take appropriate actions in response to the user's query.
 The history of the dialogue and inner states are recorded for better comprehension of current request.
 
 \subsubsection{Ontology}
 
 Ontology contains a static domain knowledge information that can be used for better understanding relations between entities.
-It defines DAI slot types and values from keyword database and relationships between them.
-This allows DM to gain more relevant information for example by context resolution.
+It defines \ac{DAI} slot types and values from keyword database and relationships between them.
+This allows \ac{DM} to gain more relevant information for example by context resolution.
 
 In addition, it provides relations between locations for discovering compatibility conflicts and for implicit value inference.
 The compatibility lists are bidirectional and concern street-borough, stop-borough and city-state relations.
 %Stop geolocation is stored in the ontology.
 
-\subsubsection{Handcrafted DM}
+\subsubsection{Handcrafted \ac{DM}}
 %handluje tam ty pravděpodobnosti
 
-Our implementation of handcrafted DM extracts facts from the combination of inner states, history of the dialogue and the DAI probability distribution taken over from the dialogue act confusion network from SLU.
+Our implementation of handcrafted \ac{DM} extracts facts from the combination of inner states, history of the dialogue and the \ac{DAI} probability distribution taken over from the dialogue act confusion network from \ac{SLU}.
 From an if-else rule block it selects a subroutine for deciding what will be the next action taken.
 
 Simple responses to elementary facts are among the first served by the rule block.
 Those include actions for greeting, repetition of the last system utterance, a context specific help, reseting the system or a back-off action.
-In case the input yields no change since the last time, or the input from ASR was invalid, the DM executes a back-off action, which is randomly selected from providing help, repeating the last utterance, silence and dispatching an act for saying it simply did not understand.
+In case the input yields no change since the last time, or the input from \ac{ASR} was invalid, the \ac{DM} executes a back-off action, which is randomly selected from providing help, repeating the last utterance, silence and dispatching an act for saying it simply did not understand.
 
 \section{Natural Language Generation}
 
-Natural Language Generation (NLG) component transforms inner states of the dialogue system into readable text form.
-Limited domain relieves the amount of DA necessary to transform, therefore we are able to cover NLG by a template dictionary that has entries for each dialogue act item and combinations of some dialogue act items.
-Seamless communication can be achieved by constructing adequate NLG templates.
-The slot value of each DAI is treated as a variable that can be inserted in the translated sentence.
-An example of NLG translation is displayed at \ref{table:nlg}.
+\acf{NLG} component transforms inner states of the dialogue system into readable text form.
+Limited domain relieves the amount of \ac{DA} necessary to transform, therefore we are able to cover \ac{NLG} by a template dictionary that has entries for each dialogue act item and combinations of some dialogue act items.
+Seamless communication can be achieved by constructing adequate \ac{NLG} templates.
+The slot value of each \ac{DAI} is treated as a variable that can be inserted in the translated sentence.
+An example of \ac{NLG} translation is displayed at \ref{table:nlg}.
 It is evident how the slot value \textit{Broadway} is injected into the template and also that the time value is translated to word representation.
 
 \begin{table}[h]
@@ -188,17 +188,17 @@ It is evident how the slot value \textit{Broadway} is injected into the template
 \hspace*{-3pt}\makebox[\linewidth][c]{
 \begin{tabular}{ r | l }
 	\textbf{Dialogue Act} & \texttt{inform(to\_stop={"Broadway"})\&inform(arrival\_time={"04:26:PM"})} \\
-	\textbf{NLG template} & \texttt{inform(to\_stop=\{to\_stop\})\&inform(arrival\_time=\{arrival\_time\}):} \\
+	\textbf{\ac{NLG} template} & \texttt{inform(to\_stop=\{to\_stop\})\&inform(arrival\_time=\{arrival\_time\}):} \\
 	 & \hspace{0.5cm} \texttt{"It arrives at \{to\_stop\} at \{arrival\_time\}."} \\
-	\textbf{NLG output} & \textit{``It arrives at Broadway at four twenty six P M.''}	
+	\textbf{\ac{NLG} output} & \textit{``It arrives at Broadway at four twenty six P M.''}	
 \end{tabular}
 }
-\caption[NLG conversion of DA to sentence]{Translation example of dialogue act to sentence by Natural Language Generation component}
+\caption[\ac{NLG} conversion of \ac{DA} to sentence]{Translation example of dialogue act to sentence by Natural Language Generation component}
 \label{table:nlg}
 \end{table}
 
 There may be multiple expressions defined for each dialogue act, which is useful for making overused dialogue acts, such as greetings, seem more natural and less robotic.
-The NLG templates can be overlapping and proper translation rule has to be searched for.
+The \ac{NLG} templates can be overlapping and proper translation rule has to be searched for.
 The search proceeds from exact to general and from long to short sequences of dialogue act items.
 
 \section{Main System Hub}
@@ -209,20 +209,116 @@ Each component runs as a separate process and the hub essentially chains them vi
 % the hub handles incoming call events
 
 
+
+
 \begin{figure}[ht]
 \centering
-\begin{subfigure}{0.5\textwidth}
-  \centering
-  \includegraphics[width=0.4\linewidth]{../img/star.eps}
+\begin{subfigure}{0.35\textwidth}
+\hspace{-1em}
+\begin{tikzpicture}[scale=1.8,auto=left]
+\tikzstyle{every node}=[circle,fill=blue!20,minimum height=2.8em,scale=0.7]
+%\tikzstyle{every node} = [rectangle, draw=blue, thick, fill=blue!20, scale=0.7, text width=3em, text centered, rounded corners, minimum height=2em]
+\node (a) at (1,0) {\textbf{ASR}};
+\node (b) at (0.62,0.78) {\textbf{TTS}};
+\node (c) at (-0.22,0.975) {\textbf{VoIP}};
+\node (d) at (-0.90, 0.434) {\textbf{DM}};
+\node (e) at (-0.90, -0.434) {\textbf{SLU}};
+\node (f) at (-0.22, -0.975) {\textbf{NLG}};
+\node (g) at (0.62, -0.78) {\textbf{VAD}};
+\node (i) at ( 0, 0) {\textbf{HUB}};
+\tikzstyle{every node}=[fill=red!20]
+\foreach \from/\to in {a/i,b/i,c/i,d/i,e/i,f/i,g/i}
+\draw [<->] (\from) -- (\to);
+\end{tikzpicture}
   \caption{Hub configuration}
   \label{fig:hub}
 \end{subfigure}%
-\begin{subfigure}{0.5\textwidth}
-  \centering
-  \includegraphics[width=0.4\linewidth]{../img/hub.eps}
+\begin{subfigure}{0.65\textwidth}
+\vspace{3em} 
+  \begin{tikzpicture}[thick, every node/.style={scale=0.7}]
+	\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20, text width=3em, text centered, rounded corners, minimum height=2em]
+	\tikzstyle{line} = [draw, thick, -latex',shorten >=2pt];
+	\matrix [column sep=7mm,row sep=5mm]
+	{
+	% row 1
+	& \node [block] (vad) {\textbf{VAD}}; &
+	& \node [block]	(asr) {\textbf{ASR}}; &
+	& \node [block] (slu) {\textbf{SLU}}; & \\
+	% row 2
+	\node [block] (voip) {\textbf{VoIP}}; & & \\
+	% row 3
+	& \node [block] (tts) {\textbf{TTS}}; &
+	& \node [block] (nlg) {\textbf{NLG}}; & 
+	& \node [block] (dm) {\textbf{DM}}; & \\
+	};
+	\tikzstyle{every path}=[line]
+	\path (voip) -- node [midway, yshift=0.3cm, xshift=-0.5cm] {speech} (vad);
+	\path (vad) -- node [midway, yshift=0.3cm] {speech} (asr);
+	\path (asr) -- node [midway, yshift=0.3cm] {text} (slu);
+	\path (slu) -- node[align=center, xshift=1.5cm] {semantic\\representation} (dm);
+	\path (dm) -- node [midway, yshift=0.3cm] {aciton} (nlg);
+	\path (nlg) -- node [midway, yshift=0.3cm] {text} (tts);
+	\path (tts) -- node [midway, yshift=-0.3cm, xshift=-0.5cm] {speech} (voip);
+  \end{tikzpicture}
   \caption{Component chain}
   \label{fig:chain}
 \end{subfigure}
 \caption{On the left there is a typical star-like shape configuration of a dialogue system components and the right figure shows the inner component chain of the central hub.} % inner -> piped
 \label{fig:test}
 \end{figure}
+
+
+
+% \begin{figure}[ht]
+% \centering
+% \begin{tikzpicture}[scale=1.9,auto=left]
+% \tikzstyle{every node}=[circle,fill=blue!20,minimum height=3em]
+% \node (a) at (1,0) {ASR};
+% \node (b) at (0.62,0.78) {TTS};
+% \node (c) at (-0.22,0.975) {VoIP};
+% \node (d) at (-0.90, 0.434) {DM};
+% \node (e) at (-0.90, -0.434) {SLU};
+% \node (f) at (-0.22, -0.975) {NLG};
+% \node (g) at (0.62, -0.78) {VAD};
+% \node (i) at ( 0, 0) {HUB};
+% \tikzstyle{every node}=[fill=red!20]
+% \foreach \from/\to in {a/i,b/i,c/i,d/i,e/i,f/i,g/i}
+% \draw [<->] (\from) -- (\to);
+% \end{tikzpicture}
+% \caption{Hub configuration of a dialogue system components}
+% \label{fig:chain}
+% \end{figure}
+
+
+
+
+% \begin{figure}[ht]
+% \centering
+%   \begin{tikzpicture}[auto]	
+% 	\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20, text width=3em, text centered, rounded corners, minimum height=2em]
+% 	\tikzstyle{line} = [draw, thick, -latex',shorten >=2pt];
+% 	\matrix [column sep=7mm,row sep=5mm]
+% 	{
+% 	% row 1
+% 	& \node [block] (vad) {VAD}; &
+% 	& \node [block]	(asr) {ASR}; &
+% 	& \node [block] (slu) {SLU}; & \\
+% 	% row 2
+% 	\node [block] (voip) {VoIP}; & & \\
+% 	% row 3
+% 	& \node [block] (tts) {TTS}; &
+% 	& \node [block] (nlg) {NLG}; & 
+% 	& \node [block] (dm) {DM}; & \\
+% 	};
+% 	\tikzstyle{every path}=[line]
+% 	\path (voip) -- node [near end] {speech} (vad);
+% 	\path (vad) -- node [midway] {speech} (asr);
+% 	\path (asr) -- node [midway] {text} (slu);
+% 	\path (slu) -- node[align=center] {semantic\\representation} (dm);
+% 	\path (dm) -- node [midway] {aciton} (nlg);
+% 	\path (nlg) -- node [midway] {text} (tts);
+% 	\path (tts) -- node [near start] {speech} (voip);
+%   \end{tikzpicture}
+% \caption{Inner component chain of the central hub}
+% \label{fig:hub}
+% \end{figure}

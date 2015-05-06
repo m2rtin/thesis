@@ -1,8 +1,8 @@
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
-This work presented the dialogue system providing public transport information for New York (PTINY) developed in the Alex dialogue system framework (ASDF).
-This involved creating a custom handcrafted spoken language understanding (SLU), dialogue manager and natural language generator components for adopting the public transport domain.
+This work presented the dialogue system providing \acf{PTINY} developed in the \acf{ASDF}.
+This involved creating a custom handcrafted \acf{SLU}, dialogue manager and natural language generator components for adopting the public transport domain.
 Set of bootstrapping sentences was used for making the first operational system.
 Further development of all involved components was incremental for suiting foreign conditions.
 We collected static easy to update knowledge-base from various public transit providers in New York.
@@ -11,21 +11,21 @@ Additionally the dialogue system supports weather and current time queries for e
 CrowdFlower crowdsourcing platform was utilized for collecting audio data.
 Collected data were later transcribed using CrowdFlower platform as well.
 A grammar generating sentences likely to be used for public transport information inquiries was created.
-The purpose of the grammar was to substitute the lack of data needed for creating a good language model (LM).
-With the combination of CrowdFlower and grammar data, a language model (LM) was trained and subsequently Kaldi decoder was built.
+The purpose of the grammar was to substitute the lack of data needed for creating a good \acf{LM}.
+With the combination of CrowdFlower and grammar data, a \ac{LM} was trained and subsequently Kaldi decoder was built.
 
-This Kaldi ASR was compared with the cloud-based Google ASR that is used natively.
-It was shown that in a limited domain Kaldi is able to achieve notably better results than Google ASR.
-Aside from the comparison of both ASRs realized within the ASDF, feedback forms from CrowdFlower served as a subjective user satisfaction measure in the comparison of the entire dialogue system with different ASR components.
-It was shown that PTINY achieves better results with Kaldi ASR.
+This Kaldi \ac{ASR} was compared with the cloud-based Google \ac{ASR} that is used natively.
+It was shown that in a limited domain Kaldi is able to achieve notably better results than Google \ac{ASR}.
+Aside from the comparison of both \acp{ASR} realized within the \ac{ASDF}, feedback forms from CrowdFlower served as a subjective user satisfaction measure in the comparison of the entire dialogue system with different \ac{ASR} components.
+It was shown that \ac{PTINY} achieves better results with Kaldi \ac{ASR}.
 Moreover, the dialogue system proved to be stable and beneficial in helping everyday commuters.
 
-The goals were successfully completed and the solution was integrated with the ASDF.
-Furthermore the PTINY was capable of competing alongside commercial application in the 2014 MTA App Quest 3.0.
+The goals were successfully completed and the solution was integrated with the \ac{ASDF}.
+Furthermore the \ac{PTINY} was capable of competing alongside commercial application in the 2014 \ac{MTA} App Quest 3.0.
 
 
 \section{Acknowledgements}
 
-Access to computing and storage facilities owned by parties and projects contributing to the National Grid Infrastructure MetaCentrum, provided under the programme ``Projects of Large Infrastructure for Research, Development, and Innovations'' (LM2010005), is greatly appreciated. We also thank Fred Concklin for assisting with the MTA contest and to Ondřej Dušek, Ondřej Klejch, Ondřej Plátek and Lukáš Žilka for their useful comments and discussions.
+Access to computing and storage facilities owned by parties and projects contributing to the National Grid Infrastructure MetaCentrum, provided under the programme ``Projects of Large Infrastructure for Research, Development, and Innovations'' (LM2010005), is greatly appreciated. We also thank Fred Concklin for assisting with the \ac{MTA} contest and to Ondřej Dušek, Ondřej Klejch, Ondřej Plátek and Lukáš Žilka for their useful comments and discussions.
 
 %\todo{we have produced a working showcase of PTIEN capable of competing at new york MTA contest}

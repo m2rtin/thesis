@@ -46,6 +46,9 @@
 
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
+\usepackage{tikz} % LATEX
+
+\usetikzlibrary{arrows,snakes,backgrounds,automata,backgrounds,calendar,er,folding,matrix,trees,topaths,shapes}
 
 \pgfplotsset{compat=newest}
 
@@ -220,12 +223,31 @@ Mgr. Ing. Filip Jurčíček, Ph.D.
 Abstrakt:
 % abstrakt v rozsahu 80-200 slov; nejedná se však o opis zadání diplomové práce
 
-Tato práce se zabývá vývojem dialogového systému v angličtině, který je založený na systému Alex vyvíjeným na Ústavu formální a aplikované lingvistiky.
+Tato práce se zabývá vývojem anglického dialogového systému, který je založen na systému Alex v češtině.
 Systém poskytuje informace o veřejné dopravě ve městě New York.
-Řešení zahrnuje implementaci komponent pro porozumění řeči, řízení dialogu a generování odpovědí.
-Součástí práce je otestování systému na reálných uživatelích ze Spojených států pomocí platformy CrowdFlower.
-Pomocí přepisů hovorů byl vytvořen jazykový model pro Kaldi dekodér, který zlepšil schopnost rozpoznání řeči ve srovnání s cloudovým rozpoznávačem od Googlu.
-Dialogový systém byl přihlášen do soutěže MTA App Quest 2014.
+Angličtina rozšiřuje možnosti použití a hlavním přínosem řešení bude sběr dat pro vytváření lepších rozpoznávačů řeči.
+Součástí práce je příprava statistického modelu a nasazení vlastního rozpoznávače řeči pomocí nástrojů Kaldi.
+Ve srovnání s Google Speech API s ním bylo dosaženo lepších výsledků, které vychází ze subjektivního hodnocení uživatelů.
+
+%Tato práce se zabývá vývojem dialogového systému v angličtině, který je založený na systému Alex vyvíjeném na Ústavu formální a aplikované lingvistiky.
+%Řešení zahrnuje implementaci komponent pro porozumění řeči, řízení dialogu a generování odpovědí.
+%Součástí práce je otestování systému na reálných uživatelích ze Spojených států pomocí platformy CrowdFlower.
+%Pomocí přepisů hovorů byl vytvořen jazykový model pro Kaldi dekodér, který zlepšil schopnost rozpoznání řeči ve srovnání s cloudovým rozpoznávačem od Googlu.
+%V minulosti byl vytvořen český systém, který má však omezené možnosti použití.
+%Angličtina však rozšiřuje možnosti použití.
+%Hlavním přínosem řešení bude sběr dat pro vytváření lepších rozpoznávačů řeči.
+%Cílem této práce je vytvořit anglický dialogový systém v angličtině.
+
+
+% Tato práce se zabývá vývojem dialogového systému v angličtině, který je založený na českém systému Alex.
+% Systém poskytuje informace o veřejné dopravě ve městě New York.
+% Řešení bylo otestováno na reálných uživatelech pomocí platformy na crowdsoursing.
+% Součástí řešení je příprava statistických modelů a nasazení vlastního rozpoznávače řeči pomocí nástrojů Kaldi.
+% Ve srovnání s Google Speech API s ním bylo dosaženo lepších výsledků, které vychází ze subjektivního hodnocení uživatelů.
+
+
+% Vzal jsem hotovy dialogovy system a uspesne ho transformoval pro jiny jazyk a domenu (Tohle me tam chybi opravdu hodne).
+% Narazil jsem na problemy takove a takove a v praci popisuji reseni pomoci tohoto a tohoto
 
 
 Klíčová slova:
@@ -262,7 +284,6 @@ Crowdsourcing platform CrowdFlower is used for collecting speech data and audio 
 Collected data are furnished for training a language model and building a Kaldi decoder.
 CrowdFlower is further used for comparison of Google Speech API and Kaldi ASR.
 It is shown that Kaldi recognizer achieves better results in restricted public transport domain.
-The dialogue system attended the 2014 MTA App Quest challenge.
 
 
 

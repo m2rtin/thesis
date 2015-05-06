@@ -4,31 +4,31 @@ In this chapter we will introduce main technologies that were involved in creati
 
 \section{Alex spoken dialogue framework}
 
-The Alex Dialogue System Framework\footnote{\url{https://github.com/UFAL-DSG/alex}} (ADSF) serves for utilizing research in the development of spoken dialogue systems.
-It is maintained by the dialogue systems group at UFAL \footnote{\url{https://ufal.mff.cuni.cz/grants/vystadial}}, the Institute of Formal and Applied Linguistics, Faculty of Mathematics and Physics, Charles University in Prague.
+\acf{ASDF}\footnote{\url{https://github.com/UFAL-DSG/alex}} serves for utilizing research in the development of spoken dialogue systems.
+It is maintained by the dialogue systems group at \acf{UFAL} \footnote{\url{https://ufal.mff.cuni.cz/grants/vystadial}}, Faculty of Mathematics and Physics, Charles University in Prague.
 And it is written in Python.
 
-The ADSF consists of baseline components for assembling spoken dialogue systems.
+The \ac{ASDF} consists of baseline components for assembling spoken dialogue systems.
 There are tools for processing logs and evaluating spoken dialogue systems.
 These tools can be used for audio transcriptions or semantic annotation for example.
 A small set of example dialogue system implementations for different domains is also present.
 
-There is a working Public Transport Information (PTI) \cite{ptics} for Prague public transport and the Czech Republic transport network in Czech language.
+There is a working \acf{PTI} \cite{ptics} for Prague public transport and the Czech Republic transport network in Czech language.
 Our solution is based on the Czech version.
 However, switching to English renders a challenge emerging from nation, culture and speech habit differences.
 It brings the advantage of having more versatile system deployable in different cities or countries just by changing a knowledge base.
-Collecting English data is also important for creating better models that can be facilitated by other applications within ASDF.
+Collecting English data is also important for creating better models that can be facilitated by other applications within the \ac{ASDF}.
 
 %\todo{There are other services used for example for converting text to speech mentioned in the next chapter.}
 
 \subsubsection{Automatic Speech Recognition}
 
-Automatic Speech Recognition (ASR) transforms speech into text.
-Many applications already use ASR technology as an interface between human and a computer, although it is not yet capable of understanding all speech in any environment.
+\acf{ASR} transforms speech into text.
+Many applications already use \ac{ASR} technology as an interface between human and a computer, although it is not yet capable of understanding all speech in any environment.
 Many factors influence perception of voice.
 
-Acoustic conditions, voice differences, distance from the recording device, heavy accent, even voice emphasis, these are few of the issues versatile ASR has to cope with.
-Very good overall performance delivers cloud-based speech recognition API by Google which can be utilized withing the ASDF.
+Acoustic conditions, voice differences, distance from the recording device, heavy accent, even voice emphasis, these are few of the issues versatile \ac{ASR} has to cope with.
+Very good overall performance delivers cloud-based speech recognition \acf{API} by Google which can be utilized withing the \ac{ASDF}.
 Achieving better quality requires great many hours of transcribed text.
 
 However, when we restrict the recognition scope to a specific domain, the amount of words the recognizer needs to handle becomes quite limited.
@@ -38,35 +38,39 @@ With a recognizer trained on narrower domain, better results can be achieved.
 %\subsubsection{Kaldi}
 
 Kaldi is an open-source \footnote{Apache License 2.0} toolkit for speech recognition based on finite state transducers.
-We use python wrapper Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} within the ADSF for building a Kaldi decoder and effectively deploying trained ASR \cite{oplatek}.
-Kaldi decoder requires statistical models -- an acoustic model (AM) and a language model (LM).
-The AM is trained within the department \cite{oplatek_thesis}.
+We use python wrapper Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} within the ADSF for building a Kaldi decoder and effectively deploying trained \ac{ASR} \cite{oplatek}.
+Kaldi decoder requires statistical models -- an \acf{AM} and a \acf{LM}.
+The \ac{AM} is trained within the department \cite{oplatek_thesis}.
 It defines probabilities of acoustic features for a given word.
-The LM is more domain specific as it refines probabilities of a word being recognized.
-We use ASDF scripts that utilize the SRI Language Modeling Toolkit\footnote{\url{http://www.speech.sri.com/projects/srilm/}} (SRILM) for training LMs.
-The process of training LM and testing Kaldi will be expanded upon in chapter \ref{ch:workflow} on page \pageref{ch:workflow}.
+The \ac{LM} is more domain specific as it refines probabilities of a word being recognized.
+We use \ac{ASDF} 
+scripts that utilize the \acf{SRILM}\footnote{\url{http://www.speech.sri.com/projects/srilm/}} for training \acp{LM}.
+The process of training \ac{AM} and testing Kaldi will be expanded upon in Chapter \ref{ch:workflow} on page \pageref{ch:workflow}.
 
 \subsubsection{Voice Activity Detection}
 
 We need to be able to determine the end of the utterance for the computer to take turn and respond.
-This role is performed by the Voice Activity Detection (VAD).
-VAD cuts speech into sentences and sends it to ASR for processing.
+This role is performed by the \acf{VAD}.
+\ac{VAD} cuts speech into sentences and sends it to \ac{ASR} for processing.
 It separates noise and silence from the speech.
 
 \subsubsection{Text To Speech}
 
-Text To Speech (TTS) makes an instantaneous impression as this is the first and in most cases the only output end user is able to perceive. % comprehend
-The ASDF supports multiple TTS alternatives, Google, Flite, SpeechTech and VoiceRSS.
+\acf{TTS} makes an instantaneous impression as this is the first and in most cases the only output end user is able to perceive. % comprehend
+The \ac{ASDF} 
+supports multiple \ac{TTS} alternatives, Google, Flite, SpeechTech and VoiceRSS.
 We have utilized VoiceRSS\footnote{\url{http://www.voicerss.org/}}, the free online service.
-The VoiceRSS API requires API key which is limited to per day requests.
-With the ASDF caching most of the web requests it suffices our intents.
+The VoiceRSS \ac{API} requires \ac{API} key which is limited to per day requests.
+With the \ac{ASDF} 
+caching most of the web requests it suffices our intents.
 
 \subsubsection{VoIP interface}
 
 Our spoken dialogue system communicates with users over a phone.
-The ASDF exploits a modified version of communicating library PJSIP\footnote{\url{https://github.com/UFAL-DSG/pjsip}} for implementing VoIP applications.
-There is no need for registering a telephone number, for running a dialogue system it is suffice to enter SIP account details.
-SIP account can be freely registered at numerous providers.
+The \ac{ASDF} 
+exploits a modified version of communicating library PJSIP\footnote{\url{https://github.com/UFAL-DSG/pjsip}} for implementing VoIP applications.
+There is no need for registering a telephone number, for running a dialogue system it is suffice to enter \ac{SIP} account details.
+\ac{SIP} account can be freely registered at numerous providers.
 
 For accepting incoming calls from USA, a toll-free number was provided by the department.
 
@@ -78,7 +82,7 @@ By dividing tasks into smaller independent parts, one can eliminate the need for
 In some cases the cost savings can be a tenfold of what in-house solution may provide as mentioned in \cite{mturk}. % offer
 However, this method can barely achieve the quality or accuracy of expert workers.
 
-Collecting speech data for training ASR models in English is easier with the help of crowdsourcing.
+Collecting speech data for training \ac{ASR} models in English is easier with the help of crowdsourcing.
 There are several crowdsourcing platforms connecting workers with work requesters such as
 Amazon Mechanical Turk\footnote{\url{https://www.mturk.com/mturk/welcome}},
 Samasource\footnote{\url{http://samasource.org/}},
@@ -100,7 +104,8 @@ It features a web interface for building a custom job from scratch with a sensib
 \section{Deployment}
 
 Running a real-time dialogue system can claim considerable amount of system resources.
-All of the components of the dialogue system in the ASDF are separate processes.
+All of the components of the dialogue system in the \ac{ASDF} 
+are separate processes.
 Also the static knowledge-base may outgrow ordinary computer's memory.
 Hence, it is only right to employ multi-processor machine with sufficient amount of memory.
 %velký dostatek paměti je potřeba i pro trénování
@@ -109,29 +114,28 @@ Hence, it is only right to employ multi-processor machine with sufficient amount
 
 Docker\footnote{\url{https://www.docker.com/}} is a platform for rapid deployment of applications.
 It contains a packaging tool and a lightweight runtime.
-An application wrapped in docker is easily portable to any laptop or virtual machine (VM).
+An application wrapped in docker is easily portable to any laptop or \acf{VM}.
 The chain of events leading from discovering a flaw and changing source code, to deploying compiled dialogue system can be excessively accelerated with docker.
 
 Dockerfile is a specification file used for automating docker image builds.
 It allows to specify a sequence of instructions executed on a base image in order to create a new one.
 Built docker image with the dialogue system can be executed in an isolated container.
 
-The Alex dialogue system framework (ADSF) is now using docker which is very useful for resolving dependencies.
-Our Dockerfile is based on the base ASDF Dockerfile with instructions for downloading newest models and knowledge-base.
+The \acf{ASDF} is now using docker which is very useful for resolving dependencies.
+Our Dockerfile is based on the base \ac{ASDF} 
+Dockerfile with instructions for downloading newest models and knowledge-base.
 There is a \texttt{-i} flag for mounting any directory into a docker container.
 
 \subsection{MetaCentrum}
 
 In order to provide service for more than one caller at a time, we need to have multiple instances of our dialogue system.
 Computing and storage resources of MetaCentrum\footnote{\url{http://www.metacentrum.cz/cs/}} can be used freely by all students of academic institutions in the Czech Republic.
-Various VMs were deployed on MetaCentrum for our dialogue system groundwork.
+Various \acp{VM} were deployed on MetaCentrum for our dialogue system groundwork.
 %The possibility to use extensible resources was really helpful.
 % It runs on OpenNebula platform
 
-For each instance of MetaCentrum VM, configuration with 4 processors and 16GB was used.
-Half of the memory would be sufficient, however, the same VMs were employed for training language models which involves excessive memory usage.
-
-\todo{říct kolik VMs jsme použili na MTA, na CF a na ostatní věci}
+For each instance of MetaCentrum \ac{VM}, configuration with 4 processors and 16GB was used.
+Half of the memory would be sufficient, however, the same \acp{VM} were employed for training language models which involves excessive memory usage.
 
 
 % In short, the placement options means allowing placement at certain locations:

@@ -1,6 +1,6 @@
 \chapter{Workflows - Development processes} \label{ch:workflow}
 
-This chapter is concerned with the process of several procedures repeatedly used while developing spoken dialogue system providing public transport information in New York (PTINY).
+This chapter is concerned with the process of several procedures repeatedly used while developing spoken dialogue system providing public transport information in New York (\ac{PTINY} ).
 Very similar approaches might be taken for the development of dialogue systems in different domains.
 
 \section{Creating CrowdFlower Job}
@@ -10,10 +10,10 @@ Custom and more sophisticated tasks can be carried out from scratch.
 It is desirable that the tasks are as simple as possible to eliminate errors resulting from the lack of knowledge or misinterpretation.
 
 %The platform automatically inserts test question and evaluates contributors based on them.
-CrowdFlower provides a web interface for work requesters to edit the task by CrowdFlower Markup Language (CML), CSS and custom JavaScript that runs once on page load.
+CrowdFlower provides a web interface for work requesters to edit the task by \acf{CML}, CSS and custom JavaScript that runs once on page load.
 There is a possibility to inject custom HTML code as well.
 CML and JavaScript are essential for leveraging Crowdflower's quality control.
-Both mandatory and optional input controls have to be specified with the CML.
+Both mandatory and optional input controls have to be specified with the \ac{CML}.
 
 \subsection{Call job}
 
@@ -23,11 +23,11 @@ Its purpose is to encourage solvers to call on a toll-free number and ask questi
 To ensure the call is carried out thoroughly by the contributor, we employed a simple generator of four digit codes.
 A code is handed out by the dialogue system after finishing a call.
 It is spelled number after number three times over.
-In the same time, the code is registered at a validation server running on a dedicated MetaCentrum VM.
+In the same time, the code is registered at a validation server running on a dedicated MetaCentrum \ac{VM}.
 Without this code it is not possible to submit a feedback form and finish the job.
 
-This behavior of the CrowdFlower job is enforced by a CML control with a custom JavaScript validator.
-When contributor inserts a code to the CML control, the validator sends a request with the code to the validation server.
+This behavior of the CrowdFlower job is enforced by a \ac{CML} control with a custom JavaScript validator.
+When contributor inserts a code to the \ac{CML} control, the validator sends a request with the code to the validation server.
 Server compares the code with a set of registered codes from the dialogue system.
 Only after receiving positive server response the validator passes.
 It is unnecessary to match callers identity, this is sufficient measure for enforcing the call.
@@ -60,7 +60,7 @@ In addition to the mandatory questions an optional field for general comments an
 A toll-free number provided by the department was used for this job.
 CrowdFlower allows to geographically limit work force only to United States.
 The number of calls per job was temporarily set to one to ensure the diversity of callers.
-Four VMs on MetaCentrum were dedicated to this job to serve multiple callers.
+Four \acp{VM} on MetaCentrum were dedicated to this job to serve multiple callers.
 
 \subsection{Transcription job}
 
@@ -73,7 +73,7 @@ However, the contributors differ on spelling of some words and it is absolutely 
 %The phone quality of the audio is not helping.
 %in the sense of colloquial speech
 
-Data are uploaded to CrowdFlower via CSV file that contains a list of URLs with audio tracks.
+Data are uploaded to CrowdFlower via \acf{CSV} file that contains a list of URLs with audio tracks.
 The default setup suggests to let each track transcribe three times for accuracy.
 Even more transcriptions yield from setting up dynamic judgments.
 However, repeated labeling is costly and may tend to move towards the in-house solution in that regard. %aspect
@@ -107,43 +107,43 @@ The iterative process of improvement is captured in essence by the following ste
 
 \begin{enumerate}
 	\item Launch a CrowdFlower call job
-	\item Obtain logs from VMs
+	\item Obtain logs from \acp{VM}
 	\item Fix flaws in:
 	\begin{itemize}
-		\item \textbf{SLU} - enrich bootstrap from user turns and maintain 100\% precision
-		\item \textbf{DM} - amend features of the dialogue system
-		\item \textbf{NLG} - add templates from system turns to polish rough expressions
+		\item \textbf{\ac{SLU}} - enrich bootstrap from user turns and maintain 100\% precision
+		\item \textbf{\ac{DM}} - amend features of the dialogue system
+		\item \textbf{\ac{NLG}} - add templates from system turns to polish rough expressions
 	\end{itemize}
-	\item Upload source code to VMs
+	\item Upload source code to \acp{VM}
 	\item Restart the dialogue systems.
 \end{enumerate}
 
 %This rundown may be executed multiple times per job
 %logs render a room for improvement.
 
-The dialogue system on each VM is running in a docker container.
+The dialogue system on each \ac{VM} is running in a docker container.
 Any folder can be mounted to the docker container via \texttt{-v} flag.
-Uploading source code to update dialogue system on VM is therefore effortless and makes the development loop very quick.
+Uploading source code to update dialogue system on \ac{VM} is therefore effortless and makes the development loop very quick.
 
 
-\section{Building Kaldi ASR}
+\section{Building Kaldi \acs{ASR}}
 
 For building Kaldi decoder we used Pykaldi\footnote{\url{https://github.com/UFAL-DSG/pykaldi}} docker image containing the essential tools.
-It is necessary to add dependencies for ASDF if building and evaluation is intended within the platform.
-SRILM\footnote{\url{http://www.speech.sri.com/projects/srilm/}} must be installed for training language model (LM).
+It is necessary to add dependencies for \ac{ASDF} if building and evaluation is intended within the platform.
+\ac{SRILM}\footnote{\url{http://www.speech.sri.com/projects/srilm/}} must be installed for training \acf{LM}.
 
 %\subsubsection{Language model}
 
-Prior to training LM, it is necessary to dump database for creating a labeled list of database entries. % surface forms.
-It is used for balancing probabilities of every database entry within its class in the LM.
-Finally, we need to define domain specific corpus for training the LM .
+Prior to training \ac{LM}, it is necessary to dump database for creating a labeled list of database entries. % surface forms.
+It is used for balancing probabilities of every database entry within its class in the \ac{LM}.
+Finally, we need to define domain specific corpus for training the \ac{LM} .
 Our training data consist of utterances from CrowdFlower call logs, bootstrap utterances and utterances generated by grammar.
 
 \subsubsection{Context-free grammar}
 
-Creating a good LM entails a good probability distribution of words in the corpus.
+Creating a good \ac{LM} entails a good probability distribution of words in the corpus.
 This can be achieved naturally by collecting a lot of transcriptions.
-As we do not posses large number of transcriptions, we decided to bootstrap LM with generating utterances by grammar.
+As we do not posses large number of transcriptions, we decided to bootstrap \ac{LM} with generating utterances by grammar.
 It should produce utterances that are most likely to be used and therefore it should cover the most frequent cases. %situations
 
 Our context-free grammar is written in Python and it can be assembled from the following prescriptions for simple rewriting rules.
@@ -202,7 +202,7 @@ Terminals can be also loaded from file, which is useful for defining alternative
 The final grammar should cover as many utterances as possible.
 However, it is easy to include utterances that are not used in conversation or does not make sense at all.
 From the example above a sentence \textit{can you tell me the weather tomorrow} is not exactly what we wanted to include.
-Even though it is syntactically correct, it is not something to be used in PTI domain.
+Even though it is syntactically correct, it is not something to be used in \ac{PTI} domain.
 This is undesirable to have in our corpus.
 
 \todo{not so bulletproof example, i want to generate some nonsense, but not too much for illustrating my point about over-generalizing}
@@ -218,13 +218,13 @@ This allows us to sample from more complicated subtrees with higher probability.
 
 \subsection{Building a decoder}
 
-When LM is ready, Kaldi decoder can be built.
+When \ac{LM} is ready, Kaldi decoder can be built.
 An acoustic model is needed, in our case it is downloaded from the department server.
 
-After running build script, it can be also tested within the ASDF.
-Statistics are computed from a test set that was created earlier from call logs when LM was built.
-The test set can be also tested with the Google ASR which renders a good comparison between the two recognizers.
+After running build script, it can be also tested within the \ac{ASDF}.
+Statistics are computed from a test set that was created earlier from call logs when \ac{LM} was built.
+The test set can be also tested with the Google \ac{ASR} which renders a good comparison between the two recognizers.
 
 We occasionally used CloudASR\footnote{\url{https://github.com/UFAL-DSG/cloud-asr}} for manual testing.
-With CloudASR, it is very easy to deploy Kaldi ASR.
+With CloudASR, it is very easy to deploy Kaldi \ac{ASR}.
 It is accessible through web interface by anyone who wants to try the decoder out by his own voice.
