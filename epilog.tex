@@ -1,27 +1,27 @@
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
-This work presented the dialogue system providing \acf{PTINY} developed within the \acf{ASDF}.
+This thesis presented a dialogue system providing \acf{PTINY} developed using the \acf{ASDF}.
 This involved creating a custom handcrafted \acf{SLU}, dialogue manager and natural language generator for the public transport domain.
-Bootstrapping sentences were used for making the first operational system.
+Bootstrapping sentences were used for creating the first operational system.
 All of the involved components were further enhanced incrementally while the system was evaluated by real users.
 %Further development of all involved components was incrementally enhanced while the system was evaluated by real users.
-We collected static, easy to update knowledge-base from various public transit providers in New York.
-Additionally, the dialogue system supports weather and current time queries for entire United States.
+We collected a static, easy-to-update knowledge-base from the public transit providers in New York.
+Additionally, the dialogue system supports weather and current time queries for the entire United States.
 
 CrowdFlower crowdsourcing platform was utilized for collecting audio data.
-Collected data were later transcribed using CrowdFlower platform as well.
-A grammar generating sentences likely to be used for public transport information inquiries was created.
+The collected data were later transcribed using CrowdFlower platform as well.
+A grammar capable of generating sentences likely to be used by the users for public transport information inquiries was created.
 The purpose of the grammar was to substitute the lack of data needed for creating a good \acf{LM}.
 With the combination of CrowdFlower and grammar data, a \ac{LM} was trained and subsequently Kaldi decoder was built.
 
-This Kaldi \ac{ASR} was compared with the cloud-based Google \ac{ASR} that is used natively.
+The Kaldi \ac{ASR} was compared with the cloud-based Google \ac{ASR}.
 It was shown that in a limited domain Kaldi is able to achieve notably better results than Google \ac{ASR}.
-Aside from the comparison of both \acp{ASR} realized within the \ac{ASDF}, feedback forms from CrowdFlower served as a subjective user satisfaction measure in the comparison of the entire dialogue system with different \ac{ASR} components.
+Aside from the comparison of both \acp{ASR} within \ac{ASDF}, feedback forms from CrowdFlower served as a subjective user satisfaction measure for the comparison of the dialogue system as a whole with different \ac{ASR} components.
 It was shown that \ac{PTINY} achieves better results with Kaldi \ac{ASR}.
 Moreover, the dialogue system proved to be stable and beneficial in helping everyday commuters.
 
-The goals were successfully completed and the solution was integrated with the \ac{ASDF}.
+The goals of this thesis were successfully completed and the solution was integrated with the \ac{ASDF}.
 Furthermore the \ac{PTINY} was capable of competing alongside commercial applications in the 2014 \ac{MTA} App Quest 3.0.
 
 

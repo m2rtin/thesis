@@ -5,35 +5,34 @@
 
 Providing information to consumers is a common task, usually solved by implementing a web page or a mobile application.
 An alternative to these approaches is a spoken dialogue system.
-It allows people to interact with a computer the most natural way, by voice.
+It allows people to interact with a computer in the most natural way, by voice.
 Spoken dialogue system is intuitive, direct and hands-free, which renders an opportunity for deployment in many fields.
-There is no need to find a mobile device and enter queries into some puzzling interface, it is enough to simply say the words.
+There is no need to find a mobile device and enter the queries into a puzzling interface, it is enough to simply say it.
 It may serve as a valuable asset for obtaining information for the elderly and especially for blind people and people with visual impairment \cite{blind}. %it addresses larger spectrum of people, convenient source of information
 
 However, it is very difficult to implement a dialogue system from ground up.
 Fortunately the \acf{ASDF} \cite{asdf} incorporates all of the key components needed for performing the task.
-We decided to take the advantage of the \ac{ASDF} and implement a spoken dialogue system in English for providing \acf{PTINY}.
-New York, the city with the highest ridership in the United States and with one of the most extensive subway systems in the world, presents a formidable challenge.
-The English language benefits from wider range of use and larger competition to be compared with.
+We decided to take the advantage of \ac{ASDF} and implement a spoken dialogue system in English for providing \acf{PTINY}.
+New York, is a city with the highest ridership in the United States and with one of the most extensive subway systems in the world. %thus it presents a formidable challenge.
+English benefits from wider range of use and larger competition to be compared with.
 This enables us to build better systems with greater potential.
 
 \acf{ASR} is not yet at the point where every utterance could be reliably identified by a computer \cite{asr}.
-Although it is possible to achieve substantially better results utilizing a speech recognizer within a restricted domain.
-A crowdsourcing platform CrowdFlower will be used to evaluate our \ac{PTI} solution and to collect speech data.
-The collected speech data will be facilitated to train a Kaldi speech recognizer and it will be compared with the Google \ac{ASR}.
-The comparison measures will be based on the subjective user satisfaction of CrowdFlower contributors. % deliberation testimony
+However, it is possible to achieve substantially better results by using a speech recognizer within a restricted domain.
+A crowdsourcing platform CrowdFlower is used to evaluate our \ac{PTI} solution and to collect speech data.
+The collected speech data is used to train a Kaldi speech recognizer and it is compared to the Google \ac{ASR}.
+The comparison measures are based on the subjective user satisfaction of CrowdFlower contributors. % deliberation testimony
 
-Our \ac{PTI} solution will be a useful showcase of the \ac{ASDF} and will further contribute to collect speech data for improving the quality of speech recognizers. It will also participate in the \ac{MTA} App Quest competition.
+Our \ac{PTI} solution is a useful showcase of the \ac{ASDF} and will further contribute to collect speech data for improving the quality of speech recognizers. It will also participate in the \ac{MTA} App Quest competition.
 
-The outcomes of this thesis include the public transport information phone-based dialogue system for New York (\ac{PTINY}) and a Kaldi decoder for English speech recognition.
+The main results of this thesis are the public transport information phone-based dialogue system for New York (\ac{PTINY}) and a Kaldi decoder for English speech recognition.
 
 This thesis is organized as follows.
-In the first chapter we will look at the used technologies.
-In the second chapter we will discuss the implementation in its principles by each component. %at a time
-The third chapter will cover the features of the implemented solution and it will display its capabilities.
-The fourth chapter will describe the workflows associated with creating a dialogue system.
-Training Language model and building Kaldi decoder will also be covered by this chapter.
-In the fifth chapter we will compare the Kaldi \ac{ASR} with the cloud-base \ac{ASR} by Google and we will conclusions and summarize the findings encountered in the process.
+In the first chapter we look at the used technologies.
+In the second chapter we discuss the implementation in its principles by each component. %at a time
+The third chapter covers the features of the implemented solution and displays its capabilities.
+The fourth chapter describes the workflows associated with creating a dialogue system along with training language model and building a Kaldi decoder.
+In the fifth chapter we compare the Kaldi \ac{ASR} with the cloud-base \ac{ASR} by Google and summarize the findings.
 
 
 
