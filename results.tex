@@ -273,8 +273,6 @@ Only 60 contributors decided to write a general comment which were generally pos
 
 It is clear that the system was able to respond both with Google and Kaldi \ac{ASR}.
 Although notably better results were achieved with Kaldi \ac{ASR} as the subjective user satisfaction displayed in figure \ref{fig:us} is in favor of Kaldi \ac{ASR}.
-Callers to communicating with \ac{PTINY} utilizing Google \ac{ASR} did obtain what they were looking for in $81.3\%$.
-Whereas Kaldi \ac{ASR} callers were satisfied in $88.1\%$.
 
 \begin{figure}[ht]
 \begin{tikzpicture}
@@ -310,7 +308,30 @@ Whereas Kaldi \ac{ASR} callers were satisfied in $88.1\%$.
 \label{fig:us}
 \end{figure}
 
-\ask{should i add table with means and vars or confidence intervals?(vars are very low, so the intervals are tiny...)}
+Callers communicating with \ac{PTINY} using Google \ac{ASR} did obtain what they were looking for in $81.3\%$.
+Whereas Kaldi \ac{ASR} callers were satisfied in $88.1\%$.
+Means and standard deviances of individual questions are displayed in table \ref{table:mv}.
+The mean of all the questions increased with Kaldi \ac{ASR} while the standard deviance of each question decreased.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|ll|ll}
+                     & \multicolumn{2}{c |}{\textbf{Google}}  & \multicolumn{2}{c}{\textbf{Kaldi}}   \\ \hline
+                     & \textbf{Mean}         & \textbf{StD}          & \textbf{Mean}         & \textbf{StD}          \\ \hline
+\textit{System phrasing}      & 3.17 & 0.91 & 3.43 & 0.69 \\
+\textit{Voice Quality}        & 3.07 & 0.95 & 3.42 & 0.78 \\
+\textit{System understanding} & 3.03 & 0.98 & 3.36 & 0.76 \\
+\textit{Overall performance}  & 0.81 & 0.39 & 0.88 & 0.32
+\end{tabular}
+\caption[Mean and standard deviation of Google and Kaldi ASR]{Mean and standard deviation comparison of Google and Kaldi ASR}
+\label{table:mv}
+\end{table}
+
+The measurement for the question number 2, evaluating the voice quality, were following the improving tendency of the other questions.
+The \ac{TTS} component, however, was still the same.
+This phenomenon could be caused by the user satisfaction from completing the job with ease.
+When \ac{ASR} does not recognize an utterance the \ac{DM} does not change the state and the user needs to repeat himself.
+This can be annoying and ultimately, it may be reflected on the feedback.
 
 \subsubsection{\ac{ASDF} \ac{ASR} comparison}
 
